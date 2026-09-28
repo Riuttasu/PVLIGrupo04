@@ -12,4 +12,10 @@ h2 {
   color: pink;
   font-size: 30px;
   background: purple;
+  padding-left: 10px;
+  width: 40rem;
+}
+#Instagram
+{
+  padding-left: 10px;
 }
