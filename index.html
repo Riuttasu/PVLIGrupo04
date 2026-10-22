@@ -5,11 +5,7 @@
   <title>HTML</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="estilo.css"> <!-- Esto cargaria un archivo de estilo, pero no es necesario en Fiddle porque lo hace automáticamente -->
-  <script src="script.js"></script> <!--Aquí podriamos cargar los scripts, también se puede en el <body>, y pasa lo mismo que con el css de antes, en verdad aquí no estamos cargando nada-->
-    <script src="phaser.js"></script>
-    <script src = "ManagementGame/ManagementGame.js"></script>
-    <script src="Principal/Game.js"></script>
-    
+  <script src="./lib/phaser.js"></script>
 </head>
 
 <body>
@@ -24,16 +20,13 @@
 
   <div>
     <h2>Juego</h2>
-    <a href="https://github.com/Riuttasu/PVLIGrupo04"><p>Enlace obligatorio al repo</p></a>
-    <button onclick="EmpiezaJuego()">QUE COMIENCE EL JUEGO</button>
     <div Id="Juego">
-    <p>El juego debería ir como por aquí pero como que en cuanto a juego no tenemos juego</p>
-    <p>El juego luciria tal que así un poquito ya que hay profesores de la FDI y to eso</p>
-    <img src="https://informatica.ucm.es//file/edificio?ver"></img>
+    <script src="./Principal/game.js" type="module"></script>
     </div>
   </div>
   <div>
     <h2>Créditos: </h2>
+    <a href="https://github.com/Riuttasu/PVLIGrupo04"><p>Enlace obligatorio al repo</p></a>
     <ul>
       <li>Sara Quilez Martinez</li>
       <li>Miguel Calderón Barba</li>
@@ -47,5 +40,6 @@
       <img src="https://cdn.iconscout.com/icon/free/png-256/free-instagram-logo-icon-svg-download-png-721958.png" width="15" height="15">Instagram</img>
     </a>
   </div>
+  
 </body>
 </html>
