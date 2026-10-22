@@ -24,8 +24,5 @@ h2 {
   display: none;
 }
 body {
-    background-image: url("../PVLIGrupo04/IMG/FRosaPalo.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+  background-color: rgb(255, 230, 239);
 }

@@ -1,7 +1,7 @@
 export default class MenuScene extends Phaser.Scene{
-  Constructor()
+  constructor()
   {
-    
+      super({key:'MenuScene'});
   }
     preload()
    {
@@ -13,7 +13,10 @@ export default class MenuScene extends Phaser.Scene{
    }
    create()
    {
+     let boton = this.add.image(200,200,'SceneButton')
+     boton.setInteractive();
 
+     boton.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
    }
    update()
    {

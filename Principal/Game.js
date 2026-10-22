@@ -1,7 +1,7 @@
 import ManagementGame from "../ManagementGame/ManagementGame.js";
 import MenuScene from "./MenuScene.js";
 import Load from "./Load.js";
-var config = {
+let config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
@@ -10,6 +10,4 @@ var config = {
    
 };
 
-var juego = new Phaser.Game(config);
-
-
+new Phaser.Game(config);
