@@ -3,7 +3,7 @@
 //Heredo la clase scene de phase para que funcione como una escena de juego, Prgeuntar Toni
 //Dentro describo lo que hara mi escena
 
-class ManagementGame extends Phaser.Scene{
+export default class ManagementGame extends Phaser.Scene{
 
     preload()
     {
