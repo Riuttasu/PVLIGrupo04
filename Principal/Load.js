@@ -1,0 +1,1 @@
+export default class Load extends Phaser.Scene{}
