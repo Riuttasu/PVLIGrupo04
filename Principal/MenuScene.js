@@ -1,3 +1,4 @@
+
 export default class MenuScene extends Phaser.Scene{
   constructor()
   {
@@ -18,8 +19,8 @@ export default class MenuScene extends Phaser.Scene{
      let boton2 = this.add.image(400,200,'SceneButton')
      boton2.setInteractive();
 
-     boton.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
-     boton2.on('pointerdown', ()=>{this.scene.start('DesignGame')}) // esta para que se carge otra escena de dieseño 
+     boton.on('pointerdown', ()=>{this.scene.start('ManagementGame')}); // usamos flechi inportante ehhhh
+     boton2.on('pointerup', ()=>{this.scene.start('DesignGame')}); // esta para que se carge otra escena de design 
    }
    update()
    {

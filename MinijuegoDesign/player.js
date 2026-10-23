@@ -1,5 +1,5 @@
 /** Jugador se mueve verticalmente (saltando) usando la tecla espaciadora*/
-class Player extends Phaser.GameObjects.Sprite {
+export default class Player extends Phaser.GameObjects.Sprite {
     /** esto es lo que va a tener el constructor 
     *@param {Phaser.Scene} scene // Escena a la que pertenece el jugador
     *@param {number} x // Posición horizontal inicial del jugador
@@ -12,16 +12,16 @@ class Player extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
         this.setOrigin(0.5, 0.5);
         this.setScale(0.5);
+        //this.physics.add.existing(this);
     }
     init(){
 
     }
     preload() {
-        // cargo imagen del jugador
-        this.load.image('player', '../IMG/MinijuegoDesign/player.png');
     }
     create() {
-        this.add.image(400, 200, 'player');
+        this.add.image(100, 300, 'player');
     }
-    update(){}
+    update(t,dt){
+    }
 }
