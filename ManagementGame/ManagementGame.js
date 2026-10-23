@@ -23,8 +23,8 @@ export default class ManagementGame extends Phaser.Scene{
     {
        if (this.teclado.up.isDown)
        {
-        
-        
+        let ball = new Ball(this,this.player.angle, 500,500);
+        console.log(this.player.angle);
        }
         this.player.move(this.teclado);
         
