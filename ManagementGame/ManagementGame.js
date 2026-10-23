@@ -16,7 +16,7 @@ export default class ManagementGame extends Phaser.Scene{
         let fondo =this.add.image(0,0,'BackgroundManagment');
         fondo.setOrigin(0,0); 
         fondo.setDisplaySize(1000,500);
-        this.player =  new Player(this,400,400);
+        this.player =  new Player(this,500,500,'player');
         this.teclado = this.input.keyboard.createCursorKeys();
     }
     update()

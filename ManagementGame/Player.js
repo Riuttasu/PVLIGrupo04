@@ -1,12 +1,13 @@
 export default class Player extends Phaser.GameObjects.Sprite{
 
-    constructor(scene,x,y)
+    constructor(scene,x,y,player)
     {
-        super(scene,x,y,'Player')
+        super(scene,x,y,'Arrow')
         scene.add.existing(this);
         this.setScale(0.5);
-        
-
+        this.angle=-90;
+         this.player = player;
+         
         this.setScale(0.5);
       
     }
@@ -14,11 +15,19 @@ export default class Player extends Phaser.GameObjects.Sprite{
     {
      if (teclado.left.isDown)
      {
-        this.x -=5;
+        if(this.angle>-180)
+        {
+          this.angle -=10; 
+        }
+       
      }
      else if (teclado.right.isDown)
      {
-        this.x +=5; 
+        if(this.angle<180)
+        {
+          this.angle +=10; 
+        }
+       
      }
      
     }
