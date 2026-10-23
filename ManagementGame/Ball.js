@@ -22,6 +22,10 @@ export default class Ball extends Phaser.GameObjects.Sprite{
     {
     
     }
+    up()
+    {
+    this.y -=this.velocidad;
+    }
     update()
     {
       this.y -=this.velocidad;

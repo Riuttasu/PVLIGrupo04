@@ -23,9 +23,11 @@ export default class ManagementGame extends Phaser.Scene{
     {
        if (this.teclado.up.isDown)
        {
-        let ball = new Ball(this,this.player.x, this.player.y,10);
+        
+        
        }
         this.player.move(this.teclado);
+        
       
     }
 }
