@@ -8,6 +8,8 @@ export default class Load extends Phaser.Scene{
     {
        this.load.image('BackgroundManagment', 'IMG/FondoGestion.jpg');
        this.load.image('SceneButton', 'IMG/buttonscene.png');
+        this.load.image('Player', 'IMG/Player.png');
+          this.load.image('Ball', 'IMG/Ball.png');
 
     }
     create()
