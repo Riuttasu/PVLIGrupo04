@@ -1,4 +1,6 @@
 import ProgramPlayer from "./ProgramPlayer.js";
+import programObject from "./ProgramObject.js";
+import ProgramObject from "./ProgramObject.js";
 
 export default class ProgrammingGame extends Phaser.Scene {
 
@@ -29,10 +31,18 @@ export default class ProgrammingGame extends Phaser.Scene {
         this.minigameTime-= dt;
         // Si se ha pasado el tiempo del minijuego your taking too long
         if (this.minigameTime <= 0) {}
+        // Spawn de objetos si se ha cumplido el tiempo
+        this.lastObject+=dt/1000;
+        if (this.objectsSpawned < this.numObjects && this.lastObject > this.timePerObject)
+        {
+            this.spawn();
+            this.lastObject=0;
+        }
 
     }
     spawn()
     {
-
+        ++this.objectsSpawned;
+        new ProgramObject(this,Phaser.Math.RND.between(0,this.scale.width),32);
     }
 }

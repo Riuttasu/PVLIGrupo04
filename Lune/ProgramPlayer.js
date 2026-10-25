@@ -6,7 +6,7 @@ export default class ProgramPlayer extends Phaser.GameObjects.Sprite
         // Parametros
         this.speed = 20; // Velocidad del jugador
         // Le anade a la escena
-        this.setScale(2,2); // Le subo la escala TODO: buena escala y eso
+        this.setScale(1,2); // Le subo la escala TODO: buena escala y eso
         this.scene.add.existing(this); // Objeto en si
         this.scene.physics.add.existing(this); // Fisicas
         // Clamp

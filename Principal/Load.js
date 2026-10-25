@@ -10,7 +10,7 @@ export default class Load extends Phaser.Scene{
        this.load.image('SceneButton', 'IMG/buttonscene.png');
        // Minijuego Programacion
        this.load.spritesheet('playerprog','IMG/playerprog.png',{frameWidth:64,frameHeight:64});
-       //this.load.image('objectprog', 'IMG/objectprog.png');
+       this.load.image('objectprog', 'IMG/objectprog.png');
     }
     create()
     {
