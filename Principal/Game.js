@@ -17,7 +17,7 @@ let config = {
         default: 'arcade', // elegir motor
         arcade: { // propiedades del motor
             gravity: { y: 300 },
-            debug: false // true para ver info
+            debug: true // true para ver info
         }
     },
 };
