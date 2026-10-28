@@ -13,7 +13,13 @@ let config = {
     pixelArt: false,
     backgroundColor: '#ff69b4',
     scene: [Load,MenuScene,ManagementGame],
-    
+    physics: {
+        default: 'arcade', // elegir motor
+        arcade: { // propiedades del motor
+            gravity: { y: 300 },
+            debug: false // true para ver info
+        }
+    },
 };
 
 new Phaser.Game(config);
