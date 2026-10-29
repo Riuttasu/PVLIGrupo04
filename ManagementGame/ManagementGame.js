@@ -11,7 +11,22 @@ export default class ManagementGame extends Phaser.Scene{
         super({key: 'ManagementGame'});
     }
     
-    create()
+    CreateBall() // Metodo que crea las bolas y se encarga de que cuando chocquen contra la pared se detengan
+    {
+       
+    let ball= new Ball(this,this.player.x,this.player.y,1000,0,this.player.angleFlecha);
+        this.ballsDisparadas.push(ball);  // push como los vectores amo los vectoresç
+         this.physics.add.collider(ball,this.pared,() =>{
+           
+          this.placeball(ball,1,2); 
+        })
+    }
+
+    buscarCeldaLibre(ball)
+    {
+        
+    }
+    create() //Feo pero feo 
     {
         let fondo =this.add.image(0,0,'BackgroundManagment');
         fondo.setOrigin(0,0); 
@@ -20,23 +35,45 @@ export default class ManagementGame extends Phaser.Scene{
         this.teclado = this.input.keyboard.createCursorKeys();
         this.balls = []; 
         this.ballsDisparadas = [];
-       this.filas = 3;  // preguntar a toni sobre los array bidimensionales en java
-       this.columnas = 3; 
+       this.filas = 8;  // preguntar a toni sobre los array bidimensionales en java
+       this.columnas = 12; 
        this.disparoAnterior = false;
-
+       this.inicioX = 0; 
+       this.inicioY = 0; 
+       this.pared = this.add.rectangle(300,50,10000,10);
+       this.physics.add.existing(this.pared,true);
        for(let f = 0; f<this.filas;f++)
        {
         this.balls[f] =[];
-        this.ballsDisparadas[f] = [];
          for(let c = 0; c<this.columnas;c++)
          {
             this.balls[f][c] = null; //
-             this.ballsDisparadas[f][c] = null;
+            
          }
        
        }
     }
-
+     placeball(ball,fila,columnas)
+     {
+       if(fila<0 && fila >this.filas && columna<0 && columna>this.columnas)
+       {
+       
+        return;
+       }
+       if (this.balls[fila][columnas] != null)
+       {
+         
+          return; 
+       } 
+       let x = this.inicioX + columnas * ball.displayWidth;  //Anotacion no se pone ball.sprite.etc porque ball ya es un sprite en si soy bola
+       let y = this.inicioY + fila* ball.displayHeight; 
+       console.log(x + " " + y);
+       ball.setPosition(x,y);
+       ball.body.setVelocity(0, 0);
+       ball.body.setAcceleration(0, 0);
+       ball.body.moves = false;
+       this.balls[fila][columnas] = ball; //No me gusta java decidido
+     }
     getVecinas(filas,columnas)
     {
         
@@ -46,10 +83,10 @@ export default class ManagementGame extends Phaser.Scene{
        let disparoActual = this.teclado.up.isDown; 
        if(disparoActual && !this.disparoAnterior)
        {
-        let ball= new Ball(this,this.player.x,this.player.y,1000,0,this.player.angleFlecha);
-        this.ballsDisparadas.push(ball);  // push como los vectores amo los vectores
+        this.CreateBall();
+        
        }
-       this.disparoAnterior = disparoActual;
+        this.disparoAnterior = disparoActual;
 
       this.player.move(this.teclado);
     }
