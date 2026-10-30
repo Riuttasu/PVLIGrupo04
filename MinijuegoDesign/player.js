@@ -11,8 +11,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
         super(scene, x, y, 'player');
         scene.add.existing(this);
         this.setOrigin(0.5, 0.5);
-        this.setScale(0.5);
-        //this.physics.add.existing(this);
+        this.setScale(0.25);
+        this.jumpSpeed = 400; // salto de player
+        // queremos que el jugador tenga fisicas y cosas etc...
+        this.scene.physics.add.existing(this);
+        // no queremos que el jugador se salga de los límites del mundo
+        this.body.setCollideWorldBounds();
+        // this.body... (esta es la propiedad donde puedo acceder a las propiedades fisicas del jugador, 
+        // como la gravedad, la velocidad, etc)
+        // this.add.existing(floor, true); (esto es para que el suelo tenga fisicas pero no le afecte la gravedad).
     }
     init(){
 
@@ -21,6 +28,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
     create() {
         this.add.image(100, 300, 'player');
+        
     }
     update(t,dt){
     }

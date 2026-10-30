@@ -14,15 +14,20 @@ export default class DesignGame extends Phaser.Scene{
         
     create() {
         this.Player = new Player(this, 100, 300);
-        this.Obstacles = new Obstacles(this, 600, 200);
+        this.Obstacles = new Obstacles(this, 800, 500, this.Player);
+        
     }
     update(t, dt){
         // movimiento del obstaculo de derecha a izquierda
-        this.Obstacles.x -=1.1 * dt;
+        if (this.Obstacles.x <= 0) {
+            this.Obstacles.x = 800; // reinicia la posición del obstáculo a la derecha de la pantalla
+        }
+        this.Obstacles.x -= 1.025 * dt;
+        
         // moviminento del jugador con la tecla espaciadora
         this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        if (this.space.isDown) {
-            this.Player.y -= 1.1 * dt ; // Mueve el jugador hacia arriba
+        if (this.space.isDown && this.Player.body.onFloor()) {
+            this.Player.body.setVelocityY(-this.Player.jumpSpeed); // saltar hacia arriba
         }
     }
 }

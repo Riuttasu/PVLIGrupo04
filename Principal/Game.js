@@ -9,11 +9,12 @@ let config = {
     height: 600,
     backgroundColor: '#ff69b4',
     scene: [Load,MenuScene,ManagementGame,DesignGame],
+    
     physics: {
         default: 'arcade', // elegir motor
         arcade: { // propiedades del motor
             gravity: { y: 300 },
-            debug: false // true para ver info
+            debug: true // true para ver info
         }
     },
 };
