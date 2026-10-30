@@ -1,5 +1,5 @@
 import ProgramPlayer from "./ProgramPlayer.js";
-import programObject from "./ProgramObject.js";
+import MinigameEnd from "./MinigameEnd.js";
 import ProgramObject from "./ProgramObject.js";
 
 export default class ProgrammingGame extends Phaser.Scene {
@@ -10,21 +10,19 @@ export default class ProgrammingGame extends Phaser.Scene {
         this.minigameTime = minigameTime;
         this.numObjects = minigameObjects;
     }
-    init(){
-    }
-    preload(){
-    }
     create(){
         // Jugador
         this.player = new ProgramPlayer(this,this.scale.width/2,this.scale.height-this.scale.height/9);      
-        // Calcula cada cuanto va a tener q spawnearse un objeto
-        // maxtime - 2 para dejar que al menos caigan un poco
-        this.timePerObject = (this.minigameTime-2)/this.numObjects;
-        // Tiempo desde el ultimo objeto
-        this.lastObject = 0;  
         // Spawn de objetos
-        this.objectsSpawned = 0;
-        this.spawn();
+        this.timePerObject = (this.minigameTime-2)/this.numObjects; // Calcula cada cuanto va a tener q spawnearse un objeto, maxtime-2 para dar margen de caida
+        this.objectsSpawned = 0; // Numero de objetos spawneados
+        this.lastObject = 0; // Tiempo desde el ultimo objeto
+        this.lastObjectX = this.scale.width/2; // Posicion del ultimo objeto, para no hacerlo imposible
+        this.objectXPadding = 20; // Margen que se da entre los bordes de la pantalla para que no toque los extremos
+        this.objectXBetWeen = this.scale.width/3; // Margen entre el objeto spawneado y el anterior
+        // Colisiones de objetos
+        this.objects = this.add.group(); // grupo de objetos que caen
+        this.physics.add.collider(this.objects,this.player,this.objectPickedUp,null,this); // Collider del grupo de objetos con el jugador
     }
     update(t,dt)
     {
@@ -40,9 +38,35 @@ export default class ProgrammingGame extends Phaser.Scene {
         }
 
     }
+    // Funcion para spawnear un nuevo objeto que va a caer en la escena
     spawn()
     {
+        // Aumenta el numero de objetos spawneado
         ++this.objectsSpawned;
-        new ProgramObject(this,Phaser.Math.RND.between(0,this.scale.width),32);
+        // Anade al grupo de objetos un nuevo objeto en posiciones random cercanas al antiguo
+        let minNewX = Phaser.Math.Clamp(this.lastObjectX-this.objectXBetWeen,this.objectXPadding,this.scale.width-this.objectXPadding);
+        let maxNewX = Phaser.Math.Clamp(this.lastObjectX+this.objectXBetWeen,this.objectXPadding,this.scale.width-this.objectXPadding);
+        let newX = Phaser.Math.RND.between(minNewX,maxNewX);
+        // Spawn
+        this.objects.add(new ProgramObject(this,newX,0));
+        // Guarda la ultima posicion X del objeto que se acaba de spawnear
+        this.lastObjectX = newX;
+    }
+    // Funcion para perder el juego jeje, llamada principalmente por los objetos que se caen
+    lose()
+    {
+        this.endMinigame(false);
+        // TODO: perder juego
+        console.log("ay");
+    }
+    // Cuando se detecta una colision entre uno de los objetos y el jugador
+    objectPickedUp(object,player)
+    {
+        // Destruye el objeto
+        object.destroy();
+    }
+    endMinigame(win)
+    {
+        this.scene.launch('minigameending');
     }
 }

@@ -4,7 +4,7 @@ export default class ProgramPlayer extends Phaser.GameObjects.Sprite
     {
         super(scene,x,y,'playerprog');
         // Parametros
-        this.speed = 20; // Velocidad del jugador
+        this.speed = 200; // Velocidad del jugador
         // Le anade a la escena
         this.setScale(1,2); // Le subo la escala TODO: buena escala y eso
         this.scene.add.existing(this); // Objeto en si
@@ -35,11 +35,11 @@ export default class ProgramPlayer extends Phaser.GameObjects.Sprite
         // Movimiento y animaciones
         if(this.keys.a.isDown) 
         { 
-            this.body.setVelocityX(-this.speed*dt); 
+            this.body.setVelocityX(-this.speed); 
             this.setFlipX(true); this.play('playerprogmove',true);}
         else if (this.keys.d.isDown) 
         { 
-            this.body.setVelocityX(this.speed*dt); 
+            this.body.setVelocityX(this.speed); 
             this.setFlipX(false); this.play('playerprogmove',true);
         }
         else 
