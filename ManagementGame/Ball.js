@@ -7,7 +7,8 @@ export default class Ball extends Phaser.GameObjects.Sprite{
         scene.physics.add.existing(this) //Añadimos fisica
         this.setScale(0.2);
         this.color = color;
-        this.velocidad = velocidad;
+        this.Speed = velocidad;
+        this.Placed = false;
 
         // Phaser te amo venditos tutoriales mentira te odia quewhf`Q´R 034U`'2 4
         let velocidadxy = scene.physics.velocityFromAngle(angulo, velocidad);

@@ -9,7 +9,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
       this.angleFlecha = -90;
        this.angle=-this.angleFlecha;
          
-        this.setScale(0.5);
+        this.setScale(0.2);
       
     }
     move(teclado)
