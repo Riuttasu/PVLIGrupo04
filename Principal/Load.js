@@ -11,6 +11,7 @@ export default class Load extends Phaser.Scene{
 
        this.load.image('obstacles', '../IMG/MinijuegoDesign/obstacles.png');
        this.load.image('player', '../IMG/MinijuegoDesign/player.png');
+       //this.load.image('panel', '../IMG/MinijuegoDesign/panel.png');
 
     }
     create()
