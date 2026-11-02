@@ -103,14 +103,15 @@ export default class RPGScene extends Phaser.Scene {
     }
 
     setupControls() {
-        this.cursors = this.input.keyboard.createCursorKeys();
-        this.keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
-        this.keyEnter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         this.input.keyboard.on('keydown-UP', () => this.handleUp());
         this.input.keyboard.on('keydown-DOWN', () => this.handleDown());
         this.input.keyboard.on('keydown-LEFT', () => this.handleLeft());
         this.input.keyboard.on('keydown-RIGHT', () => this.handleRight());
+        this.input.keyboard.on('keydown-W', () => this.handleUp());
+        this.input.keyboard.on('keydown-S', () => this.handleDown());
+        this.input.keyboard.on('keydown-A', () => this.handleLeft());
+        this.input.keyboard.on('keydown-D', () => this.handleRight());
 
         this.input.keyboard.on('keydown-Z', () => this.handleConfirm());
         this.input.keyboard.on('keydown-ENTER', () => this.handleConfirm());
@@ -234,7 +235,7 @@ export default class RPGScene extends Phaser.Scene {
             // Ataque a un solo objetivo (single target)
             const enemy = this.activeSlots[targetSlotIndex];
             if (enemy) {
-                enemy.takeDamage(skill.damage);
+                enemy.takeDamage(skill.damage, skill.type);
                 if (enemy.isComplete()) {
                     this.activeSlots[targetSlotIndex] = null;
                 }
@@ -243,7 +244,7 @@ export default class RPGScene extends Phaser.Scene {
             // Ataque en a todos
             this.activeSlots.forEach((enemy, index) => {
                 if (enemy) {
-                    enemy.takeDamage(skill.damage);
+                    enemy.takeDamage(skill.damage, skill.type);
                     if (enemy.isComplete()) {
                         this.activeSlots[index] = null;
                     }
