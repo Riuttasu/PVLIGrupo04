@@ -1,12 +1,12 @@
 import ProgramPlayer from "./ProgramPlayer.js";
-import MinigameEnd from "./MinigameEnd.js";
 import ProgramObject from "./ProgramObject.js";
+import programmingMinigameEnd from "./programmingMGEnd.js";
 
-export default class ProgrammingGame extends Phaser.Scene {
+export default class programmingMinigame extends Phaser.Scene {
 
-    constructor(minigameTime = 10, minigameObjects = 10)
+    constructor(minigameTime = 3, minigameObjects = 10)
     {
-        super({key: 'miniprogra'})
+        super({key: 'programmingMinigame'})
         this.minigameTime = minigameTime;
         this.numObjects = minigameObjects;
     }
@@ -14,7 +14,7 @@ export default class ProgrammingGame extends Phaser.Scene {
         // Jugador
         this.player = new ProgramPlayer(this,this.scale.width/2,this.scale.height-this.scale.height/9);      
         // Spawn de objetos
-        this.timePerObject = (this.minigameTime-2)/this.numObjects; // Calcula cada cuanto va a tener q spawnearse un objeto, maxtime-2 para dar margen de caida
+        this.timePerObject = Math.max((this.minigameTime-2)/this.numObjects,0); // Calcula cada cuanto va a tener q spawnearse un objeto, maxtime-2 para dar margen de caida
         this.objectsSpawned = 0; // Numero de objetos spawneados
         this.lastObject = 0; // Tiempo desde el ultimo objeto
         this.lastObjectX = this.scale.width/2; // Posicion del ultimo objeto, para no hacerlo imposible
@@ -26,9 +26,9 @@ export default class ProgrammingGame extends Phaser.Scene {
     }
     update(t,dt)
     {
-        this.minigameTime-= dt;
+        this.minigameTime-= dt/1000;
         // Si se ha pasado el tiempo del minijuego your taking too long
-        if (this.minigameTime <= 0) {}
+        if (this.minigameTime <= 0) { this.endMinigame(true);}
         // Spawn de objetos si se ha cumplido el tiempo
         this.lastObject+=dt/1000;
         if (this.objectsSpawned < this.numObjects && this.lastObject > this.timePerObject)
@@ -64,9 +64,11 @@ export default class ProgrammingGame extends Phaser.Scene {
     {
         // Destruye el objeto
         object.destroy();
+        // TODO : lo que dijo toni de hacer como un array y pillar los que no se usen
     }
-    endMinigame(win)
+    endMinigame(iswin)
     {
-        this.scene.launch('minigameending');
+        // Lanza la escena superpuesta del panel de final de minijuego
+        this.scene.launch('programmingMinigameEnd',{win : iswin, key : this.scene.key});
     }
 }
