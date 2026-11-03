@@ -15,21 +15,14 @@ let config = {
     },
     pixelArt: false,
     backgroundColor: '#ff69b4',
-<<<<<<< HEAD
+
     scene: [Load,MenuScene,ManagementGame,DesignGame,DesignLoseScene],
     
-=======
-    scene: [Load,MenuScene,ManagementGame],
->>>>>>> 6586cec6b32e048d5b10bb32b638d482e920bbb7
     physics: {
         default: 'arcade', // elegir motor
         arcade: { // propiedades del motor
             gravity: { y: 300 },
-<<<<<<< HEAD
-            debug: true // true para ver info
-=======
             debug: false // true para ver info
->>>>>>> 6586cec6b32e048d5b10bb32b638d482e920bbb7
         }
     },
 };
