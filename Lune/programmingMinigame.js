@@ -3,14 +3,19 @@ import ProgramObject from "./ProgramObject.js";
 import programmingMinigameEnd from "./programmingMGEnd.js";
 
 export default class programmingMinigame extends Phaser.Scene {
-
-    constructor(minigameTime = 3, minigameObjects = 10)
+    constructor()
     {
         super({key: 'programmingMinigame'})
-        this.minigameTime = minigameTime;
-        this.numObjects = minigameObjects;
+    }
+    init(data)
+    {
+        data.minigameTime ? this.minigameTime = minigameTime : this.minigameTime = 10;
+        data.numObjects ? this.numObjects = minigameObjects : this.numObjects = 5;
     }
     create(){
+        // Constantes
+        this.objectXPadding = 20; // Margen que se da entre los bordes de la pantalla para que no toque los extremos
+        this.objectXBetWeen = this.scale.width/3; // Margen entre el objeto spawneado y el anterior
         // Jugador
         this.player = new ProgramPlayer(this,this.scale.width/2,this.scale.height-this.scale.height/9);      
         // Spawn de objetos
@@ -18,8 +23,6 @@ export default class programmingMinigame extends Phaser.Scene {
         this.objectsSpawned = 0; // Numero de objetos spawneados
         this.lastObject = 0; // Tiempo desde el ultimo objeto
         this.lastObjectX = this.scale.width/2; // Posicion del ultimo objeto, para no hacerlo imposible
-        this.objectXPadding = 20; // Margen que se da entre los bordes de la pantalla para que no toque los extremos
-        this.objectXBetWeen = this.scale.width/3; // Margen entre el objeto spawneado y el anterior
         // Colisiones de objetos
         this.objects = this.add.group(); // grupo de objetos que caen
         this.physics.add.collider(this.objects,this.player,this.objectPickedUp,null,this); // Collider del grupo de objetos con el jugador
