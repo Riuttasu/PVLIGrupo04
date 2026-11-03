@@ -14,6 +14,7 @@ export default class MenuScene extends Phaser.Scene{
    }
    create()
    {
+<<<<<<< HEAD
     //  let boton = this.add.image(200,200,'SceneButton')
     //  boton.setInteractive();
      let boton2 = this.add.image(400,200,'SceneButton')
@@ -21,6 +22,29 @@ export default class MenuScene extends Phaser.Scene{
 
      //boton.on('pointerdown', ()=>{this.scene.start('ManagementGame')}); // usamos flechi inportante ehhhh
      boton2.on('pointerup', ()=>{this.scene.start('DesignGame')}); // esta para que se carge otra escena de design 
+=======
+     let BotonManagement = this.add.image(100,100,'SceneButton')
+     BotonManagement.setScale(0.2);
+      BotonManagement.setTint(0xff0000);
+     BotonManagement.setInteractive();
+     let Boton1 = this.add.image(100,200,'SceneButton')
+     Boton1.setScale(0.2);
+      Boton1.setTint(0xff0000);
+     Boton1.setInteractive();
+     let Boton2 = this.add.image(100,300,'SceneButton')
+     Boton2.setScale(0.2);
+      Boton2.setTint(0xff0000);
+     Boton2.setInteractive();
+     let Boton3 = this.add.image(100,400,'SceneButton')
+     Boton3.setScale(0.2);
+      Boton3.setTint(0xff0000);
+     Boton3.setInteractive();
+
+     BotonManagement.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
+      Boton1.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
+       Boton2.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
+        Boton3.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
+>>>>>>> 6586cec6b32e048d5b10bb32b638d482e920bbb7
    }
    update()
    {
