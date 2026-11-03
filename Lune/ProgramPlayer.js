@@ -5,8 +5,9 @@ export default class ProgramPlayer extends Phaser.GameObjects.Sprite
         super(scene,x,y,'playerprog');
         // Parametros
         this.speed = 200; // Velocidad del jugador
+        // Tamaño
+        this.setDisplaySize(64,128);
         // Le anade a la escena
-        this.setScale(1,2); // Le subo la escala TODO: buena escala y eso
         this.scene.add.existing(this); // Objeto en si
         this.scene.physics.add.existing(this); // Fisicas
         // Clamp
