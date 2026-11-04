@@ -20,16 +20,16 @@ El juego presenta las siguientes características:
 - **Objetivo medio plazo**: El objetivo a medio plazo será enfrentarse a los desafíos y pasar cada nivel, en la que, el jugador tendrá que subir a la siguiente planta y enfrentarse a nuevos conflictos.
 - **objetivo corto plazo**: El objetivo a corto plazo será entrenar al profesor para que sea capaz de defender y atacar frente a los desafíos.
 ### 2.2 Core loops	
-![Coreloop](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/Coreloop.jpg)
+![Coreloop](../ImagesWeb/IMG_para_GDD/Coreloop.jpg)
 ## 3 Personaje jugador	
 El jugador tendrá que elegir un personaje de tres profesores diferentes, en la cual cada uno tendrá sus fortalezas y debilidades:
-![Pokemon](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/Pokemon.png)
+![Pokemon](../ImagesWeb/IMG_para_GDD/Pokemon.png)
 - **Tony**. Este personaje maneja mejor las habilidades de gestión.
 - **Pablo**. Este personaje maneja mejor las habilidades de diseño.
 - **Rubén**. Este personaje maneja mejor las habilidades de la programación. 
 ### 3.1 Controles	
 El juego se jugará principalmente con ratón para pulsar botones, pero en casos de minijuegos también se usará teclado y ratón. A continuación se muestra una imagen del teclado:
-![Teclado](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/Teclado.png)
+![Teclado](../ImagesWeb/IMG_para_GDD/Teclado.png)
 ## 4 Mecánicas	
 ### 4.1 Sesión de entrenamiento	
 El jugador, previo a un desafío, dispone de una serie de sesiones de entrenamiento limitada.
@@ -45,7 +45,7 @@ Tiempo máximo que puede durar el juego: 10 segundos.
 |---------|-----------|-----|
 |Velocidad de objetos|Velocidad de gravedad a la que los objetos caen|coma flotante|
 |Velocidad de jugador|Velocidad que tiene el personaje jugador|coma flotante|
-![MinijuegoProgramacion](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/MinijuegoProgramacion.png)
+![MinijuegoProgramacion](../ImagesWeb/IMG_para_GDD/MinijuegoProgramacion.png)
 #### 4.1.3 Minijuego Diseño	
 Minijuego donde el jugador podrá moverse verticalmente (saltando) para esquivar obstáculos que vienen a continuación. Pero también se presentarán mejoras para el jugador donde, no se debe esquivar, sino, colisionar con él y conseguir la mejora.
 Tiempo máximo que puede durar el juego: 10 segundos.
@@ -53,7 +53,7 @@ Tiempo máximo que puede durar el juego: 10 segundos.
 |---------|-----------|-----|
 |Velocidad de objetos|Velocidad rectilíneo horizontal sin aceleración|coma flotante|
 |Velocidad de jugador|Velocidad de salto vertical con gravedad|coma flotante|
-![MinijuegoDisegno](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/MinijuegoDise%C3%B1o.png)
+![MinijuegoDisegno](../ImagesWeb/IMG_para_GDD/MinijuegoDiseño.png)
 #### 4.1.4 Minijuego Gestión	
 Minijuego en la cual como jugador inmovil podrás lanzar bolas de colores en cualquier sentido con el objetivo de destruir la cadena de bolas, en la que si hay más de 3 bolas de colores seguidas se destruyen.
 Tiempo máximo que puede durar el juego: 10 segundos.
@@ -61,7 +61,7 @@ Tiempo máximo que puede durar el juego: 10 segundos.
 |---------|-----------|-----|
 |Velocidad de la cadena de bolas|Velocidad en la que la cadena se moverá|coma flotante|
 |Velocidad de las bolas|Velocidad rectilíneo de la pelota|coma flotante|
-![MinijuegoGestion](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/MinijuegoGestion.png)
+![MinijuegoGestion](../ImagesWeb/IMG_para_GDD/MinijuegoGestion.png)
 ### 4.2 Mejoras	
 Tras completar las sesiones de entrenamiento, el jugador dispone de puntos de cada estadística para invertir en mejoras.
 - Programación: Desbloquea nuevas habilidades
@@ -102,7 +102,7 @@ La energía funciona como una barra de vida y maná a la vez del jugador, si la 
 Por cada ronda en la que el jugador no complete un número de tareas concreto este perderá energía relativa al número de tareas que no se han conseguido completar .
 Las habilidades del jugador pueden costar energía.
 ### 4.4 Roguelite	
-![Bucle](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/BucleJuego.png)
+![Bucle](../ImagesWeb/IMG_para_GDD/BucleJuego.png)
 La mecánicas roguelite estarán presente en nuestro juego en dos formas significativas.
 La primera: Cuando pierdes en el nivel que sea volverás al nivel 1, viéndote obligado a repetir todo de nuevo. 
 La segunda:  Cuando pierdes el desafío también perderás todas tus habilidades menos 1, que podrás salvar cambiandola por una de las básicas del inicio. 
@@ -129,19 +129,19 @@ En todo momento la HUD solo se compondrá de un símbolo a la esquina noroeste q
 ### 6.3 Menús	
 Los menús se compondrán de principalmente botones para navegar entre menús o escenas y paneles informativos, salvo en el menú de mejora que es más complejo.
 - **Menú principal(Main)**: se compone de varios botones que llevan a diferentes menús como el botón de jugar que lleva al menú de selección de profesor, el botón de opciones que lleva al panel de opciones y el botón de créditos que lleva a la escena de créditos.
-![Menu](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/Menu.png)
+![Menu](../ImagesWeb/IMG_para_GDD/Menu.png)
 - **Panel de pausa(Pausa)**: Este panel se solapa encima de la escena en cuestión pasando el resto de animaciones. Tiene varios botones que llevan a diferentes escenas como el menú principal y el panel de opciones que contiene todos los parámetros de accesibilidad que permite el juego como por ejemplo los volúmenes.
-![PanelPausa](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/PanelPausa.png)
+![PanelPausa](../ImagesWeb/IMG_para_GDD/PanelPausa.png)
 - **Menú de créditos(créd)**: escena en la que se muestran los integrantes del equipo y sus logros tanto como otras posibles fuentes.
-![Creditos](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/Creditos.png)
+![Creditos](../ImagesWeb/IMG_para_GDD/Creditos.png)
 - **Menú de entrenamiento(entre)**: se compone de tres botones principales, uno para cada tipo de estadística. Cada botón al pasar por encima muestra una descripción del minijuego en cuestión que contiene los controles básicos, una frase que describe el objetivo y un contorno del color de la estadística.
-![Combate](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/Combate.png)
+![Combate](../ImagesWeb/IMG_para_GDD/Combate.png)
 - **Menú de desafío(des)**: se compone de una barra de energía junto a tres barras que determina el progreso del desafío en cada estadística; por otro lado las tres tareas a completar con su símbolo y color correspondiente, el nombre de la tarea y su progreso; y por último un panel de control que es la parte interactuable que se  compone de el nombre de la habilidad seleccionada y su anterior y posterior habilidad para cambiar, la descripción de la habilidad seleccionada con sus datos y tipos correspondientes.
-![Combate2](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/Combate2.png)
+![Combate2](../ImagesWeb/IMG_para_GDD/Combate2.png)
 - **Menú de mejora (tienda)**: Contiene un apartado en el que sale el profesor escogido con sus puntos de mejora a invertir, un apartado para invertir puntos de gestión en la energía y otro apartado con las habilidades disponibles a aprender ordenadas por número de objetivos con el precio de compra de cada uno y un contorno que indica por el color si ya se ha obtenido o no y si está del todo mejorada. Si la habilidad ya se ha obtenido el precio que saldrá será el de mejora en el color correspondiente. Por último un apartado con la descripción completa de la habilidad seleccionada, sus precios y sus futuras mejoras.
-![Combate3](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/Combate3.png)
+![Combate3](../ImagesWeb/IMG_para_GDD/Combate3.png)
 La navegación de menús consiste en lo siguiente:
-![General](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/General.png)
+![General](../ImagesWeb/IMG_para_GDD/General.png)
 ## 7 Experiencia de Juego	
 La experiencia de juego que queremos desarrollar es una basada en la estrategia por turno y en el desarrollo de sus habilidades. El jugador deberá pensar en qué habilidades debe priorizar y cuales dejar a un lado, a su vez que en el siguiente intento quiera probar esas que dejó y usar otras. Además de la estrategia queremos que el jugador tenga una experiencia divertida. reforzada por las bromas en las cinemáticas como en la temática del juego. 
 ## 8 Dinámicas	

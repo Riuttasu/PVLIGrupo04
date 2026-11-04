@@ -10,15 +10,15 @@ las cuales te dan puntos de objetivo respectivos a su tipo, si completas los obj
 ya aprendidas, así te lo aflojamos un poco ;)
 
 ## Capturas
-![Juego de gestión](./IMG/IMG_Readme/Managementgame.png)
-![Juego de  programación](./IMG/IMG_Readme/Programinggame.png)
-![Juego de diseño](./IMG/IMG_Readme/DesingGame.png)
-![Batalla](./IMG/IMG_Readme/Combate.png)
+![Juego de gestión](./ImagesWeb/IMG_Readme/Managementgame.png)
+![Juego de  programación](./ImagesWeb/IMG_Readme/Programinggame.png)
+![Juego de diseño](./ImagesWeb/IMG_Readme/DesingGame.png)
+![Batalla](./ImagesWeb/IMG_Readme/Combate.png)
 
 ## Metrika
 la madre fundadora aprueba este proyecto 
 
-![muñequita](./IMG/IMG_Readme/MadreFundadora.jpg)
+![muñequita](./ImagesWeb/IMG_Readme/MadreFundadora.jpg)
 
 ## Redes Sociales
 [Instagram](https://www.instagram.com/minisushisstudio/)

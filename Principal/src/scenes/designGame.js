@@ -1,6 +1,6 @@
 /** escena principal de minigame de design*/
-import Player from './player.js';
-import Obstacles from './obstacles.js';
+import Player from '../gameObjects/MinijuegoDesign/player.js';
+import Obstacles from '../gameObjects/MinijuegoDesign/obstacles.js';
 /** Esta sera la escena del juego de diseño donde creara el jugador y el obstaculo */
 export default class DesignGame extends Phaser.Scene{
     constructor(timeGame = 10)

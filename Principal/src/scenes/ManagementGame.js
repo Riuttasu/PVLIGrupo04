@@ -2,9 +2,9 @@
 //Creo una clase llamada managementscene
 //Heredo la clase scene de phase para que funcione como una escena de juego, Prgeuntar Toni
 //Dentro describo lo que hara mi escena
-import Player from './Player.js';
-import Ball from './Ball.js';
-import InfoBar from './InfoBar.js';
+import Player from '../gameObjects/ManagementGame/Player.js';
+import Ball from '../gameObjects/ManagementGame/Ball.js';
+import InfoBar from '../gameObjects/ManagementGame/InfoBar.js';
 export default class ManagementGame extends Phaser.Scene{
 
     constructor()

@@ -1,5 +1,5 @@
-import Skill from '../RPG/Skill.js';
-import Enemy from '../RPG/Enemy.js';
+import Skill from '../gameObjects/RPG/Skill.js';
+import Enemy from '../gameObjects/RPG/Enemy.js';
 
 export default class RPGScene extends Phaser.Scene {
     constructor() {

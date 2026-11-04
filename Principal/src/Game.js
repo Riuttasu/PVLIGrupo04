@@ -1,11 +1,11 @@
 
-import ManagementGame from "./ManagementGame/ManagementGame.js";
-import MenuScene from "./MenuScene.js";
-import Load from "./Load.js";
-import programmingMinigame from "./Programming/progMinigame.js";
-import minigameEndScene from "./minigameEndScene.js";
-import RPGScene from "../RPG/RPGScene.js";
-import DesignGame from "./MinijuegoDesign/designGame.js";
+import ManagementGame from "./scenes/ManagementGame.js";
+import MenuScene from "./scenes/MenuScene.js";
+import DesignGame from "./scenes/designGame.js";
+import Load from "./scenes/Load.js";
+import programmingMinigame from "./scenes/progMinigame.js";
+import minigameEndScene from "./scenes/minigameEndScene.js";
+import RPGScene from "./scenes/RPGScene.js";
 let config = {
     parent: 'Juego',
     type: Phaser.AUTO,
