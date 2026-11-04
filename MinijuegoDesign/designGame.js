@@ -3,7 +3,7 @@ import Player from './player.js';
 import Obstacles from './obstacles.js';
 /** Esta sera la escena del juego de diseño donde creara el jugador y el obstaculo */
 export default class DesignGame extends Phaser.Scene{
-    constructor(timeGame = 30)
+    constructor(timeGame = 10)
     {
          super({key:'DesignGame'});
          this.panel = false;
@@ -17,20 +17,20 @@ export default class DesignGame extends Phaser.Scene{
         
     create() {
         // creamos objetos del juego
-        this.preloadlayer = new Player(this, 100, 500, 600);
+        this.player = new Player(this, 100, 500, 600); 
         this.obstacles = this.add.group();
-        
         //times en segundos
         this.timeMax = 2; // tiempo maximo para generar obstaculos
         this.timeMin = 1; // y este es el minimo
         this.randomTime; // el timepo que va a tardar en generar el siguienteobstaculo
         this.timeNow = 0; // timepo actual
         this.randomTime = Phaser.Math.RND.between(this.timeMin * 1000, this.timeMax * 1000); 
+        this.colision = false;
     }
     update(t, dt){
         this.timeGame -= dt/1000; // restamos el tiempo transcurrido desde la ultima actualizacion
         if(this.timeGame <= 0){
-            this.scene.start('MenuScene'); // si el tiempo se acaba, volvemos al menu
+            this.isGameOver(true); // si se acaba el tiempo, el jugador gana
         }
         this.timeNow += dt; // sumamos el tiempo transcurrido desde la ultima actualizacion
         // genera un tiempo aleatorio entre el minimo y el maximo
@@ -43,7 +43,7 @@ export default class DesignGame extends Phaser.Scene{
     // Uso: es llamado en el metodo update() cuando el tiempo transcurrido desde la ultima 
     // generacion de obstaculos es mayor o igual al tiempo aleatorio generado entre el minimo y el maximo.
     spawnObstacles() {
-        this.obstacles.add(new Obstacles(this, 800, 550, this.preloadlayer));
+        this.obstacles.add(new Obstacles(this, 800, 550, this.player)); 
         this.randomTime = Phaser.Math.RND.between(this.timeMin * 1000, this.timeMax * 1000); 
     }
     // metodo para eliminar un obstaculo del grupo "Obstacles" y de la escena.
@@ -51,5 +51,13 @@ export default class DesignGame extends Phaser.Scene{
     // sale de la pantalla por la izquierda.
     remove(object){
         this.obstacles.remove(object, true, true); // elimina el obstaculo del grupo y de la escena
+    }
+    //metodo que determina el final del juego
+    //es llamado cuando colisiona con el obstaculo o cuando se acaba el tiempo del juego
+    isGameOver(win){
+        this.scene.launch('minigameEndScene', { win: win, key:this.scene.key }); 
+    }
+    destroyPlayer(){
+        this.player.destroy();
     }
 }
