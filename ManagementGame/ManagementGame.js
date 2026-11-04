@@ -13,17 +13,53 @@ export default class ManagementGame extends Phaser.Scene{
     
     CreateBall() // Metodo que crea las bolas y se encarga de que cuando chocquen contra la pared se detengan
     {
-       
-         let ball= new Ball(this,this.player.x,this.player.y,1000,0,this.player.angleFlecha);
+      console.log("ENTRO EN MANAGEMENT GAME");
+         this.color = Phaser.Math.Between(0, 2);
+         let ball= new Ball(this,this.player.x,this.player.y,1000,this.color,this.player.angleFlecha);
+         ball.setScale(this.BallScale);
+         ball.setOrigin(0, 0);
         this.ballsDisparadas.push(ball);  // push como los vectores amo los vectoresç
-         this.physics.add.collider(ball,this.Wall,() =>{ 
-          if(!ball.Placed)
+         this.physics.add.collider(ball,this.Wall,() =>{ this.stopball(ball); });
+
+         let i = 0; 
+         let j = 0; 
+         let colcoada = false;
+         while(i<this.filas && !colcoada)
+         {
+           j = 0;
+          while(j<this.columnas && !colcoada)
           {
-            ball.Placed = true;
-            console.log("Me pege");
-          this.placeball(ball,1,1);   }//Temporal 
-          })
+           
+             this.physics.add.collider(ball,this.balls[i][j], () =>{this.stopball(ball); });
+            j++;
+          }
+          i++;
+         }
           
+    }
+
+    stopball(ball)
+    {
+      if (ball.Placed)
+      {
+
+        return; 
+      }
+      ball.Placed = true;
+       let columna = Math.round((ball.x - this.StartX) / ball.displayWidth);
+       let fila = Math.round((ball.y - this.StartY) / ball.displayHeight);
+
+       let celda = this.SearchFreeCell(fila,columna);
+    if (celda !== null)
+    {
+        this.placeball(ball, celda[0], celda[1]);
+      
+    }
+    
+    ball.body.setVelocity(0, 0);
+    ball.body.setAcceleration(0, 0);
+    ball.body.moves = false;
+    this.Match(celda[0],celda[1]); 
     }
 
     SearchFreeCell(fila,columna) // Metodo para buscar la celda mas cercana a ala colision  //JAVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -83,26 +119,32 @@ export default class ManagementGame extends Phaser.Scene{
     }
     create() //Feo pero feo el codigo este
     {
+     
         let Background =this.add.image(0,0,'BackgroundManagment'); // Cargo el fondo
         Background.setOrigin(0,0);  //Pongo su origen en el 0
         Background.setDisplaySize(1000,500);
-
-        this.player =  new Player(this,500,300,'player');
+      
+        this.player =  new Player(this,500,500,'player');
 
         this.teclado = this.input.keyboard.createCursorKeys();
 
         this.balls = []; 
 
+        
+
         this.ballsDisparadas = [];
+        this.BallScale = 0.1;
+
 
        this.filas = 8;  // preguntar a toni sobre los array bidimensionales en java
        this.columnas = 12; 
 
        this.PreviousShot = false; // Para no spwanear
-       this.StartX = 0; //Donde empieza la cuadricula
-       this.StartY = 0;  //Donde empeiza la cuadricula
+       
        this.Wall = this.add.rectangle(300,50,10000,10); // Provisional
        this.physics.add.existing(this.Wall,true);
+       this.StartX = 0; //Donde empieza la cuadricula
+       this.StartY =  this.Wall.y + this.Wall.height; //Donde empeiza la cuadricula
        for(let f = 0; f<this.filas;f++)
        {
         this.balls[f] =[];
@@ -114,7 +156,7 @@ export default class ManagementGame extends Phaser.Scene{
        
        }
        
-       this.balls[0][2] = "ocupada";
+   
        
 
      
@@ -126,7 +168,7 @@ export default class ManagementGame extends Phaser.Scene{
     }
      placeball(ball,fila,columnas)
      {
-       if(fila<0 || fila >this.filas || columnas<0 || columnas>=this.columnas)
+       if(fila<0 || fila >=this.filas || columnas<0 || columnas>=this.columnas)
        {
          console.log("Fuera de límites");
         return;
@@ -148,8 +190,82 @@ export default class ManagementGame extends Phaser.Scene{
      }
     GetNeighbors(filas,columnas)
     {
-        
+      let vecino =  []; 
+        for(let i = -1;  i <= 1; i++)
+        {
+          for(let j = -1;  j <= 1; j++)
+          {
+               if( i != 0 || j != 0)
+               {
+                if (filas+i >= 0 && filas+i<this.filas)
+                {
+                  if (columnas+j >= 0 && columnas+j<this.columnas)
+                  {
+                      vecino.push([filas+i, columnas + j]);
+                  }
+                }
+               }
+          }
+        }
+        return vecino; 
     }
+    GetConnectedBalls(fila, columna, color, visitadas, grupo)
+    {
+       if (!(fila >= 0 && fila<this.filas && columna >= 0 && columna<this.columnas))
+       {
+        return;
+       }
+       if (this.balls[fila][columna] ==null)
+       {
+        return; 
+       }
+
+      if (visitadas.has(fila +","+columna))
+      {
+        return; 
+      }
+      if (this.balls[fila][columna].color !== color)
+      {
+        return; 
+      }
+      visitadas.add(fila +","+columna);
+
+      grupo.push({ball: this.balls[fila][columna],
+        fila: fila, 
+        columna:columna
+      }); 
+      
+      let vecinos = this.GetNeighbors(fila,columna); 
+      for(let i = 0; i<vecinos.length;i++)
+      {
+        this.GetConnectedBalls(vecinos[i][0],vecinos[i][1],color,visitadas,grupo)
+      }
+       
+    }
+
+    Match(fila,columna)
+    {
+          let col = this.balls[fila][columna].color; 
+          let visitadas = new Set(); //VIVA EL SET LOS VECTORES Y TODO LO YA CREADO
+          let grupo =[]; 
+          this.GetConnectedBalls(fila,columna,col,visitadas,grupo);
+          console.log ("Este es el color: " +col + " Este es el n de grupo " + grupo.length); 
+          if(grupo.length < 3)
+          {
+            return;
+          }
+          for(let i = 0; i < grupo.length; i++)
+          {
+            let f = grupo[i].fila; 
+            let c = grupo[i].columna; 
+           
+            grupo[i].ball.destroy(); 
+             this.balls[f][c] = null; 
+          
+          }
+
+    }
+
     update()
     {
        let disparoActual = this.teclado.up.isDown; 
@@ -161,5 +277,6 @@ export default class ManagementGame extends Phaser.Scene{
         this.PreviousShot = disparoActual;
 
       this.player.move(this.teclado);
+      
     }
 }

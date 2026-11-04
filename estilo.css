@@ -19,7 +19,13 @@ h2 {
 {
   padding-left: 10px;
 }
+#Juego {
+    outline: 2px solid red;
+}
 
+#Juego canvas {
+    outline: 2px solid blue;
+}
 body {
   background-color: rgb(255, 230, 239);
 }
