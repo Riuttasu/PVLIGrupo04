@@ -1,5 +1,5 @@
-import ProgObject from "./progObject";
-import ProgPlayer from "./progPlayer";
+import ProgObject from "./progObject.js";
+import ProgPlayer from "./progPlayer.js";
 
 
 export default class programmingMinigame extends Phaser.Scene {
