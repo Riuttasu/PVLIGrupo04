@@ -294,7 +294,10 @@ export default class ManagementGame extends Phaser.Scene{
     {
       if (this.info.Score == this.Goat)
       {
-         this.scene.start('MenuScene')
+         this.scene.launch('minigameEndScene', {
+    win: true,
+    key: 'ManagementGame'
+});
       }
       this.info.update(); 
        let disparoActual = this.teclado.up.isDown; 
