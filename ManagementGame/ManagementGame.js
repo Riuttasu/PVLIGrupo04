@@ -4,6 +4,7 @@
 //Dentro describo lo que hara mi escena
 import Player from './Player.js';
 import Ball from './Ball.js';
+import InfoBar from './InfoBar.js';
 export default class ManagementGame extends Phaser.Scene{
 
     constructor()
@@ -13,11 +14,10 @@ export default class ManagementGame extends Phaser.Scene{
     
     CreateBall() // Metodo que crea las bolas y se encarga de que cuando chocquen contra la pared se detengan
     {
-      console.log("ENTRO EN MANAGEMENT GAME");
-         this.color = Phaser.Math.Between(0, 2);
+      
+        
          let ball= new Ball(this,this.player.x,this.player.y,1000,this.color,this.player.angleFlecha);
-         ball.setScale(this.BallScale);
-         ball.setOrigin(0, 0);
+         
         this.ballsDisparadas.push(ball);  // push como los vectores amo los vectoresç
          this.physics.add.collider(ball,this.Wall,() =>{ this.stopball(ball); });
 
@@ -35,6 +35,8 @@ export default class ManagementGame extends Phaser.Scene{
           }
           i++;
          }
+          this.color = Phaser.Math.Between(0, 2);
+          this.info.UpdateColor(this.color);
           
     }
 
@@ -124,17 +126,20 @@ export default class ManagementGame extends Phaser.Scene{
         Background.setOrigin(0,0);  //Pongo su origen en el 0
         Background.setDisplaySize(1000,500);
       
-        this.player =  new Player(this,500,500,'player');
+        this.player =  new Player(this,500,400,'player');
 
         this.teclado = this.input.keyboard.createCursorKeys();
 
         this.balls = []; 
+         this.info = new InfoBar(this); 
 
-        
+        this.color = 0; 
+        this.info.UpdateColor(this.color);
 
         this.ballsDisparadas = [];
-        this.BallScale = 0.1;
-
+        this.Point = 1; 
+        this.Goat = 1; 
+       
 
        this.filas = 8;  // preguntar a toni sobre los array bidimensionales en java
        this.columnas = 12; 
@@ -162,9 +167,7 @@ export default class ManagementGame extends Phaser.Scene{
      
 
 
-   console.log("Prueba 1:", this.SearchFreeCell(0, 2));
-     console.log("Prueba 2:", this.SearchFreeCell(0, 0));
-     console.log("Prueba 3:", this.SearchFreeCell(7, 11)); 
+   
     }
      placeball(ball,fila,columnas)
      {
@@ -263,11 +266,13 @@ export default class ManagementGame extends Phaser.Scene{
              this.balls[f][c] = null; 
           
           }
+          this.info.addScore(this.Point); 
 
     }
 
     update()
     {
+      this.info.update(); 
        let disparoActual = this.teclado.up.isDown; 
        if(disparoActual && !this.PreviousShot)
        {

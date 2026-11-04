@@ -5,7 +5,8 @@ export default class Ball extends Phaser.GameObjects.Sprite{
         super(scene,x,y,'Ball')
         scene.add.existing(this);
         scene.physics.add.existing(this) //Añadimos fisica
-       
+       this.setScale(0.1);
+         this.setOrigin(0, 0);
         this.color = color;
         this.Speed = velocidad;
         this.Placed = false;
