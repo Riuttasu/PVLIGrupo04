@@ -15,5 +15,9 @@ ya aprendidas, así te lo aflojamos un poco ;)
 ![Juego de diseño](./IMG/IMG_Readme/DesingGame.png)
 ![Batalla](./IMG/IMG_Readme/Combate.png)
 
+## Metrika
+la madre fundadora aprueba este proyecto 
+![muñequita](./IMG/IMG_Readme/MadreFundadora.jpg)
+
 ## Redes Sociales
 [Instagram](https://www.instagram.com/minisushisstudio/)
