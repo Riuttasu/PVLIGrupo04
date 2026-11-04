@@ -193,17 +193,17 @@ export default class ManagementGame extends Phaser.Scene{
      {
        if(fila<0 || fila >=this.filas || columnas<0 || columnas>=this.columnas)
        {
-         console.log("Fuera de límites");
+       
         return;
        }
        if (this.balls[fila][columnas] != null)
        {
-        console.log("Celda ocupada");
+        
           return; 
        } 
        let x = this.GetX(columnas,ball)  //Anotacion no se pone ball.sprite.etc porque ball ya es un sprite en si soy bola
        let y = this.GetY(fila,ball)
-       console.log(x + " " + y);
+    
 
        ball.setPosition(x,y);
        ball.body.setVelocity(0, 0);
@@ -272,7 +272,7 @@ export default class ManagementGame extends Phaser.Scene{
           let visitadas = new Set(); //VIVA EL SET LOS VECTORES Y TODO LO YA CREADO
           let grupo =[]; 
           this.GetConnectedBalls(fila,columna,col,visitadas,grupo);
-          console.log ("Este es el color: " +col + " Este es el n de grupo " + grupo.length); 
+        
           if(grupo.length < 3)
           {
             return;
@@ -294,10 +294,13 @@ export default class ManagementGame extends Phaser.Scene{
     {
       if (this.info.Score == this.Goat)
       {
-         this.scene.start('MenuScene')
+         this.scene.launch('minigameEndScene', {
+    win: true,
+    key: 'ManagementGame'
+});
       }
       this.info.update(); 
-       let disparoActual = this.teclado.up.isDown; 
+        let disparoActual = this.player.key.W.isDown;
        if(disparoActual && !this.PreviousShot)
        {
         this.CreateBall();
@@ -305,7 +308,7 @@ export default class ManagementGame extends Phaser.Scene{
        }
         this.PreviousShot = disparoActual;
 
-      this.player.move(this.teclado);
+      this.player.move();
       
     }
 }

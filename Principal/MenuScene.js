@@ -17,15 +17,15 @@ export default class MenuScene extends Phaser.Scene{
     //crear botones para cambiar de escena
     let BotonManagement = this.add.image(100,100,'SceneButton')
      BotonManagement.setScale(0.2);
-      BotonManagement.setTint(0xff0000);
+      BotonManagement.setTint(0x008000);
      BotonManagement.setInteractive();
      let Boton1 = this.add.image(100,200,'SceneButton')
      Boton1.setScale(0.2);
-      Boton1.setTint(0xff0000);
+      Boton1.setTint(0xFFFF00);
      Boton1.setInteractive();
      let Boton2 = this.add.image(100,300,'SceneButton')
      Boton2.setScale(0.2);
-      Boton2.setTint(0xff0000);
+      Boton2.setTint(0xFFC0CB);
      Boton2.setInteractive();
      let Boton3 = this.add.image(100,400,'SceneButton')
      Boton3.setScale(0.2);
