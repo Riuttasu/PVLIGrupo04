@@ -1,16 +1,15 @@
-export default class ProgramPlayer extends Phaser.GameObjects.Sprite 
+export default class ProgPlayer extends Phaser.GameObjects.Sprite 
 {
     constructor(scene,x,y)
     {
         super(scene,x,y,'playerprog');
         // Parametros
         this.speed = 200; // Velocidad del jugador
-        // Tamaño
-        this.setDisplaySize(64,128);
+        this.setDisplaySize(64,128); // Tamaño
         // Le anade a la escena
         this.scene.add.existing(this); // Objeto en si
         this.scene.physics.add.existing(this); // Fisicas
-        // Clamp
+        // Clamp del cuerpo fisico
         this.body.setCollideWorldBounds(true);
         // Input
         this.keys = {};

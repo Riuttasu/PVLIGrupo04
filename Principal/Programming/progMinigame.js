@@ -1,6 +1,6 @@
-import ProgramPlayer from "./ProgramPlayer.js";
-import ProgramObject from "./ProgramObject.js";
-import minigameEndScene from "../minigameEndScene.js";
+import ProgObject from "./progObject";
+import ProgPlayer from "./progPlayer";
+
 
 export default class programmingMinigame extends Phaser.Scene {
     constructor()
@@ -17,7 +17,7 @@ export default class programmingMinigame extends Phaser.Scene {
         this.objectXPadding = 20; // Margen que se da entre los bordes de la pantalla para que no toque los extremos
         this.objectXBetWeen = this.scale.width/3; // Margen entre el objeto spawneado y el anterior
         // Jugador
-        this.player = new ProgramPlayer(this,this.scale.width/2,this.scale.height-this.scale.height/9);      
+        this.player = new ProgPlayer(this,this.scale.width/2,this.scale.height-this.scale.height/9);      
         // Spawn de objetos
         this.timePerObject = Math.max((this.minigameTime-2)/this.numObjects,0); // Calcula cada cuanto va a tener q spawnearse un objeto, maxtime-2 para dar margen de caida
         this.objectsSpawned = 0; // Numero de objetos spawneados
@@ -31,7 +31,7 @@ export default class programmingMinigame extends Phaser.Scene {
     {
         // Si se ha pasado el tiempo del minijuego acaba bien
         this.minigameTime-= dt/1000;
-        if (this.minigameTime <= 0) { this.endMinigame(true);}
+        if (this.minigameTime <= 0) { this.EndMinigame(true);}
         // Spawn de objetos si se ha cumplido el tiempo
         this.lastObject+=dt/1000;
         if (this.objectsSpawned < this.numObjects && this.lastObject > this.timePerObject)
@@ -51,14 +51,9 @@ export default class programmingMinigame extends Phaser.Scene {
         let maxNewX = Phaser.Math.Clamp(this.lastObjectX+this.objectXBetWeen,this.objectXPadding,this.scale.width-this.objectXPadding);
         let newX = Phaser.Math.RND.between(minNewX,maxNewX);
         // Spawn
-        this.objects.add(new ProgramObject(this,newX,0));
+        this.objects.add(new ProgObject(this,newX,0));
         // Guarda la ultima posicion X del objeto que se acaba de spawnear
         this.lastObjectX = newX;
-    }
-    // Funcion para perder el juego jeje, llamada principalmente por los objetos que se caen
-    lose()
-    {
-        this.endMinigame(false);
     }
     // Cuando se detecta una colision entre uno de los objetos y el jugador
     objectPickedUp(object,player)
@@ -67,7 +62,8 @@ export default class programmingMinigame extends Phaser.Scene {
         object.destroy();
         // TODO : lo que dijo toni de hacer como un array y pillar los que no se usen
     }
-    endMinigame(iswin)
+    // Funcion para terminar el minijuego, isWin = si se ha ganado
+    EndMinigame(iswin)
     {
         // Lanza la escena superpuesta del panel de final de minijuego
         this.scene.launch('minigameEndScene',{win : iswin, key : this.scene.key});

@@ -1,5 +1,5 @@
 
-export default class ProgramObject extends Phaser.GameObjects.Sprite 
+export default class ProgObject extends Phaser.GameObjects.Sprite 
 {
     constructor(scene,x,y,gravity=100)
     {
@@ -14,9 +14,10 @@ export default class ProgramObject extends Phaser.GameObjects.Sprite
     }
     preUpdate(t,dt)
     {
+        // Si el objeto se cae fuera de los bordes del juego, indica que se ha perdido
         if(this.body.y > this.scene.scale.height-this.displayHeight/2) 
         {
-            this.scene.lose();
+            this.scene.EndMinigame(false);
         }
     }
 }
