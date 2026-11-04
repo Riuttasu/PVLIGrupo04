@@ -1,18 +1,19 @@
 import ManagementGame from "../ManagementGame/ManagementGame.js";
 import MenuScene from "./MenuScene.js";
 import Load from "./Load.js";
+import programmingMinigame from "./Programming/progMinigame.js";
+import minigameEndScene from "./minigameEndScene.js";
 let config = {
-     parent: 'Juego',
+    parent: 'Juego',
     type: Phaser.AUTO,
-    width:  1000,
-    height: 500,
+    width: 1100,
+    height: 620,
     scale: {
-        mode: Phaser.Scale.FIT,  
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
     },
     pixelArt: false,
     backgroundColor: '#ff69b4',
-    scene: [Load,MenuScene,ManagementGame],
+    scene: [Load,MenuScene,ManagementGame,programmingMinigame,minigameEndScene],
     physics: {
         default: 'arcade', // elegir motor
         arcade: { // propiedades del motor
