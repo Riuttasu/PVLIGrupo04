@@ -1,6 +1,6 @@
-import ProgramPlayer from "../../Lune/ProgramPlayer.js";
-import ProgramObject from "../../Lune/ProgramObject.js";
-import programmingMinigameEnd from "../minigameEndScene.js";
+import ProgramPlayer from "./ProgramPlayer.js";
+import ProgramObject from "./ProgramObject.js";
+import minigameEndScene from "../minigameEndScene.js";
 
 export default class programmingMinigame extends Phaser.Scene {
     constructor()
@@ -70,6 +70,6 @@ export default class programmingMinigame extends Phaser.Scene {
     endMinigame(iswin)
     {
         // Lanza la escena superpuesta del panel de final de minijuego
-        this.scene.launch('programmingMinigameEnd',{win : iswin, key : this.scene.key});
+        this.scene.launch('minigameEndScene',{win : iswin, key : this.scene.key});
     }
 }
