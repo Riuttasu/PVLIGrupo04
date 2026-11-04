@@ -19,9 +19,9 @@ export default class RPGScene extends Phaser.Scene {
     }
 
     create() {
+        this.isGameOver = false;
         //Fondo moradito
         this.cameras.main.setBackgroundColor('#451b92');
-
         // Guardamos en variables los jsons
         this.skillsList = this.cache.json.get('skillsData').map(data => new Skill(data));
         this.enemyDatabase = this.cache.json.get('enemiesData');
@@ -161,27 +161,27 @@ export default class RPGScene extends Phaser.Scene {
     }
     //Si no esta atacando cambia la habilidad actual por la de arriba
     handleUp() {
-        if (this.isSelectingTarget) return;
+        if (this.isGameOver ||this.isSelectingTarget) return;
 
         this.selectedSkillIndex = (this.selectedSkillIndex - 1 + this.skillsList.length) % this.skillsList.length;
         this.updateCarouselDisplay();
     }
     //Si no esta atacando cambia la habilidad actual por la de abajo
     handleDown() {
-        if (this.isSelectingTarget) return;
+        if (this.isGameOver || this.isSelectingTarget) return;
 
         this.selectedSkillIndex = (this.selectedSkillIndex + 1) % this.skillsList.length;
         this.updateCarouselDisplay();
     }
 
     handleLeft() {
-        if (!this.isSelectingTarget) return;
+        if (this.isGameOver || !this.isSelectingTarget) return;
 
         this.moveTargetSelection(-1);
     }
 
     handleRight() {
-        if (!this.isSelectingTarget) return;
+        if (this.isGameOver || !this.isSelectingTarget) return;
 
         this.moveTargetSelection(1);
     }
@@ -206,6 +206,7 @@ export default class RPGScene extends Phaser.Scene {
     }
 
     handleConfirm() {
+        if (this.isGameOver) return;
         const currentSkill = this.skillsList[this.selectedSkillIndex];
         //si es para seleccionar una habilidad
         if (!this.isSelectingTarget) {
@@ -252,6 +253,31 @@ export default class RPGScene extends Phaser.Scene {
             });
         }
         // Reponer slots vacios con la pila de niveles
-        this.fillEmptySlots();
+        this.fillEmptySlots();// Comprobar si no quedan enemigos en combate ni en la cola
+        this.checkVictory();
+    }
+
+    checkVictory() {
+        const isQueueEmpty = this.enemyQueue.length === 0;
+        const isSlotsEmpty = this.activeSlots.every(slot => slot === null);
+
+        if (isQueueEmpty && isSlotsEmpty && !this.isGameOver) {
+            this.isGameOver = true;
+
+            // Ocultamos la flecha por si acaso 
+            if (this.targetPointer) this.targetPointer.setVisible(false);
+
+            // Texto de Victoria en el centro de la zona de enemigos, en el futuro igual es una imagen 
+            this.add.text(400, 150, '¡VICTORIA!', {
+                font: 'bold 44px Arial',
+                color: '#50cc2e',
+                strokeThickness: 5
+            }).setOrigin(0.5);
+
+            // Tras un ratin, vuelve al menú
+            this.time.delayedCall(4000, () => {
+                this.scene.start('MenuScene');
+            });
+        }
     }
 }
