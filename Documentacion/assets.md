@@ -13,8 +13,9 @@ Los assets disponibles actualmente son, en su mayoría, placeholders que no lleg
 - **FondoRosaPalo:** fondo de color rosa palo.
 - **MiniSusi:** logotipo de nuestro equipo, Mini Sushis.
 - **ObjectBlock:** comida que aparece y cae en el minijuego de programación.
-- **Player:** imagen genérica del jugador.
+- **Player:** imagen genérica del jugador (en distintas carpetas te puedes encontrar con imágenes de jugador distintos).
 - **PlayerProp:** placeholder del jugador para el minijuego de programación.
+- **obstacles:** obstáculo que aparece en el minijuego de diseño.
 
 ### Decisiones artísticas
 
