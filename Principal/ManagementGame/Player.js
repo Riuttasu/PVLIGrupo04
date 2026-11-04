@@ -5,30 +5,34 @@ export default class Player extends Phaser.GameObjects.Sprite{
         super(scene,x,y,'Arrow')
         scene.add.existing(this);
         this.setScale(0.5);
-        this.angle=-90;
-      
+       
+      this.angleFlecha = -90;
+       this.angle=-this.angleFlecha;
          
-        this.setScale(0.5);
+        this.setScale(0.2);
       
     }
     move(teclado)
     {
      if (teclado.left.isDown)
      {
-        if(this.angle>-180)
-        {
-          this.angle -=10; 
-        }
+       
+          this.angleFlecha -=2; 
+        
        
      }
      else if (teclado.right.isDown)
      {
-        if(this.angle<180)
-        {
-          this.angle +=10; 
-        }
+       
+          this.angleFlecha +=2; 
+        
        
      }
+    if (this.angleFlecha > -180 && this.angleFlecha < 0)
+    {
+  this.angle = this.angleFlecha;
+    }
+    
      
     }
     init()

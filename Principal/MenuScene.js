@@ -32,10 +32,17 @@ export default class MenuScene extends Phaser.Scene{
       Boton3.setTint(0xff0000);
      Boton3.setInteractive();
 
+<<<<<<< HEAD
       BotonManagement.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
       BotonDesign.on('pointerdown', ()=>{this.scene.start('DesignGame')}) // usamos flechi inportante ehhhh
       Boton2.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
       Boton3.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
+=======
+     BotonManagement.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
+      Boton1.on('pointerdown', ()=>{this.scene.start('programmingMinigame')}) // usamos flechi inportante ehhhh
+       Boton2.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
+        Boton3.on('pointerdown', ()=>{this.scene.start('RPGScene')}) // usamos flechi inportante ehhhh
+>>>>>>> 4f367997c18f2cac099ddeb11d2516bbcb28a169
    }
    update()
    {
