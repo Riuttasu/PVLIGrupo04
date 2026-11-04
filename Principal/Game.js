@@ -5,7 +5,7 @@ import Load from "./Load.js";
 import programmingMinigame from "./Programming/progMinigame.js";
 import minigameEndScene from "./minigameEndScene.js";
 import RPGScene from "../RPG/RPGScene.js";
-import DesignGame from "../MinijuegoDesign/designGame.js";
+import DesignGame from "./MinijuegoDesign/designGame.js";
 let config = {
     parent: 'Juego',
     type: Phaser.AUTO,
