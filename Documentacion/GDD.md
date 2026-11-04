@@ -29,7 +29,7 @@ El jugador tendrá que elegir un personaje de tres profesores diferentes, en la 
 - **Rubén**. Este personaje maneja mejor las habilidades de la programación. 
 ### 3.1 Controles	
 El juego se jugará principalmente con ratón para pulsar botones, pero en casos de minijuegos también se usará teclado y ratón. A continuación se muestra una imagen del teclado:
-![Teclado](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/Teclado.jpg)
+![Teclado](https://github.com/Riuttasu/PVLIGrupo04/blob/main/IMG/IMG_para_GDD/Teclado.png)
 ## 4 Mecánicas	
 ### 4.1 Sesión de entrenamiento	
 El jugador, previo a un desafío, dispone de una serie de sesiones de entrenamiento limitada.
