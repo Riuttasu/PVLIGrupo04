@@ -15,14 +15,17 @@ main {
   padding-top: 1px;
   margin: auto;
 }
-p {
-}
 /*Encabezado asi importante*/
 h2 {
   font-size: 50px;
   background: rgb(15, 121, 170);
   color: rgb(255, 255, 255);
   text-align: center;
+}
+h3{
+  font-size: 35px;
+  background: rgb(45, 159, 212);
+  color: rgb(0, 0, 0);
 }
 /*Secciones*/
 /* Para las secciones con texto */
