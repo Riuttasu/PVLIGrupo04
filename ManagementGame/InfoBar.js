@@ -18,7 +18,7 @@ constructor(scene)
 
 UpdateColor(color)
 {
-    let col = [0xff0000, 0x00ff00, 0x0000ff] ; 
+    let col = [0xffff00, 0x00ff00, 0xff69b4] ; 
     
     this.nextcolor= col[color];  
 
