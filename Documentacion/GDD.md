@@ -37,6 +37,10 @@ Las estadísticas están medidas en puntos, los cuales el jugador en la sección
 #### 4.1.2 Minijuego Programación	
 Minijuego donde el jugador tiene que moverse a lo largo del eje horizontal sin aceleración recogiendo objetos que caerán de la parte de arriba de la pantalla durante este. Los objetos siguen un movimiento rectilíneo uniforme y puede haber objetos dañinos al jugador, los cuales tiene que esquivar. 
 Tiempo máximo que puede durar el juego: 10 segundos.
+|Parámetro|Descripción|valor|
+|---------|-----------|-----|
+|Velocidad de objetos|Velocidad de gravedad a la que los objetos caen|coma flotante|
+|Velocidad de jugador|Velocidad que tiene el personaje jugador|coma flotante|
 #### 4.1.3 Minijuego Diseño	
 Minijuego donde el jugador podrá moverse verticalmente (saltando) para esquivar obstáculos que vienen a continuación. Pero también se presentarán mejoras para el jugador donde, no se debe esquivar, sino, colisionar con él y conseguir la mejora.
 Tiempo máximo que puede durar el juego: 10 segundos.
