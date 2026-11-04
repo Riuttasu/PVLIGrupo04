@@ -1,45 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <title>HTML</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="estilo.css"> <!-- Esto cargaria un archivo de estilo, pero no es necesario en Fiddle porque lo hace automáticamente -->
-  <script src="./lib/phaser.js"></script>
+  <!--Scripts-->
+  <script src="./lib/phaser.js"></script> <!--Libreria de Phaser-->
+  <script src="./Principal/game.js" type="module"></script> <!--El juego en si-->
+  <script src="/functions.js"></script> <!--Funciones adicionales de la pagina web-->
+  <!--Etc-->
+  <meta charset="utf-8"> <!--Tildes y cosas asi bien españita-->
+  <title>Como Entrenar a tu Profesor</title> <!--Titulo de la pagina web-->
+  <link rel="icon" type="image/png" href="./IMG/misushi.png"> <!--Icono de la pagina web-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!---->
+  <link rel="stylesheet" href="estilo.css"> <!--CSS-->
 </head>
 
 <body>
-  <div class="header"><h1>CÓMO ENTRENAR A TU PROFESOR</h1></div>
-  <div>
-    <h2 class=clase>Un juego hecho por Mini Sushis Studio</h2>
-    <p>En este intrepidante, desternillante y gracioso-ante juego eliges a un profesor de la Facultad de Informatica y lo entrenas en diferentes estadisticas.</p>
-    <p>Tras haberte puesto bien cachas (pero del cerebro), te enfrentarás a diferentes desafíos para ganar el título de profesor con más aura de la facultad</p>
-    <p>¿Serás capaz de llegar a la cima y ganar la fama que tu profesor se merece?</p>
-
-  
-
-  <div>
-    <h2>Juego</h2>
-    <div id="Juego">
-    <script src="./Principal/game.js" type="module"></script>
+  <div class="header">
+    <h1>CÓMO ENTRENAR A TU PROFESOR BY MINI SUSHIS STUDIO</h1>
+  </div> <!--Titulo del juego arriba de la pagina-->
+  <div id="sectionbuttons">  
+    <button class="sectionbutton" onclick="openSection('Juego')">Juego</button>
+    <button class="sectionbutton" onclick="openSection('Controles')">Controles</button>
+    <button class="sectionbutton" onclick="openSection('Descripcion')">Descripción</button>
+    <button class="sectionbutton" onclick="openSection('Creditos')">Créditos</button>
+    <button class="sectionbutton" onclick="openSection('Redes')">Redes Sociales</button>
+  </div>
+  <!--Secciones-->
+  <main>
+  <!--Juego-->
+  <div id="Juego" class="section" style="display: block;"></div> <!--Display block hace que sea la unica visible al principio-->
+  <!--No juego-->
+  <div id="textcontainer">
+  <!--Controles-->
+    <div id="Controles" class="section">
+      <h2>Navegación</h2>
+      <p>Click izquierdo para navegar por los menús</p>
+      <h2>Minijuegos</h2>
+      <p>A-D para moverse (Minijuegos Programación y Gestión)</p>
+      <p>Barra Espaciadora para saltar (Minijuego Diseño)</p>
+      <h2>RPG</h2>
+      <p>WS/flechas arriba abajo para elegir entre las habilidades</p>
+      <p>AD/flechas derecha izquierda para seleccionar el objetivo si se puede</p>
+      <p>z/enter para confirmar</p>
+    </div>
+  <!--Descripcion-->
+    <div id="Descripcion" class="section">
+      <h2 class=clase>Un juego hecho por Mini Sushis Studio</h2>
+      <p>En este intrepidante, desternillante y gracioso-ante juego eliges a un profesor de la Facultad de Informatica y lo entrenas en diferentes estadisticas.</p>
+      <p>Tras haberte puesto bien cachas (pero del cerebro), te enfrentarás a diferentes desafíos para ganar el título de profesor con más aura de la facultad</p>
+      <p>¿Serás capaz de llegar a la cima y ganar la fama que tu profesor se merece?</p>
+    </div>
+  <!--Creditos-->
+    <div id="Creditos" class="section">
+      <h2>Créditos: </h2>
+      <ul>
+        <li>Sara Quilez Martinez</li>
+        <li>Miguel Calderón Barba</li>
+        <li>Lune Redondo Vaillo</li>
+        <li>Xinying Xu</li>
+      </ul>
+    </div>
+  <!--Redes-->
+    <div id="Redes" class="section">
+      <h2>Siguenos porfa:</h2>
+      <p><a href="https://www.instagram.com/minisushisstudio/" Id="Instagram"><img src="./IMG/misushi.png" class="socialmedia">Instagram</img></a></p>
+      <p><a href="https://github.com/Riuttasu/PVLIGrupo04"><img src="./IMG/misushi.png" class="socialmedia">Enlace obligatorio al repo</img></a></p>
     </div>
   </div>
-  <div>
-    <h2>Créditos: </h2>
-    <a href="https://github.com/Riuttasu/PVLIGrupo04"><p>Enlace obligatorio al repo</p></a>
-    <ul>
-      <li>Sara Quilez Martinez</li>
-      <li>Miguel Calderón Barba</li>
-      <li>Lune Redondo Vaillo</li>
-      <li>Xinying Xu</li>
-    </ul>
-  </div>
-  <div>
-    <h2>Siguenos porfa:</h2>
-    <a href="https://www.instagram.com/minisushisstudio/" Id="Instagram">
-      <img src="https://cdn.iconscout.com/icon/free/png-256/free-instagram-logo-icon-svg-download-png-721958.png" width="15" height="15">Instagram</img>
-    </a>
-  </div>
-  
+  </main>
 </body>
 </html>

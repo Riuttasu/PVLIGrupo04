@@ -1,31 +1,85 @@
+/*HTML*/
+/*Fondo del todo*/
+body {
+  background-color: rgb(255, 211, 227);
+  margin: 0;
+  padding: 0;
+}
+/*Lo que tiene todos los elementos importantes*/
+main {
+  background-color: rgb(223, 178, 57);
+  width: 1200px;
+  height: auto;
+  min-height: 100vh;
+  padding-top: 1px;
+  padding-top: 1px;
+  margin: auto;
+}
+p {
+}
+/*Encabezado asi importante*/
+h2 {
+  font-size: 50px;
+  background: rgb(15, 121, 170);
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+/*Secciones*/
+/* Para las secciones con texto */
+#textcontainer{
+  margin:auto;
+  width: 75%;
+  font-weight: 400;
+  font-size: 30px;
+  font-family: "Comic Sans MS", "Comic Sans";
+  font-style: normal;
+  text-align: justify;
+}
+/* Esconde los elementos de secciones al inicio (juego esta overrideado por el HTML) */
+.section {
+  display: none;
+}
+/*Lista con todos los botones*/
+#sectionbuttons
+{
+  background-color: rgb(52, 95, 23);
+  padding: 10px;
+  /*Espaciado de los botones equitativo*/
+  display: flex;
+  justify-content: space-around;
+}
+/*Los botones en si*/
+.sectionbutton {
+  /*Estilo*/
+
+  /*Tamaño*/
+  height: 30px;
+  width: 250px;
+  /*Texto*/
+  font-size: 20px;
+  font-weight: 300;
+  text-align: center;
+  /*Otro*/
+  display: inline-block;
+}
+/*misc*/
+#Juego canvas {
+  padding-top: 30px;
+}
 .header {
   padding: 15px;
   text-align: center;
   /*Colores*/
-  background: #bc1ab7;
+  background: #30075e;
   color: white;
   /*Tamano letra y su estilo*/
   font-size: 25px;
   font-family: "Comic Sans MS", "Comic Sans"; /*Jejejejeje comic sans*/
+  /*Espaciado de contenido*/
+  display: flex;
+  justify-content: space-around;
 }
-h2 {
-  color: pink;
-  font-size: 30px;
-  background: purple;
-  padding-left: 10px;
-  width: 40rem;
-}
-#Instagram
-{
-  padding-left: 10px;
-}
-#Juego {
-    outline: 2px solid red;
-}
-
-#Juego canvas {
-    outline: 2px solid blue;
-}
-body {
-  background-color: rgb(255, 230, 239);
+.socialmedia{
+  width: 50px;
+  height: 50px;
 }
