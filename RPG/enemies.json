@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "name": "enemy_01",
+    "type": "Programming",
+    "maxHp": 100,
+    "sprite": "SceneButton"
+  },
+  {
+    "id": "2",
+    "name": "enemy_02",
+    "type": "Design",
+    "maxHp": 80,
+    "sprite": "SceneButton"
+  },
+  {
+    "id": "3",
+    "name": "enemy_03",
+    "type": "Management",
+    "maxHp": 120,
+    "sprite": "SceneButton"
+  },
+  {
+    "id": "4",
+    "name": "enemy_04",
+    "type": "Programming",
+    "maxHp": 90,
+    "sprite": "SceneButton"
+  },
+  {
+    "id": "5",
+    "name": "enemy_05",
+    "type": "Management",
+    "maxHp": 110,
+    "sprite": "SceneButton"
+  }
+]

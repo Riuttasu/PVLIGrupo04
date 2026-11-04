@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "name": "skill_01",
+    "type": "Programming",
+    "damage": 25,
+    "targetType": "single",
+    "description": "Deals programming damage to one target."
+  },
+  {
+    "id": "2",
+    "name": "skill_02",
+    "type": "Design",
+    "damage": 20,
+    "targetType": "single",
+    "description": "Deals design damage to one target."
+  },
+  {
+    "id": "3",
+    "name": "skill_03",
+    "type": "Management",
+    "damage": 15,
+    "targetType": "all",
+    "description": "Deals management damage to all active enemies."
+  },
+  {
+    "id": "4",
+    "name": "skill_04",
+    "type": "Programming",
+    "damage": 35,
+    "targetType": "single",
+    "description": ""
+  },
+  {
+    "id": "5",
+    "name": "skill_05",
+    "type": "Design",
+    "damage": 18,
+    "targetType": "all",
+    "description": "Deals design damage to all active enemies."
+  }
+]
