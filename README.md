@@ -17,6 +17,7 @@ ya aprendidas, así te lo aflojamos un poco ;)
 
 ## Metrika
 la madre fundadora aprueba este proyecto 
+
 ![muñequita](./IMG/IMG_Readme/MadreFundadora.jpg)
 
 ## Redes Sociales
