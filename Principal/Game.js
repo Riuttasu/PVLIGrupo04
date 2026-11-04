@@ -7,12 +7,12 @@ import DesignLoseScene from "../MinijuegoDesign/designLoseScene.js";
 let config = {
      parent: 'Juego',
     type: Phaser.AUTO,
-    width:  1000,
-    height: 500,
-    scale: {
-        mode: Phaser.Scale.FIT,  
-        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
-    },
+    width: 800,
+    height: 600,
+    // scale: {
+    //     mode: Phaser.Scale.FIT,  
+    //     autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
+    // },
     pixelArt: false,
     backgroundColor: '#ff69b4',
 

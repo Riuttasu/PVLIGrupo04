@@ -29,5 +29,4 @@ export default class Obstacles extends Phaser.GameObjects.Sprite {
             this.scene.remove(this);
         }
     }
-    
 }
