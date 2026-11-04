@@ -34,19 +34,21 @@ export default class ProgramPlayer extends Phaser.GameObjects.Sprite
     {
         super.preUpdate(t,dt);
         // Movimiento y animaciones
-        if(this.keys.a.isDown) 
-        { 
-            this.body.setVelocityX(-this.speed); 
-            this.setFlipX(true); this.play('playerprogmove',true);}
-        else if (this.keys.d.isDown) 
-        { 
-            this.body.setVelocityX(this.speed); 
-            this.setFlipX(false); this.play('playerprogmove',true);
-        }
-        else 
+        // Direccion
+        let dir = 0;
+        if (this.keys.a.isDown) dir -= 1;
+        if (this.keys.d.isDown) dir += 1;
+        // Movimiento
+        if (dir != 0)
         {
-            this.body.setVelocityX(0);
-            this.play('playerprogidle',true);
+            dir == 1 ? this.setFlip(false) : this.setFlip(true); // Flip dependiendo de dir
+            this.body.setVelocityX(this.speed*dir); // Velocidad, no va con dt por fisicas
+            this.play('playerprogmove',true); // Animacion
+        }
+        else  // Falta de movimiento
+        {
+            this.body.setVelocityX(0); // Para la velocidad
+            this.play('playerprogidle',true); // Cambia la animacion a idle
         }
     }
 }

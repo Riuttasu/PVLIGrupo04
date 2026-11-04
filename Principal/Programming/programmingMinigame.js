@@ -1,6 +1,6 @@
-import ProgramPlayer from "./ProgramPlayer.js";
-import ProgramObject from "./ProgramObject.js";
-import programmingMinigameEnd from "./programmingMGEnd.js";
+import ProgramPlayer from "../../Lune/ProgramPlayer.js";
+import ProgramObject from "../../Lune/ProgramObject.js";
+import programmingMinigameEnd from "../minigameEndScene.js";
 
 export default class programmingMinigame extends Phaser.Scene {
     constructor()
@@ -29,8 +29,8 @@ export default class programmingMinigame extends Phaser.Scene {
     }
     update(t,dt)
     {
+        // Si se ha pasado el tiempo del minijuego acaba bien
         this.minigameTime-= dt/1000;
-        // Si se ha pasado el tiempo del minijuego your taking too long
         if (this.minigameTime <= 0) { this.endMinigame(true);}
         // Spawn de objetos si se ha cumplido el tiempo
         this.lastObject+=dt/1000;
@@ -59,8 +59,6 @@ export default class programmingMinigame extends Phaser.Scene {
     lose()
     {
         this.endMinigame(false);
-        // TODO: perder juego
-        console.log("ay");
     }
     // Cuando se detecta una colision entre uno de los objetos y el jugador
     objectPickedUp(object,player)

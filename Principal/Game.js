@@ -1,8 +1,8 @@
 import ManagementGame from "../ManagementGame/ManagementGame.js";
 import MenuScene from "./MenuScene.js";
 import Load from "./Load.js";
-import programmingMinigame from "../Lune/programmingMinigame.js";
-import programmingMinigameEnd from "../Lune/programmingMGEnd.js";
+import programmingMinigame from "./Programming/programmingMinigame.js";
+import programmingMinigameEnd from "./minigameEndScene.js";
 let config = {
     type: Phaser.AUTO,
     width: 800,
