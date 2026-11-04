@@ -7,7 +7,7 @@ export default class Load extends Phaser.Scene{
     preload()
     {
         // Load Imagenes
-        this.load.setPath("../Principal/assets/IMG/") // Path
+        this.load.setPath("./Principal/assets/IMG") // Path
         // UI
         this.load.image('SceneButton', 'UI/buttonscene.png');
         // Minijuego Gestion 
@@ -23,7 +23,7 @@ export default class Load extends Phaser.Scene{
         this.load.image('objectprog', 'MinijuegoProgramming/objectprog.png');
         this.load.image('BackgroundProgramming', 'MinijuegoProgramming/backgroundprog.png');
         // cargamos los json
-        this.load.setPath("../Principal/assets/JSON/");
+        this.load.setPath("./Principal/assets/JSON");
         this.load.json('skillsData', 'skills.json'); //Compendio de habilidades
         this.load.json('enemiesData', 'enemies.json'); // Compendio de enemigos
         this.load.json('levelsData', 'levels.json'); //Compendio de niveles con la lista de los indices de enemigos
