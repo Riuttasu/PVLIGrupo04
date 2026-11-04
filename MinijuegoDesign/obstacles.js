@@ -19,7 +19,7 @@ export default class Obstacles extends Phaser.GameObjects.Sprite {
         // q colisiones con el player
         this.scene.physics.add.collider(this, player, (o1, o2) => {
             this.scene.destroyPlayer();
-            this.scene.scene.launch('minigameEndScene', { win: false, key: this.scene.key }); // va a la escena de perder
+            this.scene.scene.launch('minigameEndScene', { win: false, key: this.scene.scene.key }); // va a la escena de perder
         });
         this.body.setCollideWorldBounds();
     }
