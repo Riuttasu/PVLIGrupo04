@@ -8,5 +8,12 @@ Luego mejoras a tu profesor con esos puntos de aura tanto en aspecto de habilida
 ¿¿¿Habilidades??? ¿¿ No hacía minijuegos ?? Jokes on you también tiene un desafío por turnos en el que luchas contra tareas de GitHub,  
 las cuales te dan puntos de objetivo respectivos a su tipo, si completas los objetivos pasas el desafío, si no vuelves al principio con una de tus habilidades
 ya aprendidas, así te lo aflojamos un poco ;)
+
+## Capturas
+![Juego de gestión](./IMG/IMG_Readme/Managementgame.png)
+![Juego de  programación](./IMG/IMG_Readme/Programinggame.png)
+![Juego de diseño](./IMG/IMG_Readme/DesingGame.png)
+![Batalla](./IMG/IMG_Readme/Combate.png)
+
 ## Redes Sociales
 [Instagram](https://www.instagram.com/minisushisstudio/)
