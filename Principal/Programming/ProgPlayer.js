@@ -4,7 +4,7 @@ export default class ProgPlayer extends Phaser.GameObjects.Sprite
     {
         super(scene,x,y,'playerprog');
         // Parametros
-        this.speed = 200; // Velocidad del jugador
+        this.speed = 500; // Velocidad del jugador
         this.setDisplaySize(64,128); // Tamaño
         // Le anade a la escena
         this.scene.add.existing(this); // Objeto en si

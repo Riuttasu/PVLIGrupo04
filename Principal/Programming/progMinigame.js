@@ -1,5 +1,5 @@
-import ProgObject from "./progObject.js";
-import ProgPlayer from "./progPlayer.js";
+import ProgObject from "./ProgObject.js";
+import ProgPlayer from "./ProgPlayer.js";
 
 
 export default class programmingMinigame extends Phaser.Scene {
@@ -15,9 +15,14 @@ export default class programmingMinigame extends Phaser.Scene {
     create(){
         // Constantes
         this.objectXPadding = 20; // Margen que se da entre los bordes de la pantalla para que no toque los extremos
-        this.objectXBetWeen = this.scale.width/3; // Margen entre el objeto spawneado y el anterior
+        this.objectXBetWeen = this.scale.width/3; // Margen entre el objeto spawneado y el anterior        
+        // Fondo
+        let background = this.add.image(0,0,'BackgroundProgramming');
+        background.setOrigin(0,0);
+        background.setDisplaySize(this.scale.width,this.scale.height);
         // Jugador
         this.player = new ProgPlayer(this,this.scale.width/2,this.scale.height-this.scale.height/9);      
+
         // Spawn de objetos
         this.timePerObject = Math.max((this.minigameTime-2)/this.numObjects,0); // Calcula cada cuanto va a tener q spawnearse un objeto, maxtime-2 para dar margen de caida
         this.objectsSpawned = 0; // Numero de objetos spawneados
