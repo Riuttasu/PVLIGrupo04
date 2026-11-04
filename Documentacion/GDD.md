@@ -44,9 +44,17 @@ Tiempo máximo que puede durar el juego: 10 segundos.
 #### 4.1.3 Minijuego Diseño	
 Minijuego donde el jugador podrá moverse verticalmente (saltando) para esquivar obstáculos que vienen a continuación. Pero también se presentarán mejoras para el jugador donde, no se debe esquivar, sino, colisionar con él y conseguir la mejora.
 Tiempo máximo que puede durar el juego: 10 segundos.
+|Parámetro|Descripción|valor|
+|---------|-----------|-----|
+|Velocidad de objetos|Velocidad rectilíneo horizontal sin aceleración|coma flotante|
+|Velocidad de jugador|Velocidad de salto vertical con gravedad|coma flotante|
 #### 4.1.4 Minijuego Gestión	
 Minijuego en la cual como jugador inmovil podrás lanzar bolas de colores en cualquier sentido con el objetivo de destruir la cadena de bolas, en la que si hay más de 3 bolas de colores seguidas se destruyen.
 Tiempo máximo que puede durar el juego: 10 segundos.
+|Parámetro|Descripción|valor|
+|---------|-----------|-----|
+|Velocidad de la cadena de bolas|Velocidad en la que la cadena se moverá|coma flotante|
+|Velocidad de las bolas|Velocidad rectilíneo de la pelota|coma flotante|
 ### 4.2 Mejoras	
 Tras completar las sesiones de entrenamiento, el jugador dispone de puntos de cada estadística para invertir en mejoras.
 - Programación: Desbloquea nuevas habilidades
@@ -56,9 +64,20 @@ Tras completar las sesiones de entrenamiento, el jugador dispone de puntos de ca
 Tras haber completado las sesiones de entrenamiento y mejora, el jugador es puesto en un desafío. En este, deberá completar tres objetivos repartidos entre las diferentes estadísticas. Dichos desafíos se completarán eliminando tareas respectivas a su tipo.
 El jugador dispone de una cantidad de rondas limitada para alcanzar estos objetivos, si acaba el contador de rondas sin que los objetivos se cumplan o pierde toda su energía perderá el desafío.
 #### 4.3.1 Habilidades	
+|Características|Descripción|valor|
+|---------|-----------|-----|
+|Tipo|Corresponde a una de las estadísticas del juego, aplicará modificadores explicados en Tipos y relaciones entre ellos|Programación, Gestión o Diseño|
+|Objeto|Indica a qué tareas afecta la habilidad.|**Dirigidas**: el jugador puede elegir en qué tarea progresar
+**No dirigidas**: los objetivos ya están elegidos por la habilidad, pueden ser individuales o en área|
+|Valor|Corresponde al progreso base que hará la habilidad si se juega.|coma flotante|
+|Coste|Indica el coste de energía de una habilidad|coma flotante|
 #### 4.3.2 Tareas	
 Las tareas son el principal obstáculo del juego. Al comienzo de un desafío, tres tareas, una de cada tipo aparecerán en cada espacio de tareas. 
 Las tareas tienen un nivel de progreso, el cual comienza en 0 y debe ser avanzado mediante las habilidades del jugador hasta un nivel fijo, en cuanto se llega o sobrepasa este nivel de progreso, la tarea es considerada completada y es reemplazada por otra tarea de cualquier tipo.
+|Parámetro|Descripción|valor|
+|---------|-----------|-----|
+|Tipo|Corresponde a una de las estadísticas del juego, aplicará modificadores explicados en Tipos y relaciones entre ellos|Programación, Gestión o Diseño|
+|Progreso|Número al que se tiene que llegar para considerar la tarea completada|coma flotante|
 #### 4.3.3 Tipos y relaciones entre ellos	
 Tanto las habilidades como las tareas pertenecen a un tipo, existe un tipo correspondiente a cada estadística, es decir:
 - Tipo Programación
@@ -68,6 +87,10 @@ Los tipos influyen en el desafío a la hora de calcular cuánto progreso de una 
 Cada tipo tiene una fortaleza y debilidad contra otro al estilo piedra-papel-tijera, representado de esta manera: (ver imagen)
 Una flecha apuntando a otro tipo indica fortaleza contra ese tipo, y si un tipo es apuntado por otro, indica debilidad ante ese tipo.
 (ej: programación es fuerte contra gestión, diseño es débil contra gestión)
+|Parámetro|Descripción|valor|
+|---------|-----------|-----|
+|Multiplicador de fortaleza|Multiplicador que se aplica al progreso base en una tarea al usar una habilidad de tipo fuerte hacia esta.|Coma flotante|
+|Multiplicador de debilidad|Multiplicador que se aplica al progreso base en una tarea al usar una habilidad de tipo débil hacia esta.|coma flotante|
 #### 4.3.4 Energía	
 La energía funciona como una barra de vida y maná a la vez del jugador, si la energía en un desafío llega a 0, se perderá automáticamente.
 Por cada ronda en la que el jugador no complete un número de tareas concreto este perderá energía relativa al número de tareas que no se han conseguido completar .
