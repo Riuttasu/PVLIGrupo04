@@ -8,12 +8,15 @@ export default class MenuScene extends Phaser.Scene{
    {
 
    } 
-   init()
+   init(data)
    {
-
+      this.lastGameResult = data;
    }
    create()
    {
+    //Cargar los datos del player desde el JSON
+    this.playerData = this.cache.json.get('playerData');
+    //console.log("Player Data:", this.playerData);
     //crear botones para cambiar de escena
     let BotonManagement = this.add.image(100,100,'SceneButton')
      BotonManagement.setScale(0.2);

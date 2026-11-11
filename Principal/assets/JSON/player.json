@@ -1,0 +1,9 @@
+{
+    "characterID": 1,
+    "level": 1,
+    "maxHealth": 100,
+    "programmingPoints": 0,
+    "designPoints": 0,
+    "managementPoints": 0,
+    "playerSkillsID":[0,1,2,3,4]
+}

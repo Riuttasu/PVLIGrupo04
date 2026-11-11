@@ -26,7 +26,9 @@ export default class Load extends Phaser.Scene{
         this.load.setPath("../Principal/assets/JSON/");
         this.load.json('skillsData', 'skills.json'); //Compendio de habilidades
         this.load.json('enemiesData', 'enemies.json'); // Compendio de enemigos
-        this.load.json('levelsData', 'levels.json'); //Compendio de niveles con la lista de los indices de enemigos
+        this.load.json('levelsData', 'levels.json'); //Compendio de niveles con la lista de los indices de 
+        this.load.json('playerData', 'player.json'); // Datos del jugador
+        this.load.json('characterData', 'character.json'); // Datos base de los profesores
     }
     create()
     {
