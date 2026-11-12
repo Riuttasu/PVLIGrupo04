@@ -1,21 +1,14 @@
-import Skill from '../RPG/Skill.js';
-import Enemy from '../RPG/Enemy.js';
+import Skill from '../gameObjects/RPG/Skill.js';
+import Enemy from '../gameObjects/RPG/Enemy.js';
 
 export default class RPGScene extends Phaser.Scene {
     constructor() {
         super({ key: 'RPGScene' });
-    }
+        }
 
     init(data) {
         // Renombra el nivel que se quiera jugar aqui porque sino abajo es un cacao
         this.levelKey = data.levelKey || 'level1';
-    }
-
-    preload() {
-        // cargamos los json
-        this.load.json('skillsData', 'RPG/skills.json'); //Compendio de habilidades
-        this.load.json('enemiesData', 'RPG/enemies.json'); // Compendio de enemigos
-        this.load.json('levelsData', 'RPG/levels.json'); //Compendio de niveles con la lista de los indices de enemigos
     }
 
     create() {
@@ -23,10 +16,20 @@ export default class RPGScene extends Phaser.Scene {
         //Fondo moradito
         this.cameras.main.setBackgroundColor('#451b92');
         // Guardamos en variables los jsons
-        this.skillsList = this.cache.json.get('skillsData').map(data => new Skill(data));
+        this.playerData = this.cache.json.get('playerData'); 
+        //console.log("Player Data:", this.playerData); 
+        const skills = this.cache.json.get('skillsData').map(data => new Skill(data));
+        this.skillsList = []; 
+        //Asignamos a la lista de habilidades de la batalla las habilidades que tiene el jugador en su json
+        for (let i = 0; i < this.playerData.playerSkillsID.length; i++) {
+            this.skillsList.push(skills[this.playerData.playerSkillsID[i]]);
+        }
+        //console.log("Player Skills:", this.skillsList);
         this.enemyDatabase = this.cache.json.get('enemiesData');
-        const levelsData = this.cache.json.get('levelsData');
-        this.enemyQueue = [...levelsData[this.levelKey].enemyQueue];
+        //console.log("Enemy Database:", this.enemyDatabase);
+        const levelsData = this.cache.json.get('levelsData'); 
+        //console.log("Levels Data:", levelsData);
+        this.enemyQueue = [...levelsData[this.playerData.level - 1]]; //LLeva los indices de los enemigos del nivel del jugador
 
         // Slots de enemigos
         this.activeSlots = [null, null, null];

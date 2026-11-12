@@ -1,4 +1,4 @@
-import panelMinigameEnd from "./UI/panelMinigameEnd.js";
+import panelMinigameEnd from "../gameObjects/UI/panelMinigameEnd.js";
 
 export default class minigameEndScene extends Phaser.Scene
 {

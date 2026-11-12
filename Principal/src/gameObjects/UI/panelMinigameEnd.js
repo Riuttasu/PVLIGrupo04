@@ -30,7 +30,7 @@ export default class panelMinigameEnd extends Phaser.GameObjects.Container
         button.on('pointerdown', ()=>
             {
                 if(backgroundscene!=undefined) this.scene.scene.stop(`${backgroundscene}`);
-                this.scene.scene.start('MenuScene');
+                this.scene.scene.start('MenuScene', { isWin: isWin, key : data.key });
             }
         );
         // Añadir todo

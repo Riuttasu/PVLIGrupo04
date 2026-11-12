@@ -2,9 +2,9 @@
 //Creo una clase llamada managementscene
 //Heredo la clase scene de phase para que funcione como una escena de juego, Prgeuntar Toni
 //Dentro describo lo que hara mi escena
-import Player from './Player.js';
-import Ball from './Ball.js';
-import InfoBar from './InfoBar.js';
+import Player from '../gameObjects/ManagementGame/Player.js';
+import Ball from '../gameObjects/ManagementGame/Ball.js';
+import InfoBar from '../gameObjects/ManagementGame/InfoBar.js';
 export default class ManagementGame extends Phaser.Scene{
 
     constructor()
@@ -39,7 +39,20 @@ export default class ManagementGame extends Phaser.Scene{
           this.info.UpdateColor(this.color);
           
     }
+     Rellena()
+{
+    for(let f = 0; f < this.filas; f++)
+    {
+        for(let c = 0; c < this.columnas; c++)
+        {
+            let color = Phaser.Math.Between(0, 2);
 
+            let ball = new Ball(this, 0, 0, 0, color, 0);
+
+            this.placeball(ball, f, c);
+        }
+    }
+}
     stopball(ball)
     {
       if (ball.Placed)
@@ -52,12 +65,13 @@ export default class ManagementGame extends Phaser.Scene{
        let fila = Math.round((ball.y - this.StartY) / ball.displayHeight);
 
        let celda = this.SearchFreeCell(fila,columna);
-    if (celda !== null)
+    if (celda == null)
     {
-        this.placeball(ball, celda[0], celda[1]);
+        ball.destroy(); 
+        return; 
       
     }
-    
+    this.placeball(ball, celda[0], celda[1]);
     ball.body.setVelocity(0, 0);
     ball.body.setAcceleration(0, 0);
     ball.body.moves = false;
@@ -66,6 +80,11 @@ export default class ManagementGame extends Phaser.Scene{
 
     SearchFreeCell(fila,columna) // Metodo para buscar la celda mas cercana a ala colision  //JAVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     {
+         if(fila < 0 || fila >= this.filas || columna < 0 || columna >= this.columnas) 
+         {
+          return null; 
+         }
+  
          if(this.balls[fila][columna] === null) // Si ya la posicion creada esta bien simplemente es esa
          {
           return [fila,columna];
@@ -124,7 +143,7 @@ export default class ManagementGame extends Phaser.Scene{
      
         let Background =this.add.image(0,0,'BackgroundManagment'); // Cargo el fondo
         Background.setOrigin(0,0);  //Pongo su origen en el 0
-        Background.setDisplaySize(1000,500);
+        Background.setDisplaySize(1100,620);
       
         this.player =  new Player(this,500,400,'player');
 
@@ -138,17 +157,17 @@ export default class ManagementGame extends Phaser.Scene{
 
         this.ballsDisparadas = [];
         this.Point = 1; 
-        this.Goat = 1; 
+        this.Goat = 2; 
        
 
-       this.filas = 8;  // preguntar a toni sobre los array bidimensionales en java
-       this.columnas = 12; 
+       this.filas = 5;  // preguntar a toni sobre los array bidimensionales en java
+       this.columnas = 22; 
 
        this.PreviousShot = false; // Para no spwanear
        
        this.Wall = this.add.rectangle(300,50,10000,10); // Provisional
        this.physics.add.existing(this.Wall,true);
-       this.StartX = 0; //Donde empieza la cuadricula
+       this.StartX = 30; //Donde empieza la cuadricula
        this.StartY =  this.Wall.y + this.Wall.height; //Donde empeiza la cuadricula
        for(let f = 0; f<this.filas;f++)
        {
@@ -160,6 +179,7 @@ export default class ManagementGame extends Phaser.Scene{
          }
        
        }
+      
        
    
        
@@ -173,17 +193,17 @@ export default class ManagementGame extends Phaser.Scene{
      {
        if(fila<0 || fila >=this.filas || columnas<0 || columnas>=this.columnas)
        {
-         console.log("Fuera de límites");
+       
         return;
        }
        if (this.balls[fila][columnas] != null)
        {
-        console.log("Celda ocupada");
+        
           return; 
        } 
        let x = this.GetX(columnas,ball)  //Anotacion no se pone ball.sprite.etc porque ball ya es un sprite en si soy bola
        let y = this.GetY(fila,ball)
-       console.log(x + " " + y);
+    
 
        ball.setPosition(x,y);
        ball.body.setVelocity(0, 0);
@@ -252,7 +272,7 @@ export default class ManagementGame extends Phaser.Scene{
           let visitadas = new Set(); //VIVA EL SET LOS VECTORES Y TODO LO YA CREADO
           let grupo =[]; 
           this.GetConnectedBalls(fila,columna,col,visitadas,grupo);
-          console.log ("Este es el color: " +col + " Este es el n de grupo " + grupo.length); 
+        
           if(grupo.length < 3)
           {
             return;
@@ -272,8 +292,15 @@ export default class ManagementGame extends Phaser.Scene{
 
     update()
     {
+      if (this.info.Score == this.Goat)
+      {
+         this.scene.launch('minigameEndScene', {
+    win: true,
+    key: 'ManagementGame'
+});
+      }
       this.info.update(); 
-       let disparoActual = this.teclado.up.isDown; 
+        let disparoActual = this.player.key.W.isDown;
        if(disparoActual && !this.PreviousShot)
        {
         this.CreateBall();
@@ -281,7 +308,7 @@ export default class ManagementGame extends Phaser.Scene{
        }
         this.PreviousShot = disparoActual;
 
-      this.player.move(this.teclado);
+      this.player.move();
       
     }
 }

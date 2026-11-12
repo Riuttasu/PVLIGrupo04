@@ -1,31 +1,101 @@
-.header {
-  padding: 15px;
-  text-align: center;
+/*HTML*/
+/*Fondo del todo*/
+body {
+  background-color: rgb(255, 211, 227);
+  margin: 0;
+  padding: 0;
+}
+/*Lo que tiene todos los elementos importantes*/
+main {
+  background-color: rgb(223, 178, 57);
+  width: 1200px;
+  height: auto;
+  min-height: 100vh;
+  padding-top: 1px;
+  padding-top: 1px;
+  margin: auto;
+}
+/*Encabezado grande*/
+h1 {
   /*Colores*/
-  background: #bc1ab7;
+  background: #30075e;
   color: white;
   /*Tamano letra y su estilo*/
-  font-size: 25px;
+  font-size: 50px;
   font-family: "Comic Sans MS", "Comic Sans"; /*Jejejejeje comic sans*/
+  /*Espaciado de contenido*/
+  padding: 1px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+/*Encabezado asi importante*/
 h2 {
-  color: pink;
+  font-size: 50px;
+  background: rgb(15, 121, 170);
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+h3{
+  font-size: 35px;
+  background: rgb(45, 159, 212);
+  color: rgb(0, 0, 0);
+}
+/*Secciones*/
+/* Para las secciones con texto */
+#textcontainer{
+  margin:auto;
+  width: 75%;
+  font-weight: 400;
   font-size: 30px;
-  background: purple;
-  padding-left: 10px;
-  width: 40rem;
+  font-family: "Comic Sans MS", "Comic Sans";
+  font-style: normal;
+  text-align: justify;
 }
-#Instagram
+/* Esconde los elementos de secciones al inicio (juego esta overrideado por el HTML) */
+.section {
+  display: none;
+}
+/*Lista con todos los botones*/
+#sectionbuttons
 {
-  padding-left: 10px;
+  background-color: rgb(52, 95, 23);
+  padding: 10px;
+  /*Espaciado de los botones equitativo*/
+  display: flex;
+  justify-content: space-around;
 }
-#Juego {
-    outline: 2px solid red;
-}
+/*Los botones en si*/
+.sectionbutton {
+  /*Estilo*/
 
-#Juego canvas {
-    outline: 2px solid blue;
+  /*Tamaño*/
+  height: 30px;
+  width: 250px;
+  /*Texto*/
+  font-size: 20px;
+  font-weight: 300;
+  text-align: center;
+  /*Otro*/
+  display: inline-block;
 }
-body {
-  background-color: rgb(255, 230, 239);
+/*Redes*/
+.socialmedia{
+  width: 50px;
+  height: 50px;
+}
+/*Creditos*/
+.sushiicon{
+  width: 128px;
+  height: 128px;
+}
+.creditbox{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/*misc*/
+#Juego canvas {
+  padding-top: 30px;
 }

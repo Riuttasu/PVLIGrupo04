@@ -1,0 +1,5 @@
+{
+    "editor.codeActionWidget.includeNearbyQuickFixes": false,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.quickSuggestionsDelay": 0
+}

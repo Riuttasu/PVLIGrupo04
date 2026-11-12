@@ -8,30 +8,25 @@ export default class Player extends Phaser.GameObjects.Sprite{
        
       this.angleFlecha = -90;
        this.angle=-this.angleFlecha;
-         
+      this.key = this.scene.input.keyboard.addKeys('W,A,D');
         this.setScale(0.2);
       
     }
-    move(teclado)
+    move()
     {
-     if (teclado.left.isDown)
-     {
-       
-          this.angleFlecha -=2; 
-        
-       
-     }
-     else if (teclado.right.isDown)
-     {
-       
-          this.angleFlecha +=2; 
-        
-       
-     }
-    if (this.angleFlecha > -180 && this.angleFlecha < 0)
-    {
-  this.angle = this.angleFlecha;
-    }
+       if (this.key.A.isDown)
+        {
+        this.angleFlecha -= 2;
+        }
+    else if (this.key.D.isDown)
+       {
+        this.angleFlecha += 2;
+       }
+
+    if (this.angleFlecha >= -180 && this.angleFlecha <= 0)
+       {
+        this.angle = this.angleFlecha;
+       }
     
      
     }

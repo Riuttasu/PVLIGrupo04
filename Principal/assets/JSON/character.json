@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Toni",
+        "skills":[0,1,2,3,4]
+    },
+    {
+        "name": "Pablo",
+        "skills":[0,1,2,4]
+    },
+    {
+        "name": "Rubén",
+        "skills":[0,1,2,3]
+    }
+]
