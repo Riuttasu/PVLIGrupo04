@@ -6,7 +6,13 @@ export default class Load extends Phaser.Scene{
     }
     preload()
     {
-        // Load Imagenes
+        this.load.image('minisushis', 'UI/minisushi.png' ) //Que esto se crague lo primero
+    }
+    create()
+    {
+
+          this.lod = this.add.image(200,200,'minisushis')
+         // Load Imagenes
         this.load.setPath("../Principal/assets/IMG/") // Path
         // UI
         this.load.image('SceneButton', 'UI/buttonscene.png');
@@ -29,9 +35,17 @@ export default class Load extends Phaser.Scene{
         this.load.json('levelsData', 'levels.json'); //Compendio de niveles con la lista de los indices de 
         this.load.json('playerData', 'player.json'); // Datos del jugador
         this.load.json('characterData', 'character.json'); // Datos base de los profesores
+
+
+        this.load.start(); 
+
+        this.load.once('complete', () => {this.scene.start('MenuScene')});
+       
     }
-    create()
+
+    update()
     {
-        this.scene.start('MenuScene');
+        this.lod.rotation += 0.003 
     }
+
 }

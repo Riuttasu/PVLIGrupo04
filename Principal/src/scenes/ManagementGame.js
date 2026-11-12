@@ -78,7 +78,7 @@ export default class ManagementGame extends Phaser.Scene{
     this.Match(celda[0],celda[1]); 
     }
 
-    SearchFreeCell(fila,columna) // Metodo para buscar la celda mas cercana a ala colision  //JAVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    SearchFreeCell(fila,columna) // Metodo para buscar la celda mas cercana a la colision  //JAVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     {
          if(fila < 0 || fila >= this.filas || columna < 0 || columna >= this.columnas) 
          {
