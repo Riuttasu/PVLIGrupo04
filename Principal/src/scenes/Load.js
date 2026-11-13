@@ -6,12 +6,17 @@ export default class Load extends Phaser.Scene{
     }
     preload()
     {
-        this.load.image('minisushis', 'UI/minisushi.png' ) //Que esto se crague lo primero
+         this.load.setPath("../Principal/assets/IMG/") // Path
+        // UI
+        this.load.image('mini', 'UI/misushi.png');
+           
     }
     create()
     {
 
-          this.lod = this.add.image(200,200,'minisushis')
+    
+          this.lod = this.add.image( 550, 310,'mini');
+          this.lod.setDisplaySize(400,400);
          // Load Imagenes
         this.load.setPath("../Principal/assets/IMG/") // Path
         // UI
@@ -37,15 +42,16 @@ export default class Load extends Phaser.Scene{
         this.load.json('characterData', 'character.json'); // Datos base de los profesores
 
 
-        this.load.start(); 
-
-        this.load.once('complete', () => {this.scene.start('MenuScene')});
        
+
+       this.load.once('complete', () => {this.scene.start('MenuScene')}); // Esto mira si la escena termino de cargra preguntar a toni si es asi porque los saque con una busqueda rápida
+         this.load.start(); 
+
     }
 
     update()
     {
-        this.lod.rotation += 0.003 
+        this.lod.rotation += 0.003 //Giramos hay que multiplicar por delta
     }
 
 }
