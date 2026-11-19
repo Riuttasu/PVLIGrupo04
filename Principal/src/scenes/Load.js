@@ -52,6 +52,7 @@ export default class Load extends Phaser.Scene{
     update(time,delta)
     {
         this.lod.rotation += 0.002 * delta //Giramos hay que multiplicar por delta
+        this.scene.start('startMenu');
     }
 
 }
