@@ -11,6 +11,7 @@ export default class MenuScene extends Phaser.Scene{
    init(data)
    {
       this.lastGameResult = data;
+      this.playerData = data.playerData
    }
    create()
    {
@@ -38,7 +39,7 @@ export default class MenuScene extends Phaser.Scene{
      BotonManagement.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
       Boton1.on('pointerdown', ()=>{this.scene.start('programmingMinigame')}) // usamos flechi inportante ehhhh
        Boton2.on('pointerdown', ()=>{this.scene.start('DesignGame')}) // usamos flechi inportante ehhhh
-        Boton3.on('pointerdown', ()=>{this.scene.start('RPGScene')}) // usamos flechi inportante ehhhh
+        Boton3.on('pointerdown', ()=>{this.scene.start('RPGScene', {playerData : this.playerData})}) // usamos flechi inportante ehhhh
    }
    update()
    {

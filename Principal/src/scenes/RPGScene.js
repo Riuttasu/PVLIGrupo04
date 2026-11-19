@@ -9,6 +9,7 @@ export default class RPGScene extends Phaser.Scene {
     init(data) {
         // Renombra el nivel que se quiera jugar aqui porque sino abajo es un cacao
         this.levelKey = data.levelKey || 'level1';
+        this.playerData = data.playerData
     }
 
     create() {
@@ -16,7 +17,6 @@ export default class RPGScene extends Phaser.Scene {
         //Fondo moradito
         this.cameras.main.setBackgroundColor('#451b92');
         // Guardamos en variables los jsons
-        this.playerData = this.cache.json.get('playerData'); 
         //console.log("Player Data:", this.playerData); 
         const skills = this.cache.json.get('skillsData').map(data => new Skill(data));
         this.skillsList = []; 
