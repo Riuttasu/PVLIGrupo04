@@ -21,6 +21,7 @@ export default class Load extends Phaser.Scene{
         this.load.setPath("../Principal/assets/IMG/") // Path
         // UI
         this.load.image('SceneButton', 'UI/buttonscene.png');
+        this.load.image('TareaGitFondo', 'UI/TareaGitFondo.png')
         // Minijuego Gestion 
         this.load.image('BackgroundManagment', 'MinijuegoManagement/FondoGestion.jpg');
         this.load.image('Player', 'MinijuegoManagement/Player.png');

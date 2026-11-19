@@ -1,4 +1,3 @@
-
 //Creo una clase llamada managementscene
 //Heredo la clase scene de phase para que funcione como una escena de juego, Prgeuntar Toni
 //Dentro describo lo que hara mi escena

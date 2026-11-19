@@ -34,9 +34,9 @@ export default class RPGScene extends Phaser.Scene {
         // Slots de enemigos
         this.activeSlots = [null, null, null];
         this.slotCoordinates = [
-            { x: 200, y: 150 },
-            { x: 400, y: 150 },
-            { x: 600, y: 150 }
+            { x: window.innerWidth*0/6, y: window.innerHeight*1/6 },
+            { x: window.innerWidth*1/6, y: window.innerHeight*1/6 },
+            { x: window.innerWidth*2/6, y: window.innerHeight*1/6 }
         ];
 
         // Habilidad seleccionada
@@ -65,7 +65,7 @@ export default class RPGScene extends Phaser.Scene {
 
             // Hacemos el fondo bonito
             const rect = this.add.rectangle(0, 0, 160, 140, 0x34495e).setStrokeStyle(2, 0xecf0f1);
-            const enemySprite = this.add.image(0, -10, '');
+            const enemySprite = this.add.image(0, -10, 'TareaGitFondo');
             const nameText = this.add.text(0, -40, `Slot ${i + 1}`, { font: '14px Arial', color: '#ffffff' }).setOrigin(0.5);
             const typeText = this.add.text(0, -10, '', { font: '12px Arial', color: '#bdc3c7' }).setOrigin(0.5);
             const hpText = this.add.text(0, 20, '', { font: '12px Arial', color: '#2ecc71' }).setOrigin(0.5);
@@ -135,7 +135,8 @@ export default class RPGScene extends Phaser.Scene {
         for (let i = 0; i < 3; i++) {
             const enemy = this.activeSlots[i];
             const slot = this.slotContainers[i];
-
+            console.log(enemy)
+            console.log(slot)
             if (enemy) {
                 slot.enemySprite.setTexture(enemy.sprite);
                 slot.nameText.setText(enemy.name);

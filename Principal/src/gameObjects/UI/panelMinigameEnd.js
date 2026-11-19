@@ -1,5 +1,3 @@
-import Player from "../ManagementGame/Player";
-
 export default class panelMinigameEnd extends Phaser.GameObjects.Container
 {
     constructor(scene,x,y,isWin = false, backgroundscene = undefined)
@@ -32,7 +30,7 @@ export default class panelMinigameEnd extends Phaser.GameObjects.Container
         button.on('pointerdown', ()=>
             {
                 if(backgroundscene!=undefined) this.scene.scene.stop(`${backgroundscene}`);
-                this.scene.scene.start('MenuScene', { isWin: isWin, key : data.key, playerData:scene.data.playerData });
+                this.scene.scene.start('MenuScene', { isWin: isWin, key : data.key});
             }
         );
         // Añadir todo
