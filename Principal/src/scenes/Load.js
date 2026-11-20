@@ -18,6 +18,8 @@ export default class Load extends Phaser.Scene{
         // Minijuego Design
         this.load.image('obstacles', 'MinijuegoDesign/obstacles.png');
         this.load.image('player', 'MinijuegoDesign/player.png');
+        this.load.image('backgroundMenuChooseMiniGame', 'MinijuegoDesign/BackgroundMenuChooseMiniGame.jpg');
+        this.load.image('BackgroundDesign', 'MinijuegoDesign/backgroundDesign.jpg');
         // Minijuego Programacion
         this.load.spritesheet('playerprog','MinijuegoProgramming/playerprog.png',{frameWidth:64,frameHeight:64});
         this.load.image('objectprog', 'MinijuegoProgramming/objectprog.png');
@@ -32,6 +34,6 @@ export default class Load extends Phaser.Scene{
     }
     create()
     {
-        this.scene.start('MenuScene');
+        this.scene.start('MenuScene'); 
     }
 }

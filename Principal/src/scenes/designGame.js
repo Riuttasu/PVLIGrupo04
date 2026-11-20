@@ -16,6 +16,11 @@ export default class DesignGame extends Phaser.Scene{
     }
         
     create() {
+        // fondo de la escena
+        let background = this.add.image(0, 0, 'BackgroundDesign');
+        background.setOrigin(0, 0);
+        background.setDisplaySize(1100, 620);
+
         // creamos objetos del juego
         this.player = new Player(this, 100, 500, 600); 
         this.obstacles = this.add.group();
