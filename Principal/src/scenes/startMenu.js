@@ -6,6 +6,7 @@ export default class StartMenu extends Phaser.Scene{
     }
     create()
     {
+        console.log("StartMenu");
         // Boton de empezar el juego
         let startButton = this.add.image(700,400,'SceneButton');
         startButton.setInteractive();

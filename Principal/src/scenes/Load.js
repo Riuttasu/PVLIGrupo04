@@ -21,7 +21,7 @@ export default class Load extends Phaser.Scene{
         this.load.setPath("../Principal/assets/IMG/") // Path
         // UI
         this.load.image('SceneButton', 'UI/buttonscene.png');
-        this.load.image('TareaGitFondo', 'UI/TareaGitFondo.png')
+        this.load.image('TareaGitBackground', 'UI/TareaGitBackground.png')
         // Minijuego Gestion 
         this.load.image('BackgroundManagment', 'MinijuegoManagement/FondoGestion.jpg');
         this.load.image('Player', 'MinijuegoManagement/Player.png');
@@ -41,11 +41,10 @@ export default class Load extends Phaser.Scene{
         this.load.json('levelsData', 'levels.json'); //Compendio de niveles con la lista de los indices de 
         this.load.json('playerData', 'player.json'); // Datos del jugador
         this.load.json('characterData', 'character.json'); // Datos base de los profesores
-        this.playerData = this.cache.json.get('playerData')
-        console.log(this.playerData);
-       
+        this.playerData = this.cache.json.get('playerData'); // Cargamos los datos del jugador en la variable playerData
+        console.log("Player Data:", this.playerData);
 
-        this.load.once('complete', () => {this.scene.start('MenuScene', {playerData : this.playerData})}); // Esto mira si la escena termino de cargra preguntar a toni si es asi porque los saque con una busqueda rápida
+        this.load.once('complete', () => {this.scene.start('startMenu', {playerData : this.playerData})}); // Esto mira si la escena termino de cargra preguntar a toni si es asi porque los saque con una busqueda rápida
         this.load.start(); 
 
     }

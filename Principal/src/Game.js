@@ -6,10 +6,7 @@ import Load from "./scenes/Load.js";
 import programmingMinigame from "./scenes/progMinigame.js";
 import minigameEndScene from "./scenes/minigameEndScene.js";
 import RPGScene from "./scenes/RPGScene.js";
-<<<<<<< HEAD
 import StartMenu from "./scenes/startMenu.js";
-=======
->>>>>>> parent of 4d61d67 (Merge remote-tracking branch 'origin/RamaXinying' into MiRama2(Miguel))
 let config = {
     parent: 'Juego',
     type: Phaser.AUTO,
@@ -21,11 +18,7 @@ let config = {
     },
     pixelArt: false,
     backgroundColor: '#ff69b4',
-<<<<<<< HEAD
     scene: [Load,MenuScene,ManagementGame,programmingMinigame,minigameEndScene, RPGScene, DesignGame, StartMenu],
-=======
-    scene: [Load,MenuScene,ManagementGame,programmingMinigame,minigameEndScene, RPGScene, DesignGame],
->>>>>>> parent of 4d61d67 (Merge remote-tracking branch 'origin/RamaXinying' into MiRama2(Miguel))
     physics: {
         default: 'arcade', // elegir motor
         arcade: { // propiedades del motor
