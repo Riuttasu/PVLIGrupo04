@@ -23,7 +23,11 @@ export default class Obstacles extends Phaser.GameObjects.Sprite {
         });
         this.body.setCollideWorldBounds();
     }
-    
+    /**
+     * 
+     * @param {*} t 
+     * @param {*} dt 
+     */
     preUpdate(t,dt){
         this.body.setVelocityX(-300); // mueve el obstáculo hacia la izquierda a una velocidad constante
         if (this.x <= 50) {
