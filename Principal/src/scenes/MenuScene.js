@@ -11,33 +11,40 @@ export default class MenuScene extends Phaser.Scene{
    init(data)
    {
       this.lastGameResult = data;
-      this.playerData = data.playerData
+      console.log("Last Game Result:", this.lastGameResult);
    }
    create()
    {
-    console.log("Player Data:", this.playerData);
-    //crear botones para cambiar de escena
-    let BotonManagement = this.add.image(100,100,'SceneButton')
-     BotonManagement.setScale(0.2);
-      BotonManagement.setTint(0x008000);
-     BotonManagement.setInteractive();
-     let Boton1 = this.add.image(100,200,'SceneButton')
-     Boton1.setScale(0.2);
-      Boton1.setTint(0xFFFF00);
-     Boton1.setInteractive();
-     let Boton2 = this.add.image(100,300,'SceneButton')
-     Boton2.setScale(0.2);
-      Boton2.setTint(0xFFC0CB);
-     Boton2.setInteractive();
-     let Boton3 = this.add.image(100,400,'SceneButton')
-     Boton3.setScale(0.2);
-      Boton3.setTint(0xff0000);
-     Boton3.setInteractive();
+   this.playerData = this.registry.get('playerData');
+   console.log("Player Data:", this.registry.get('playerData'));
+   //crear botones para cambiar de escena
+   let BotonManagement = this.add.image(100,100,'SceneButton')
+   BotonManagement.setScale(0.2);
+   BotonManagement.setTint(0x008000);
+   BotonManagement.setInteractive();
+   let Boton1 = this.add.image(100,200,'SceneButton')
+   Boton1.setScale(0.2);
+   Boton1.setTint(0xFFFF00);
+   Boton1.setInteractive();
+   let Boton2 = this.add.image(100,300,'SceneButton')
+   Boton2.setScale(0.2);
+   Boton2.setTint(0xFFC0CB);
+   Boton2.setInteractive();
+   let Boton3 = this.add.image(100,400,'SceneButton')
+   Boton3.setScale(0.2);
+   Boton3.setTint(0xff0000);
+   Boton3.setInteractive();
+   if (this.lastGameResult == 'programmingMinigame') this.playerData.programmingPoints += 10;
+   if (this.lastGameResult == 'DesignGame') this.playerData.designPoints += 10;
+   if (this.lastGameResult == 'ManagementGame') this.playerData.managementPoints += 10;
+   console.log("Updated Player Data:", this.playerData);
 
-     BotonManagement.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
-      Boton1.on('pointerdown', ()=>{this.scene.start('programmingMinigame')}) // usamos flechi inportante ehhhh
-       Boton2.on('pointerdown', ()=>{this.scene.start('DesignGame')}) // usamos flechi inportante ehhhh
-        Boton3.on('pointerdown', ()=>{this.scene.start('RPGScene', {playerData : this.playerData})}) // usamos flechi inportante ehhhh
+   BotonManagement.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
+   Boton1.on('pointerdown', ()=>{this.scene.start('programmingMinigame')}) // usamos flechi inportante ehhhh
+   Boton2.on('pointerdown', ()=>{this.scene.start('DesignGame')}) // usamos flechi inportante ehhhh
+   Boton3.on('pointerdown', ()=>{this.scene.start('RPGScene')}) // usamos flechi inportante ehhhh
+   //Registro de playerData para proximas escenas
+   this.registry.set('playerData', this.playerData);
    }
    update()
    {
