@@ -2,16 +2,19 @@
     {
         "name": "Toni",
         "sprite": "Toni",
+        "style": "Design",
         "skills":[0,1,2,3,4]
     },
     {
         "name": "Pablo",
         "sprite": "Pablo",
+        "style": "Management",
         "skills":[0,1,2,4]
     },
     {
         "name": "Ruben",
         "sprite": "Ruben",
+        "style": "Programming",
         "skills":[0,1,2,3]
     }
 ]

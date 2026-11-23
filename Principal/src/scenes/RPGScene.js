@@ -1,5 +1,10 @@
+//Me he arrepentido un montón de poner números mágicos, Rubén tenía razón, prometo arreglarlos en algún momento
 import Skill from '../gameObjects/RPG/Skill.js';
 import Enemy from '../gameObjects/RPG/Enemy.js';
+/**
+ * Objeto que guarda los estilos llamados Programming, Design y Management para la interfaz
+ * El estilo contiene color(0x000000), hex(#000000), shape('circle'), label('Prog.')
+ */
 const TYPE_STYLES = {
     Programming: { color: 0xe7d63c, hex: '#e7d63c', shape: 'circle', label: 'Prog.' },
     Design:      { color: 0xe74c3c, hex: '#e74c3c', shape: 'triangle', label: 'Desi.' },
@@ -13,35 +18,37 @@ export default class RPGScene extends Phaser.Scene {
     init(data) {
         // Renombra el nivel que se quiera jugar aqui porque sino abajo es un cacao
         this.levelKey = data.levelKey || 'level1';
+        //Guardamos el playerData del registro 
         this.playerData = this.registry.get('playerData');
+        //this.playerData.characterID = 0; //Debug para elegir el profe 
     }
 
     create() {
-        this.isGameOver = false;
-        //Fondo moradito
+        this.isGameOver = false; //Flag que determina el fin del juego
+        //Fondo moradito, ya no es moradito, ahora es emo
         this.cameras.main.setBackgroundColor('#00120f');
-        // Guardamos en variables los jsons
-        //console.log("Player Data:", this.playerData); 
+
+        //Guardamos en variables los jsons
         const skills = this.cache.json.get('skillsData').map(data => new Skill(data));
         this.skillsList = []; 
         //Asignamos a la lista de habilidades de la batalla las habilidades que tiene el jugador en su json
         for (let i = 0; i < this.playerData.playerSkillsID.length; i++) {
             this.skillsList.push(skills[this.playerData.playerSkillsID[i]]);
         }
-        //console.log("Player Skills:", this.skillsList);
         this.enemyDatabase = this.cache.json.get('enemiesData'); 
-        //console.log("Enemy Database:", this.enemyDatabase);
         const levelsData = this.cache.json.get('levelsData'); 
-        //console.log("Levels Data:", levelsData);   
         this.enemyQueue = [...levelsData[this.playerData.level - 1]]; //LLeva los indices de los enemigos del nivel del jugador
         //El character lo necestimos para el sprite y el nombre del profe
         const characters = this.cache.json.get('characterData');
-        this.currentProf = characters[this.playerData.characterID] || characters[0];
+        this.currentProf = characters[this.playerData.characterID % 3];
+
         // Estado del combate
-        this.maxEnergy = this.playerData.maxHealth;
-        this.currentEnergy = this.maxEnergy;
+        this.maxEnergy = this.playerData.maxHealth; //Energía máxima
+        this.currentEnergy = this.maxEnergy; // Energía actual
+        //##### Cuando los niveles estén diseñados en el levels habrá que asignarlo según la variable del levels #####
         this.statGoal = 1000; // Objetivo temporal de progreso por estadística en el desafío
-        this.statProgress = { Programming: 0, Design: 0, Management: 0 };
+        this.statProgress = { Programming: 0, Design: 0, Management: 0 }; //Progreso de las barras de objetivos
+
         // Slots de enemigos
         this.activeSlots = [null, null, null];
         this.slotCoordinates = [
@@ -58,22 +65,23 @@ export default class RPGScene extends Phaser.Scene {
         this.selectedTargetSlot = 0;
 
         // Llamadas a funcion para setear la escena
-        this.setupHealthBar();
-        this.setupEnemySlots();
-        this.setupTargetPointer();
-        this.setupSkillCarouselUI();
-        this.setupCharacterPanel();
-        this.setupControls();
+        this.setupHealthBar(); //Barra de vida sin datos
+        this.setupEnemySlots(); //Posiciones y rectágulos de enemigos pero sin seleccionarlos todavía
+        this.setupTargetPointer(); //Creamos sin ponerlo todavía la flecha para seleccionar enemigos
+        this.setupSkillCarouselUI(); //Crea todo el sistema para seleccionar habilidades incluido descripciones
+        this.setupCharacterPanel(); //Crea el bocadillo, la imagen del profe y el chat
+        this.setupControls(); //Crea todos los eventos de input de teclas
 
 
         // Poner los enemigos, la vida y las habilidades inicilmente
-        this.fillEmptySlots();
-        this.updateHealthBar();
-        this.updateCarouselDisplay();
+        this.fillEmptySlots(); //Coloca los primeros 3 enemigos
+        this.updateHealthBar(); //Coloca los datos en la barra de vida
+        this.updateCarouselDisplay(); //Coloca las habilidades correspondientes a la seleccionada por defecto
     }
+    /** Crea los objetos necesarios para la barra de energía y las tres barras de objetivos. Todo depende del  */
     setupHealthBar() {
         // Barra de energia
-        this.energyGraphics = this.add.graphics();
+        this.energyGraphics = this.add.graphics(); //Objeto vacío donde describiremos la forma de la barra
         this.energyText = this.add.text(160, 52, '', {
             font: 'bold 16px Arial',
             color: '#2c3e50'
@@ -105,8 +113,7 @@ export default class RPGScene extends Phaser.Scene {
             this.statBars[type] = { fill, valText }; // nos llevamos los que vamos a necesitar actualizar
         });
     }
-    //Me he arrepentido un montón de poner números mágicos, Rubén tenía razón, prometo arreglarlos en algún momento
-    //Pintar la barra de energia y las barras de progreso
+    /** Pinta la barra de energia y las barras de progreso con los datos concretos*/
     updateHealthBar() {
         // Borramos la energía
         const g = this.energyGraphics;
@@ -131,6 +138,7 @@ export default class RPGScene extends Phaser.Scene {
             g.lineBetween(sx, by + bh - 4, sx + 10, by + 4);
         }
         // La punta, la guinda :D
+        g.lineStyle(3, 0xe67e22, 1)
         g.strokeRect(bx + bw, by + 15, 12, 26);
 
         // Actualizamos el texto de energía
@@ -146,7 +154,7 @@ export default class RPGScene extends Phaser.Scene {
             bar.valText.setText(`${Math.round(val)}`);
         });
     }
-
+    /** Crea los objetos de los enemigos pero sin asignar las variables */
     setupEnemySlots() {
         this.slotContainers = [];
         const cardW = 185, cardH = 215; // He aprendido a poner numeros magicos, aprendí a pensar
@@ -182,13 +190,11 @@ export default class RPGScene extends Phaser.Scene {
             });
         });
     }
-    
+    /** Actualiza el aspecto de los slots de enemigos con los objetos asignados*/
     refreshSlotsDisplay() {
         for (let i = 0; i < 3; i++) {
             const enemy = this.activeSlots[i];
             const slot = this.slotContainers[i];
-            //console.log(enemy)
-            //console.log(slot)
             if (enemy) {
                 const style = TYPE_STYLES[enemy.type];
                 const progress = Phaser.Math.Clamp(enemy.currentHp / enemy.maxHp, 0, 1); // Porcentaje de vida del enemigo
@@ -217,7 +223,9 @@ export default class RPGScene extends Phaser.Scene {
             }
         }
     }
-    // Dibuja círculo, triángulo o cuadrado según la estadística
+    /** Dibuja círculo, triángulo o cuadrado según la estadística
+     * Graphics es el objeto al que se le aplica, el style es lo que determina si es programming, design o management, 
+     * x e y son las posiciones y radius el tamaño  */
     drawTypeSymbol(graphics, style, x, y, radius) {
         graphics.clear();
         graphics.lineStyle(3, style.color, 1);
@@ -230,13 +238,14 @@ export default class RPGScene extends Phaser.Scene {
             graphics.strokeRect(x - radius, y - radius, radius * 2, radius * 2);
         }
     }
-
+    /** Se coloca la flecha en el primer slot y se esconde acechando */
     setupTargetPointer() {
         // Se coloca en el primer slot la flecha y se oculta
         this.targetPointer = this.add.triangle(0, 0, 0, 0, 24, 0, 12, 18, 0xff0000);
         this.targetPointer.setVisible(false);
     }
-
+    /** Crea vacíos todos los elementos relacionados con las habilidades: 
+     * El carrusel de habilidades, la descripción y todos los elementos en su interior */
     setupSkillCarouselUI() {
         // Marco grande redondeado del panel de control
         const panelGfx = this.add.graphics();
@@ -301,6 +310,7 @@ export default class RPGScene extends Phaser.Scene {
             this.energyCostText, this.descTitleText, this.descBodyText
         ]);
     }
+    /** Asigna los datos actuales en el carrusel y la descripción actualizando su aspecto */
     updateCarouselDisplay() {
 
         const len = this.skillsList.length; // Número de habilidades disponibles
@@ -349,6 +359,7 @@ export default class RPGScene extends Phaser.Scene {
             }
         }
     }
+    /** Crea el bocadillo de diálogo, el chat y el espacio del avatar del profesor */
     setupCharacterPanel() {
         // Bocadillo de diálogo del profesor
         const bubbleGfx = this.add.graphics();
@@ -390,22 +401,24 @@ export default class RPGScene extends Phaser.Scene {
 
         // Profe en la esquina
         this.profContainer = this.add.container(865, 455);
-        const profCard = this.add.rectangle(0, 0, 230, 250, 0xdfe6e9).setStrokeStyle(3, 0x2c3e50);
+        const profCard = this.add.rectangle(0, 0, 230, 250, 0xdfe6e9);
+        profCard.setStrokeStyle(5, TYPE_STYLES[this.currentProf.style].color);
+
         const profSprite = this.add.image(0, -15, this.currentProf.sprite).setDisplaySize(160, 200);
         const profName = this.add.text(0, 100, `Prof. ${this.currentProf.name}`, {
-            font: 'bold 18px Arial',
+            font: 'bold 18px Arial',        
             color: '#2c3e50'
         }).setOrigin(0.5);
 
         this.profContainer.add([profCard, profSprite, profName]);
     }
-
+    /** Añade al chat el msg */
     pushChat(msg) {
         this.chatMessages.push(msg);
-        if (this.chatMessages.length > 9) this.chatMessages.shift();
+        if (this.chatMessages.length > 4) this.chatMessages.shift();
         this.chatText.setText(this.chatMessages.join('\n\n'));
     }
-
+    /** Crea todos los eventos relacionados con el input */
     setupControls() {
         this.input.keyboard.on('keydown-UP', () => this.handleUp());
         this.input.keyboard.on('keydown-DOWN', () => this.handleDown());
@@ -420,6 +433,7 @@ export default class RPGScene extends Phaser.Scene {
         this.input.keyboard.on('keydown-ENTER', () => this.handleConfirm());
         this.input.keyboard.on('keydown-ESC', () => this.cancelTargetSelection());
     }
+    /** Si pulsa ESC y está seleccionando el enemigo al que atacar, deja de hacerlo */
     cancelTargetSelection() {
         if (this.isSelectingTarget) {
             this.isSelectingTarget = false;
@@ -427,7 +441,7 @@ export default class RPGScene extends Phaser.Scene {
             this.speechText.setText('Selección cancelada.');
         }
     }
-
+    /** Asigna los siguientes enemigos en los slots vacíos y llama a refreshSlotsDisplay para actualizar el aspecto */
     fillEmptySlots() {
         for (let i = 0; i < 3; i++) {
             if (this.activeSlots[i] === null && this.enemyQueue.length > 0) {
@@ -437,34 +451,33 @@ export default class RPGScene extends Phaser.Scene {
         }
         this.refreshSlotsDisplay();
     }
-
-    //Si no esta atacando cambia la habilidad actual por la de arriba
+    /**Si no esta atacando cambia la habilidad actual por la de arriba*/
     handleUp() {
         if (this.isGameOver ||this.isSelectingTarget) return;
 
         this.selectedSkillIndex = (this.selectedSkillIndex - 1 + this.skillsList.length) % this.skillsList.length;
         this.updateCarouselDisplay();
     }
-    //Si no esta atacando cambia la habilidad actual por la de abajo
+    /**Si no esta atacando cambia la habilidad actual por la de abajo*/
     handleDown() {
         if (this.isGameOver || this.isSelectingTarget) return;
 
         this.selectedSkillIndex = (this.selectedSkillIndex + 1) % this.skillsList.length;
         this.updateCarouselDisplay();
     }
-
+    /**Si está atacando mueve la flecha a la izquierda*/
     handleLeft() {
         if (this.isGameOver || !this.isSelectingTarget) return;
 
         this.moveTargetSelection(-1);
     }
-
+    /**Si está atacando mueve la flecha a la derecha*/
     handleRight() {
         if (this.isGameOver || !this.isSelectingTarget) return;
 
         this.moveTargetSelection(1);
     }
-
+    /** Asigna la flecha en la dirección seleccionado y actualiza el aspecto llamando a updateTargetPointerPosition */
     moveTargetSelection(dir) {
         let newSlot = this.selectedTargetSlot + dir;
 
@@ -477,13 +490,13 @@ export default class RPGScene extends Phaser.Scene {
             newSlot += dir;
         }
     }
-
+    /** Actualiza la position de la flecha */
     updateTargetPointerPosition() {
         const targetPos = this.slotCoordinates[this.selectedTargetSlot];
         this.targetPointer.setPosition(targetPos.x - 12, targetPos.y - 125);
         this.targetPointer.setVisible(true);
     }
-
+    /** Si no está atacando entre en estado de ataque, si ya lo estaba ejecuta el ataque */
     handleConfirm() {
         if (this.isGameOver) return;
         const currentSkill = this.skillsList[this.selectedSkillIndex];
@@ -514,7 +527,13 @@ export default class RPGScene extends Phaser.Scene {
             this.targetPointer.setVisible(false);
         }
     }
-
+    /**Ejecuta la habilidad skill en la posición de slot de tagetSlotIndex
+     * Actualiza la energía con el coste de la habilidad
+     * Actualiza la vida del objetivo
+     * Pone un mensaje del ataque
+     * Controla si ha puerto y si lo ha hecho añade al progreso lo que corresponde
+     * Por último siempre comprueba si ha terminado el juego en esa ronda
+     */
     executeSkill(skill, targetSlotIndex) {
         this.currentEnergy = Math.max(0, this.currentEnergy - skill.energyCost); //actualizamos la energía pro si ha costado algo
         if (targetSlotIndex !== null) { 
@@ -531,14 +550,14 @@ export default class RPGScene extends Phaser.Scene {
             }
         } else {
             // Ataque en a todos
+            this.pushChat("Vaya máquina, a todos a la vez")
             this.activeSlots.forEach((enemy, index) => {
                 if (enemy) {
                     const prevHp = enemy.currentHp;
                     enemy.takeDamage(skill.damage, skill.type);
                     const dealt = enemy.currentHp - prevHp;
-
                     // Sumar progreso a la barra superior del tipo correspondiente si el enemigo murio
-                    if (enemy.currentHp <= 0)this.statProgress[enemy.type] = Math.min(this.statGoal, this.statProgress[enemy.type] + dealt);
+                    if (enemy.currentHp >= enemy.maxHp)this.statProgress[enemy.type] = Math.min(this.statGoal, this.statProgress[enemy.type] + enemy.maxHp);
                     if (enemy.isComplete()) {
                         this.activeSlots[index] = null;
                     }
@@ -571,20 +590,22 @@ export default class RPGScene extends Phaser.Scene {
 
             // Tras un ratin, vuelve al menú
             this.time.delayedCall(4000, () => {
+                //this.playerData.characterID++; //Debug para ver a todos los profes en combate
                 this.scene.start('MenuScene');
             });
         }
         else if (this.currentEnergy <= 0 && !this.isGameOver) {
             this.isGameOver = true;
-            this.targetPointer.setVisible(false);
-            this.speechText.setText('Siento que se me va el aura del cuerpo\nNo estoy de chill...');
+            if (this.targetPointer) this.targetPointer.setVisible(false);
+            this.speechText.setText('Siento que se me va el aura del cuerpo\nNo estoy nada chill, chat...');
+            //texto de derrota
             this.add.text(330, 230, 'DERROTA', {
                 font: 'bold 52px Arial',
                 color: '#e74c3c',
                 stroke: '#2c3e50',
                 strokeThickness: 6
             }).setOrigin(0.5);
-
+            //Tras un ratín vuelve al menú
             this.time.delayedCall(3000, () => {
                 this.scene.start('MenuScene', { isWin: false, backgroundScene: 'RPGScene' });
             });
