@@ -24,6 +24,10 @@ export default class Load extends Phaser.Scene{
         // UI
         this.load.image('SceneButton', 'UI/buttonscene.png');
         this.load.image('GithubBackground', 'UI/GithubBackground.png')
+        // Profesores 
+        this.load.image('Toni', 'Prof/Toni.png');
+        this.load.image('Pablo', 'Prof/Pablo.png');
+        this.load.image('Ruben', 'Prof/Ruben.png');
         // Minijuego Gestion 
         this.load.image('BackgroundManagment', 'MinijuegoManagement/FondoGestion.jpg');
         this.load.image('Player', 'MinijuegoManagement/Player.png');

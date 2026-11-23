@@ -34,11 +34,13 @@ export default class RPGScene extends Phaser.Scene {
         const levelsData = this.cache.json.get('levelsData'); 
         //console.log("Levels Data:", levelsData);   
         this.enemyQueue = [...levelsData[this.playerData.level - 1]]; //LLeva los indices de los enemigos del nivel del jugador
-        
+        //El character lo necestimos para el sprite y el nombre del profe
+        const characters = this.cache.json.get('characterData');
+        this.currentProf = characters[this.playerData.characterID] || characters[0];
         // Estado del combate
         this.maxEnergy = this.playerData.maxHealth;
         this.currentEnergy = this.maxEnergy;
-        this.statGoal = 100; // Objetivo temporal de progreso por estadística en el desafío
+        this.statGoal = 1000; // Objetivo temporal de progreso por estadística en el desafío
         this.statProgress = { Programming: 0, Design: 0, Management: 0 };
         // Slots de enemigos
         this.activeSlots = [null, null, null];
@@ -60,7 +62,9 @@ export default class RPGScene extends Phaser.Scene {
         this.setupEnemySlots();
         this.setupTargetPointer();
         this.setupSkillCarouselUI();
+        this.setupCharacterPanel();
         this.setupControls();
+
 
         // Poner los enemigos, la vida y las habilidades inicilmente
         this.fillEmptySlots();
@@ -138,7 +142,7 @@ export default class RPGScene extends Phaser.Scene {
             const bar = this.statBars[type];
             const val = this.statProgress[type];
             const progress = Phaser.Math.Clamp(val / this.statGoal, 0, 1);
-            bar.fill.height = 66 * progress;
+            bar.fill.height = 66 * -progress;
             bar.valText.setText(`${Math.round(val)}`);
         });
     }
@@ -345,6 +349,62 @@ export default class RPGScene extends Phaser.Scene {
             }
         }
     }
+    setupCharacterPanel() {
+        // Bocadillo de diálogo del profesor
+        const bubbleGfx = this.add.graphics();
+        bubbleGfx.fillStyle(0xffffff, 1);
+        bubbleGfx.fillRoundedRect(655, 35, 240, 175, 45);
+        bubbleGfx.lineStyle(4, 0x2c3e50, 1);
+        bubbleGfx.strokeRoundedRect(655, 35, 240, 175, 45);
+        // Pico del bocadillo apuntando hacia el profesor
+        bubbleGfx.fillStyle(0xffffff, 1);
+        bubbleGfx.fillTriangle(795, 208, 825, 208, 835, 242);
+        bubbleGfx.lineBetween(795, 210, 835, 242);
+        bubbleGfx.lineBetween(825, 210, 835, 242);
+        //Texto inicial del bocadillo, se puede cambiar con la función pushChat(msg)
+        this.speechText = this.add.text(775, 122, `¡Vamos ${this.currentProf.name}!\nPuedes con esto`, {
+            font: 'bold 14px Arial',
+            color: '#2c3e50',
+            align: 'center',
+            wordWrap: { width: 200 }
+        }).setOrigin(0.5);
+
+        // Ventana de chat
+        const chatBg = this.add.rectangle(910, 20, 170, 290, 0x18181b).setOrigin(0, 0);
+        chatBg.setStrokeStyle(2, 0x9146ff);
+        this.add.text(995, 36, 'CHAT - JAM FDI', {
+            font: 'bold 12px Arial',
+            color: '#bf94ff'
+        }).setOrigin(0.5);
+        // Mensajes promedio del chat
+        this.chatMessages = [
+            'Alumno: ¡Dale duro profe!',
+            'Compilador: 0 warnings (mentira)',
+            'Git: Bomba termonuclear'
+        ];
+        this.chatText = this.add.text(920, 58, this.chatMessages.join('\n\n'), {
+            font: '11px Arial',
+            color: '#efeff1',
+            wordWrap: { width: 150 }
+        });
+
+        // Profe en la esquina
+        this.profContainer = this.add.container(865, 455);
+        const profCard = this.add.rectangle(0, 0, 230, 250, 0xdfe6e9).setStrokeStyle(3, 0x2c3e50);
+        const profSprite = this.add.image(0, -15, this.currentProf.sprite).setDisplaySize(160, 200);
+        const profName = this.add.text(0, 100, `Prof. ${this.currentProf.name}`, {
+            font: 'bold 18px Arial',
+            color: '#2c3e50'
+        }).setOrigin(0.5);
+
+        this.profContainer.add([profCard, profSprite, profName]);
+    }
+
+    pushChat(msg) {
+        this.chatMessages.push(msg);
+        if (this.chatMessages.length > 9) this.chatMessages.shift();
+        this.chatText.setText(this.chatMessages.join('\n\n'));
+    }
 
     setupControls() {
         this.input.keyboard.on('keydown-UP', () => this.handleUp());
@@ -358,14 +418,21 @@ export default class RPGScene extends Phaser.Scene {
 
         this.input.keyboard.on('keydown-Z', () => this.handleConfirm());
         this.input.keyboard.on('keydown-ENTER', () => this.handleConfirm());
+        this.input.keyboard.on('keydown-ESC', () => this.cancelTargetSelection());
+    }
+    cancelTargetSelection() {
+        if (this.isSelectingTarget) {
+            this.isSelectingTarget = false;
+            this.targetPointer.setVisible(false);
+            this.speechText.setText('Selección cancelada.');
+        }
     }
 
     fillEmptySlots() {
         for (let i = 0; i < 3; i++) {
             if (this.activeSlots[i] === null && this.enemyQueue.length > 0) {
                 const enemyIndex = this.enemyQueue.shift();
-                const enemy = this.enemyDatabase[enemyIndex];
-                this.activeSlots[i] = new Enemy(enemy);
+                this.activeSlots[i] = new Enemy(this.enemyDatabase[enemyIndex]);
             }
         }
         this.refreshSlotsDisplay();
@@ -413,13 +480,18 @@ export default class RPGScene extends Phaser.Scene {
 
     updateTargetPointerPosition() {
         const targetPos = this.slotCoordinates[this.selectedTargetSlot];
-        this.targetPointer.setPosition(targetPos.x - 10, targetPos.y - 90);
+        this.targetPointer.setPosition(targetPos.x - 12, targetPos.y - 125);
         this.targetPointer.setVisible(true);
     }
 
     handleConfirm() {
         if (this.isGameOver) return;
         const currentSkill = this.skillsList[this.selectedSkillIndex];
+        //Comprueba si le queda energía al jugador para usar la habilidad, si no le queda energía, no hace nada
+        if (this.currentEnergy < currentSkill.energyCost) {
+            this.speechText.setText('PERO QUÉ HACES?????\n¡NO QUEDA ENERGÍA!');
+            return;
+        }
         //si es para seleccionar una habilidad
         if (!this.isSelectingTarget) {
             if (currentSkill.targetType === 'single') {
@@ -444,11 +516,15 @@ export default class RPGScene extends Phaser.Scene {
     }
 
     executeSkill(skill, targetSlotIndex) {
-        if (targetSlotIndex !== null) {
+        this.currentEnergy = Math.max(0, this.currentEnergy - skill.energyCost); //actualizamos la energía pro si ha costado algo
+        if (targetSlotIndex !== null) { 
             // Ataque a un solo objetivo (single target)
             const enemy = this.activeSlots[targetSlotIndex];
-            if (enemy) {
-                enemy.takeDamage(skill.damage, skill.type);
+            if (enemy) {    
+            enemy.takeDamage(skill.damage, skill.type);
+            this.pushChat("VAYA OSTIA")
+            // Sumar progreso a la barra superior del tipo correspondiente
+            if (enemy.currentHp >= enemy.maxHp)this.statProgress[enemy.type] = Math.min(this.statGoal, this.statProgress[enemy.type] + enemy.maxHp);
                 if (enemy.isComplete()) {
                     this.activeSlots[targetSlotIndex] = null;
                 }
@@ -457,13 +533,19 @@ export default class RPGScene extends Phaser.Scene {
             // Ataque en a todos
             this.activeSlots.forEach((enemy, index) => {
                 if (enemy) {
+                    const prevHp = enemy.currentHp;
                     enemy.takeDamage(skill.damage, skill.type);
+                    const dealt = enemy.currentHp - prevHp;
+
+                    // Sumar progreso a la barra superior del tipo correspondiente si el enemigo murio
+                    if (enemy.currentHp <= 0)this.statProgress[enemy.type] = Math.min(this.statGoal, this.statProgress[enemy.type] + dealt);
                     if (enemy.isComplete()) {
                         this.activeSlots[index] = null;
                     }
                 }
             });
         }
+        this.updateHealthBar();
         // Reponer slots vacios con la pila de niveles
         this.fillEmptySlots();// Comprobar si no quedan enemigos en combate ni en la cola
         this.checkVictory();
@@ -478,12 +560,13 @@ export default class RPGScene extends Phaser.Scene {
 
             // Ocultamos la flecha por si acaso 
             if (this.targetPointer) this.targetPointer.setVisible(false);
-
+            this.speechText.setText('¡Desafío superado!\n¡Menuda aura bro B)!');
             // Texto de Victoria en el centro de la zona de enemigos, en el futuro igual es una imagen 
-            this.add.text(400, 150, '¡VICTORIA!', {
-                font: 'bold 44px Arial',
-                color: '#50cc2e',
-                strokeThickness: 5
+            this.add.text(320, 230, '¡VICTORIA!', {
+                font: 'bold 52px Arial',
+                color: '#2ecc71',
+                stroke: '#2c3e50',
+                strokeThickness: 6
             }).setOrigin(0.5);
 
             // Tras un ratin, vuelve al menú
@@ -491,5 +574,20 @@ export default class RPGScene extends Phaser.Scene {
                 this.scene.start('MenuScene');
             });
         }
+        else if (this.currentEnergy <= 0 && !this.isGameOver) {
+            this.isGameOver = true;
+            this.targetPointer.setVisible(false);
+            this.speechText.setText('Siento que se me va el aura del cuerpo\nNo estoy de chill...');
+            this.add.text(330, 230, 'DERROTA', {
+                font: 'bold 52px Arial',
+                color: '#e74c3c',
+                stroke: '#2c3e50',
+                strokeThickness: 6
+            }).setOrigin(0.5);
+
+            this.time.delayedCall(3000, () => {
+                this.scene.start('MenuScene', { isWin: false, backgroundScene: 'RPGScene' });
+            });
+        }
     }
-}
+}   

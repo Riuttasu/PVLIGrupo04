@@ -1,14 +1,17 @@
 [
     {
         "name": "Toni",
+        "sprite": "Toni",
         "skills":[0,1,2,3,4]
     },
     {
         "name": "Pablo",
+        "sprite": "Pablo",
         "skills":[0,1,2,4]
     },
     {
         "name": "Ruben",
+        "sprite": "Ruben",
         "skills":[0,1,2,3]
     }
 ]
