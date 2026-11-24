@@ -21,6 +21,7 @@ export default class RPGScene extends Phaser.Scene {
         //Guardamos el playerData del registro 
         this.playerData = this.registry.get('playerData');
         //this.playerData.characterID = 0; //Debug para elegir el profe 
+        this.cooldown = 0;
     }
 
     create() {
@@ -29,6 +30,7 @@ export default class RPGScene extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('#00120f');
 
         //Guardamos en variables los jsons
+        this.messagesList = this.cache.json.get('chat');
         const skills = this.cache.json.get('skillsData').map(data => new Skill(data));
         this.skillsList = []; 
         //Asignamos a la lista de habilidades de la batalla las habilidades que tiene el jugador en su json
@@ -387,13 +389,7 @@ export default class RPGScene extends Phaser.Scene {
             font: 'bold 12px Arial',
             color: '#bf94ff'
         }).setOrigin(0.5);
-        // Mensajes promedio del chat
-        this.chatMessages = [
-            'Alumno: ¡Dale duro profe!',
-            'Compilador: 0 warnings (mentira)',
-            'Git: Bomba termonuclear'
-        ];
-        this.chatText = this.add.text(920, 58, this.chatMessages.join('\n\n'), {
+        this.chatText = this.add.text(920, 58, "", {
             font: '11px Arial',
             color: '#efeff1',
             wordWrap: { width: 150 }
@@ -417,6 +413,11 @@ export default class RPGScene extends Phaser.Scene {
         this.chatMessages.push(msg);
         if (this.chatMessages.length > 4) this.chatMessages.shift();
         this.chatText.setText(this.chatMessages.join('\n\n'));
+    }
+    update(delta){
+        this.cooldown += delta;
+        const limit = Phaser.Math.Between(800, 1200);
+        if (this.cooldown >= limit) return
     }
     /** Crea todos los eventos relacionados con el input */
     setupControls() {
