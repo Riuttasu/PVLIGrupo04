@@ -410,17 +410,21 @@ export default class RPGScene extends Phaser.Scene {
         this.profContainer.add([profCard, profSprite, profName]);
     }
     /** Añade al chat el msg */
-    pushChat(msg) {
-        this.chatMessages.push(msg);
-        if (this.chatMessages.length > 4) this.chatMessages.shift();
+    pushChat(msg, name = "MASTER", color = '#ffffffff') {
+        let mes = name + ": " + msg
+        this.chatMessages.push(mes);
+        if (this.chatMessages.length > 6) this.chatMessages.shift();
         this.chatText.setText(this.chatMessages.join('\n\n'));
+        this.chatText.setColor(color);
     }
     update(t, delta){
         this.cooldown += delta;
         const limit = Phaser.Math.Between(400, 1200);
         if (this.cooldown >= limit) {
-            const mess = Phaser.Math.Between(0, this.messagesList.length - 1)
-            this.pushChat(this.messagesList[mess])
+            const mess = Phaser.Math.Between(0, this.messagesList.mess.length - 1) //Se escoje un mensaje aleatorio
+            const name = Phaser.Math.Between(0, this.messagesList.names.length - 1) //Se escoje un nombre aleatorio
+            const col = Phaser.Math.Between(0, this.messagesList.colors.length - 1) //Se escoje un color aleatorios
+            this.pushChat(this.messagesList.mess[mess], this.messagesList.names[name], this.messagesList.colors[col])
             this.cooldown = 0;
         }
     }
