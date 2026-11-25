@@ -383,19 +383,45 @@ export default class RPGScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Ventana de chat
-        const chatBg = this.add.rectangle(910, 20, 170, 290, 0x18181b).setOrigin(0, 0);
+        const chatX = 910, chatY = 20, chatW = 170, chatH = 290; //Dimensiones del panel de chat
+        const chatBg = this.add.rectangle(chatX, chatY, chatW, chatH, 0x18181b).setOrigin(0, 0);
         chatBg.setStrokeStyle(2, 0x9146ff);
-        this.add.text(995, 36, 'CHAT - JAM FDI', {
+
+        this.add.text(chatX + chatW / 2, chatY + 16, 'CHAT - JAM FDI', {
             font: 'bold 12px Arial',
             color: '#bf94ff'
         }).setOrigin(0.5);
-        this.chatMessages = []
-        this.chatText = this.add.text(920, 58, this.chatMessages.join('\n\n'), {
-            font: '11px Arial',
-            color: '#efeff1',
-            maxLines: 19,
-            wordWrap: { width: 150 }
-        });
+
+        // area interior donde irán los mensajes (debajo del título y con esquinas que sino te da la clausfobia esa)
+        const areaX = chatX + 8, areaY = chatY + 34, areaW = chatW - 16, areaH = chatH - 42;
+
+        // container del chat posicionado en la esquina superior izquierda del area de mensajes
+        this.chatContainer = this.add.container(areaX, areaY); 
+        this.chatAreaW = areaW; this.chatAreaH = areaH;
+
+        // La mascarilla que se nos escapan los bichos(Es el mask)
+        const maskRect = this.add.rectangle(areaX, areaY, areaW, areaH, 0xffffff).setOrigin(0, 0).setVisible(false);
+        this.chatContainer.enableFilters(); //Por defecto da error
+        this.chatContainer.filters.external.addMask(maskRect);
+
+        //No me ha quedado tan claro lo de las pools, tecnicamente esto es una pool pero no sé si es como quiere que tony operemos
+        //Compila, eso sí
+        this.chatPool = [];
+        for (let i = 0; i < this.messagesList.mess.length; i++) {
+            const txt = this.add.text(0, areaH, '', {
+                font: '11px Arial',
+                color: '#efeff1',
+                wordWrap: { width: areaW }
+            }).setOrigin(0, 1)
+            txt.setVisible(false); 
+            this.chatContainer.add(txt);
+            this.chatPool.push(txt);
+        }
+
+        this.chatPoolIndex = 0; //Va contando cuantos se han creado
+        this.activeChatTexts = []; //Va desde abajo siendo el 0 hasta arriba siendo el último
+        this.availableMsgIndices = []; //Estos son los que queda por poner que se rellenan al terminarse
+        this.nextChatDelay = Phaser.Math.Between(400, 1200);
 
         // Profe en la esquina
         this.profContainer = this.add.container(865, 455);
@@ -410,23 +436,73 @@ export default class RPGScene extends Phaser.Scene {
 
         this.profContainer.add([profCard, profSprite, profName]);
     }
-    /** Añade al chat el msg */
+    /** Añade al chat el msg. En name y el color es para el chat automático*/
     pushChat(msg, name = "MASTER", color = '#ffffffff') {
-        let mes = name + ": " + msg;
-        this.chatMessages.push(mes);
-        if (this.chatMessages.length > 7) this.chatMessages.shift();
-        this.chatText.setText(this.chatMessages.join('\n\n'));
-        this.chatText.setFill(color);
+        // Pilla un objeto de los que quedan en la pool
+        const textObj = this.chatPool[this.chatPoolIndex];
+        this.chatPoolIndex = (this.chatPoolIndex + 1) % this.chatPool.length;
+
+        // Recojo el índice para ver si está activo el texto o no
+        const textObjIndex = this.activeChatTexts.indexOf(textObj); 
+        if (textObjIndex !== -1) this.activeChatTexts.splice(textObjIndex, 1);
+
+        // Paramos los tweens que pueda haber por si acaso
+        this.tweens.killTweensOf(textObj);
+        //Metemos el texto, color y posición inicial (fuera por la derecha, abajo del todo para la animación)
+        textObj.setText(name + ": " + msg);
+        textObj.setColor(color);
+        textObj.setVisible(true);
+        textObj.x = this.chatAreaW + 15; // Lo ponemos a la derecha del panel
+        textObj.y = this.chatAreaH;
+        //Esta maravilla de unshift mete el textObj por el principio del array en vez de por el final
+        this.activeChatTexts.unshift(textObj);
+
+        // Animación del texto nuevo
+        this.tweens.add({
+            targets: textObj,
+            x: 0,
+            duration: 250,
+            ease: 'Power2'
+        });
+
+        // A mover todos los demás
+        const padding = 6; // Interlineado
+        let currentBottomY = this.chatAreaH; // posicion del boton que tiene que mover
+        //Le metemos a todos los demás un Tween
+        for (let i = 0; i < this.activeChatTexts.length; i++) {
+            const it = this.activeChatTexts[i];
+            if (i > 0) { // A partir de la posicion 1 que es el que antes era el de más abajo
+                this.tweens.killTweensOf(it);
+                this.tweens.add({
+                    targets: it,
+                    x: 0, // Lo pongo por miedo a los tweens, creo que es por la peli del resplandor, le pille bastante mal rollo a los gemelos desde entonces 
+                    y: currentBottomY,
+                    duration: 200,
+                    ease: 'Power2' // He probado con unas cuantas y esta divertido ver como cambia, esta me mola pero invito a pasar un buen rato provando
+                });
+            }
+            // Al 0 hay que pasar por el para saber cuanto tiene que subir el segundo
+            currentBottomY -= (it.height + padding); // Se calcula la posición del siguiente mediante la altura de este y el interlineado
+        }
     }
     update(t, delta){
+        if (this.isGameOver) return; // Al ganar se le va la flapa
+
         this.cooldown += delta;
-        const limit = Phaser.Math.Between(400, 1200);
-        if (this.cooldown >= limit) {
-            const mess = Phaser.Math.Between(0, this.messagesList.mess.length - 1) //Se escoje un mensaje aleatorio
-            const name = Phaser.Math.Between(0, this.messagesList.names.length - 1) //Se escoje un nombre aleatorio
-            const col = Phaser.Math.Between(0, this.messagesList.colors.length - 1) //Se escoje un color aleatorios
-            this.pushChat(this.messagesList.mess[mess], this.messagesList.names[name], this.messagesList.colors[col])
+        if (this.cooldown >= this.nextChatDelay) {
+            // Si se han gastado todos los mensajes del JSON, rellenamos y gambleamos
+            if (this.availableMsgIndices.length === 0) {
+                this.availableMsgIndices = this.messagesList.mess.map((_, index) => index);
+                Phaser.Utils.Array.Shuffle(this.availableMsgIndices);
+            }
+            // Cocinamos un mensaje aleatorio
+            const messIdx = this.availableMsgIndices.pop();
+            const nameIdx = Phaser.Math.Between(0, this.messagesList.names.length - 1);
+            const colIdx = Phaser.Math.Between(0, this.messagesList.colors.length - 1);
+
+            this.pushChat(this.messagesList.mess[messIdx], this.messagesList.names[nameIdx], this.messagesList.colors[colIdx]);
             this.cooldown = 0;
+            this.nextChatDelay = Phaser.Math.Between(400, 1200);
         }
     }
     /** Crea todos los eventos relacionados con el input */
