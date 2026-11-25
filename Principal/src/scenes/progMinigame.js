@@ -2,7 +2,9 @@ import ProgObject from "../gameObjects/Programming/ProgObject.js";
 import ProgPlayer from "../gameObjects/Programming/ProgPlayer.js";
 import Minigametimer from "../gameObjects/UI/MinigameTimer.js";
 
-
+/**
+ * Escena del minijuego de programacion
+ */
 export default class programmingMinigame extends Phaser.Scene {
     constructor()
     {
@@ -11,7 +13,7 @@ export default class programmingMinigame extends Phaser.Scene {
     init(data)
     {
         data.minigameTime ? this.minigameTime = minigameTime : this.minigameTime = 10;
-        data.numObjects ? this.numObjects = minigameObjects : this.numObjects = 5;
+        data.numObjects ? this.numObjects = minigameObjects : this.numObjects = 10;
     }
     create(){    
         // Tiempo transcurrido
@@ -55,6 +57,8 @@ export default class programmingMinigame extends Phaser.Scene {
         // Constantes
         const objectXPadding = 20; // Margen que se da entre los bordes de la pantalla para que no toque los extremos
         const objectXBetWeen = this.scale.width/3; // Margen entre el objeto spawneado y el anterior   
+        // Nombre del objeto viene de jeison
+        const name = Phaser.Utils.Array.GetRandom(this.cache.json.get('progobjects'));
         // Aumenta el numero de objetos spawneado
         ++this.objectsSpawned;
         // Anade al grupo de objetos un nuevo objeto en posiciones random cercanas al antiguo
@@ -62,7 +66,7 @@ export default class programmingMinigame extends Phaser.Scene {
         let maxNewX = Phaser.Math.Clamp(this.lastObjectX+objectXBetWeen,objectXPadding,this.scale.width-objectXPadding);
         let newX = Phaser.Math.RND.between(minNewX,maxNewX);
         // Spawn
-        this.objects.add(new ProgObject(this,newX,0));
+        this.objects.add(new ProgObject(this,newX,0,name));
         // Guarda la ultima posicion X del objeto que se acaba de spawnear
         this.lastObjectX = newX;
     }

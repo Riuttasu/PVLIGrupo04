@@ -1,0 +1,18 @@
+[   
+ "string",
+ "bool",
+ "int",
+ "double",
+ "decimal",
+ "atomic bool",
+ "for",
+ "if",
+ "else if",
+ "else",
+ "i",
+ "function()",
+ "include",
+ "class",
+ "struct",
+ "extend"
+]

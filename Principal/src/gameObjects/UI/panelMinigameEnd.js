@@ -1,5 +1,16 @@
+/**
+ * Panel que se mostrara al finalizar un minijuego
+ */
 export default class panelMinigameEnd extends Phaser.GameObjects.Container
 {
+    /**
+     * 
+     * @param {*} scene Escena padre 
+     * @param {*} x x = 0 porfa
+     * @param {*} y y = 0 porfa
+     * @param {*} isWin si se ha ganado o perdido el minijuego, cambia apariencia dependiendo de esto
+     * @param {*} backgroundscene escena que hay detras de este panel, no la padre, por si tiene que pausarla o acabarla
+     */
     constructor(scene,x,y,isWin = false, backgroundscene = undefined)
     {
         // Super

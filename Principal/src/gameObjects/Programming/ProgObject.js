@@ -1,11 +1,13 @@
 
-export default class ProgObject extends Phaser.GameObjects.Sprite 
+export default class ProgObject extends Phaser.GameObjects.Text 
 {
-    constructor(scene,x,y,gravity=100)
+    constructor(scene,x,y,name = 'objectprog',gravity=100)
     {
-        super(scene,x,y,'objectprog');
+        super(scene,x,y,name);
         // Escala
-        this.setDisplaySize(32,32);
+        this.setDisplaySize(64,32); 
+        this.setColor('#0026ff'); // Color del texto
+        this.setBackgroundColor('#00ff00'); // Color de fondo
         // Se mete en la escena
         this.scene.add.existing(this); // Objeto en si
         this.scene.physics.add.existing(this); // Fisicas

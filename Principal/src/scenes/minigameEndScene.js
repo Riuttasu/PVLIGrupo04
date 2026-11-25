@@ -1,11 +1,17 @@
 import panelMinigameEnd from "../gameObjects/UI/panelMinigameEnd.js";
-
+/**
+ * Escena de final de minijuego, pausa la escena que la llama en el launch y se lanza en paralelo a esa
+ */
 export default class minigameEndScene extends Phaser.Scene
 {
     constructor()
     {
         super ({key: 'minigameEndScene'});
     }
+    /**
+     * 
+     * @param {*} data win : si se ha ganado, cambiara apariencia key : escena que la llama para pausarla
+     */
     init(data)
     {
         // Por si no se manda data

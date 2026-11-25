@@ -1,6 +1,7 @@
 /** escena principal de minigame de design*/
 import Player from '../gameObjects/MinijuegoDesign/player.js';
 import Obstacles from '../gameObjects/MinijuegoDesign/obstacles.js';
+import Minigametimer from '../gameObjects/UI/MinigameTimer.js';
 /** Esta sera la escena del juego de diseño donde creara el jugador y el obstaculo */
 export default class DesignGame extends Phaser.Scene{
     constructor(timeGame = 10)
@@ -22,16 +23,20 @@ export default class DesignGame extends Phaser.Scene{
         //times en segundos
         this.timeMax = 2; // tiempo maximo para generar obstaculos
         this.timeMin = 1; // y este es el minimo
-        this.randomTime; // el timepo que va a tardar en generar el siguienteobstaculo
-        this.timeNow = 0; // timepo actual
+        this.randomTime; // el timepo que va a tardar en generar el siguiente obstaculo
+        this.timeNow = 0; // tiepo actual
         this.randomTime = Phaser.Math.RND.between(this.timeMin * 1000, this.timeMax * 1000); 
         this.colision = false;
+        // Barra de tiempo
+        this.timepassed = 0;
+        this.bar = new Minigametimer(this,20,20,this.timeGame);
     }
     update(t, dt){
-        this.timeGame -= dt/1000; // restamos el tiempo transcurrido desde la ultima actualizacion
-        if(this.timeGame <= 0){
+        this.timepassed += dt/1000; // restamos el tiempo transcurrido desde la ultima actualizacion
+        if(this.timeGame - this.timepassed <= 0){
             this.isGameOver(true); // si se acaba el tiempo, el jugador gana
         }
+        else this.bar.updateBar(this.timepassed);
         this.timeNow += dt; // sumamos el tiempo transcurrido desde la ultima actualizacion
         // genera un tiempo aleatorio entre el minimo y el maximo
         if (this.timeNow >= this.randomTime) {
