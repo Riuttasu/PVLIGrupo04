@@ -1,5 +1,6 @@
 import ProgObject from "../gameObjects/Programming/ProgObject.js";
 import ProgPlayer from "../gameObjects/Programming/ProgPlayer.js";
+import Minigametimer from "../gameObjects/UI/MinigameTimer.js";
 
 
 export default class programmingMinigame extends Phaser.Scene {
@@ -12,17 +13,17 @@ export default class programmingMinigame extends Phaser.Scene {
         data.minigameTime ? this.minigameTime = minigameTime : this.minigameTime = 10;
         data.numObjects ? this.numObjects = minigameObjects : this.numObjects = 5;
     }
-    create(){
-        // Constantes
-        this.objectXPadding = 20; // Margen que se da entre los bordes de la pantalla para que no toque los extremos
-        this.objectXBetWeen = this.scale.width/3; // Margen entre el objeto spawneado y el anterior        
+    create(){    
+        // Tiempo transcurrido
+        this.timePassed = 0; 
         // Fondo
         let background = this.add.image(0,0,'BackgroundProgramming');
         background.setOrigin(0,0);
         background.setDisplaySize(this.scale.width,this.scale.height);
+        // Barra de tiempo de minijuego
+        this.bar = new Minigametimer(this,20,this.scale.height/2,this.minigameTime);
         // Jugador
-        this.player = new ProgPlayer(this,this.scale.width/2,this.scale.height-this.scale.height/9);      
-
+        this.player = new ProgPlayer(this,this.scale.width/2,this.scale.height-this.scale.height/9);
         // Spawn de objetos
         this.timePerObject = Math.max((this.minigameTime-2)/this.numObjects,0); // Calcula cada cuanto va a tener q spawnearse un objeto, maxtime-2 para dar margen de caida
         this.objectsSpawned = 0; // Numero de objetos spawneados
@@ -34,9 +35,10 @@ export default class programmingMinigame extends Phaser.Scene {
     }
     update(t,dt)
     {
-        // Si se ha pasado el tiempo del minijuego acaba bien
-        this.minigameTime-= dt/1000;
-        if (this.minigameTime <= 0) { this.EndMinigame(true);}
+        // Tiempo del minijuego
+        this.timePassed+= dt/1000;
+        if (this.minigameTime-this.timePassed <= 0) { this.EndMinigame(true);} // Acaba si se acaba el tiempo
+        else this.bar.updateBar(this.timePassed);
         // Spawn de objetos si se ha cumplido el tiempo
         this.lastObject+=dt/1000;
         if (this.objectsSpawned < this.numObjects && this.lastObject > this.timePerObject)
@@ -49,11 +51,15 @@ export default class programmingMinigame extends Phaser.Scene {
     // Funcion para spawnear un nuevo objeto que va a caer en la escena
     spawn()
     {
+        
+        // Constantes
+        const objectXPadding = 20; // Margen que se da entre los bordes de la pantalla para que no toque los extremos
+        const objectXBetWeen = this.scale.width/3; // Margen entre el objeto spawneado y el anterior   
         // Aumenta el numero de objetos spawneado
         ++this.objectsSpawned;
         // Anade al grupo de objetos un nuevo objeto en posiciones random cercanas al antiguo
-        let minNewX = Phaser.Math.Clamp(this.lastObjectX-this.objectXBetWeen,this.objectXPadding,this.scale.width-this.objectXPadding);
-        let maxNewX = Phaser.Math.Clamp(this.lastObjectX+this.objectXBetWeen,this.objectXPadding,this.scale.width-this.objectXPadding);
+        let minNewX = Phaser.Math.Clamp(this.lastObjectX-objectXBetWeen,objectXPadding,this.scale.width-objectXPadding);
+        let maxNewX = Phaser.Math.Clamp(this.lastObjectX+objectXBetWeen,objectXPadding,this.scale.width-objectXPadding);
         let newX = Phaser.Math.RND.between(minNewX,maxNewX);
         // Spawn
         this.objects.add(new ProgObject(this,newX,0));
