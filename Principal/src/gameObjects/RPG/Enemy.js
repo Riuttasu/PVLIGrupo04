@@ -6,6 +6,7 @@ export default class Enemy {
         this.maxHp = enemyData.maxHp;
         this.currentHp = 0;
         this.color = enemyData.color;
+        this.sprite = enemyData.sprite || 'GithubBackground';
     }
 
     takeDamage(a, type) {
