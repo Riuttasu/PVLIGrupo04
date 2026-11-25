@@ -34,6 +34,6 @@ export default class Load extends Phaser.Scene{
     }
     create()
     {
-        this.scene.start('MenuScene'); 
+        this.scene.start('MenuChooseMiniGame'); // Cambiamos a la escena del menu de minijuegos
     }
 }
