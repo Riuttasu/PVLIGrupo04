@@ -21,7 +21,7 @@ export default class programmingMinigame extends Phaser.Scene {
         background.setOrigin(0,0);
         background.setDisplaySize(this.scale.width,this.scale.height);
         // Barra de tiempo de minijuego
-        this.bar = new Minigametimer(this,20,this.scale.height/2,this.minigameTime);
+        this.bar = new Minigametimer(this,20,20,this.minigameTime);
         // Jugador
         this.player = new ProgPlayer(this,this.scale.width/2,this.scale.height-this.scale.height/9);
         // Spawn de objetos
