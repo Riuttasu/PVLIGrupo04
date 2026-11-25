@@ -61,11 +61,7 @@ export default class Load extends Phaser.Scene{
 
     update(time,delta)
     {
-<<<<<<< HEAD
-        this.scene.start('MenuChooseMiniGame'); // Cambiamos a la escena del menu de minijuegos
-=======
         this.lod.rotation += 0.002 * delta //Giramos hay que multiplicar por delta
->>>>>>> e1324c8435129730b52a15a4bb110a7863be0e50
     }
 
 }

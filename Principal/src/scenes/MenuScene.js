@@ -34,6 +34,10 @@ export default class MenuScene extends Phaser.Scene{
    Boton3.setScale(0.2);
    Boton3.setTint(0xff0000);
    Boton3.setInteractive();
+   let Boton4 = this.add.image(100,500,'SceneButton')
+   Boton4.setScale(0.2);
+   Boton4.setTint(0xff0000);
+   Boton4.setInteractive();
    if (this.lastGameResult == 'programmingMinigame') this.playerData.programmingPoints += 10;
    if (this.lastGameResult == 'DesignGame') this.playerData.designPoints += 10;
    if (this.lastGameResult == 'ManagementGame') this.playerData.managementPoints += 10;
@@ -43,6 +47,7 @@ export default class MenuScene extends Phaser.Scene{
    Boton1.on('pointerdown', ()=>{this.scene.start('programmingMinigame')}) // usamos flechi inportante ehhhh
    Boton2.on('pointerdown', ()=>{this.scene.start('DesignGame')}) // usamos flechi inportante ehhhh
    Boton3.on('pointerdown', ()=>{this.scene.start('RPGScene')}) // usamos flechi inportante ehhhh
+   Boton4.on('pointerdown', ()=>{this.scene.start('StoreScene')}) // usamos flechi inportante ehhhh
    //Registro de playerData para proximas escenas
    this.registry.set('playerData', this.playerData);
    }
