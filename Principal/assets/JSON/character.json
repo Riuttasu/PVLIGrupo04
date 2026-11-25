@@ -1,14 +1,23 @@
 [
     {
         "name": "Toni",
-        "skills":[0,1,2,3,4]
+        "sprite": "Toni",
+        "style": "Design",
+        "skills":[0,1,2,3,4],
+        "iniHealth": 100
     },
     {
         "name": "Pablo",
-        "skills":[0,1,2,4]
+        "sprite": "Pablo",
+        "style": "Management",
+        "skills":[0,1,2,4],
+        "iniHealth": 100
     },
     {
-        "name": "Rubén",
-        "skills":[0,1,2,3]
+        "name": "Ruben",
+        "sprite": "Ruben",
+        "style": "Programming",
+        "skills":[0,1,2,3],
+        "iniHealth": 100
     }
 ]

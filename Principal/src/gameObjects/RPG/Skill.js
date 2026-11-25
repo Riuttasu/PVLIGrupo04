@@ -6,5 +6,6 @@ export default class Skill {
         this.damage = skillData.damage;
         this.targetType = skillData.targetType; // "single" o "all"
         this.description = skillData.description;
+        this.energyCost = skillData.energyCost || 0; // Costo de energía, por defecto 0 si no se proporciona
     }
 }
