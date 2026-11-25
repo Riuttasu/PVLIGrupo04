@@ -1,4 +1,4 @@
-import panelMinigameEnd from "../gameObjects/UI/panelMinigameEnd.js";
+import panelMinigameEnd from "../gameObjects/UI/PanelMinigameEnd.js";
 /**
  * Escena de final de minijuego, pausa la escena que la llama en el launch y se lanza en paralelo a esa
  */
