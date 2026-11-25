@@ -389,7 +389,8 @@ export default class RPGScene extends Phaser.Scene {
             font: 'bold 12px Arial',
             color: '#bf94ff'
         }).setOrigin(0.5);
-        this.chatText = this.add.text(920, 58, "", {
+        this.chatMessages = []
+        this.chatText = this.add.text(920, 58, this.chatMessages.join('\n\n'), {
             font: '11px Arial',
             color: '#efeff1',
             wordWrap: { width: 150 }
@@ -414,10 +415,14 @@ export default class RPGScene extends Phaser.Scene {
         if (this.chatMessages.length > 4) this.chatMessages.shift();
         this.chatText.setText(this.chatMessages.join('\n\n'));
     }
-    update(delta){
+    update(t, delta){
         this.cooldown += delta;
-        const limit = Phaser.Math.Between(800, 1200);
-        if (this.cooldown >= limit) return
+        const limit = Phaser.Math.Between(400, 1200);
+        if (this.cooldown >= limit) {
+            const mess = Phaser.Math.Between(0, this.messagesList.length - 1)
+            this.pushChat(this.messagesList[mess])
+            this.cooldown = 0;
+        }
     }
     /** Crea todos los eventos relacionados con el input */
     setupControls() {
