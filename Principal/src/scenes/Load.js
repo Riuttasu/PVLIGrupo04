@@ -51,7 +51,7 @@ export default class Load extends Phaser.Scene{
         this.load.json('levelsData', 'levels.json'); //Compendio de niveles con la lista de los indices de 
         this.load.json('playerData', 'player.json'); // Datos del jugador
         this.load.json('characterData', 'character.json'); // Datos base de los profesores
-            this.load.json('level1', 'assets/JSON/levelgestion1.json');
+            this.load.json('level1', 'levelgestion1.json');
 
         this.load.start(); 
         this.load.on('complete', () => {this.registry.set('playerData', this.cache.json.get('playerData')); this.scene.start('startMenu')}); // Esto mira si la escena termino de cargra preguntar a toni si es asi porque los saque con una busqueda rápida

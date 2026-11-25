@@ -6,6 +6,28 @@ import Ball from '../gameObjects/ManagementGame/Ball.js';
 import InfoBar from '../gameObjects/ManagementGame/InfoBar.js';
 export default class ManagementGame extends Phaser.Scene{
 
+  
+init(datos)
+{
+    this.nombreNivel = datos.nivel;
+}
+  LeerArchivo()
+{
+    let datos = this.cache.json.get(this.nombreNivel);
+    let nivel = datos.level;
+
+    for(let f = 0; f < nivel.length; f++)
+    {
+        for(let c = 0; c < nivel[f].length; c++)
+        {
+            let color = nivel[f][c];
+
+            let ball = new Ball(this, 0, 0, 0, color, 0);
+
+            this.placeball(ball, f, c);
+        }
+    }
+}
     constructor()
     {
         super({key: 'ManagementGame'});
@@ -311,25 +333,4 @@ export default class ManagementGame extends Phaser.Scene{
       this.player.move();
       
     }
-}
-LeerArchivo()
-{
-    let datos = this.cache.json.get(this.nombreNivel);
-    let nivel = datos.level;
-
-    for(let f = 0; f < nivel.length; f++)
-    {
-        for(let c = 0; c < nivel[f].length; c++)
-        {
-            let color = nivel[f][c];
-
-            let ball = new Ball(this, 0, 0, 0, color, 0);
-
-            this.placeball(ball, f, c);
-        }
-    }
-}
-init(datos)
-{
-    this.nombreNivel = datos.nivel;
 }
