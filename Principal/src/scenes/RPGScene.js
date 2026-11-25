@@ -393,6 +393,7 @@ export default class RPGScene extends Phaser.Scene {
         this.chatText = this.add.text(920, 58, this.chatMessages.join('\n\n'), {
             font: '11px Arial',
             color: '#efeff1',
+            maxLines: 19,
             wordWrap: { width: 150 }
         });
 
@@ -411,11 +412,11 @@ export default class RPGScene extends Phaser.Scene {
     }
     /** Añade al chat el msg */
     pushChat(msg, name = "MASTER", color = '#ffffffff') {
-        let mes = name + ": " + msg
+        let mes = name + ": " + msg;
         this.chatMessages.push(mes);
-        if (this.chatMessages.length > 6) this.chatMessages.shift();
+        if (this.chatMessages.length > 7) this.chatMessages.shift();
         this.chatText.setText(this.chatMessages.join('\n\n'));
-        this.chatText.setColor(color);
+        this.chatText.setFill(color);
     }
     update(t, delta){
         this.cooldown += delta;
