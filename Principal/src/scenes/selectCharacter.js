@@ -2,9 +2,10 @@ export default class selectCharacter extends Phaser.Scene{
     constructor()
     {
         super({key:'selectCharacter'});
-        }
-        create()
-        {
+    }
+    create()
+    {
+        this.rescale = 0
         this.playerData = this.registry.get('playerData');
         this.characters = this.cache.json.get('characterData');
         const TYPE_STYLES = {
@@ -14,7 +15,7 @@ export default class selectCharacter extends Phaser.Scene{
         }
         const names = ["Toni", "Pablo", "Ruben"];
         //Creas los botones para cada profe 
-        this.buttons = [];
+        this.images = [];
         for (let i = 0; i < this.characters.length; i++){
             let button = this.add.rectangle(220 + 330*i,500,220,60, TYPE_STYLES[this.characters[i].style].color)
             button.setInteractive();
@@ -25,8 +26,18 @@ export default class selectCharacter extends Phaser.Scene{
             button.on('pointerdown', ()=> {this.setProfesor(this.characters[i], i)})
 
             //Les ponemos las imágenes
-            let image = this.add.image(220 + 330*i,250, names[i]).setDisplaySize(200, 350)
-        }
+            let image = this.add.image(110 + 330*i,400, names[i]).setDisplaySize(200, 350);
+            image.setOrigin(0,1)
+            let tween = this.tweens.add({
+                targets: [ image ],
+                scaleY: 0.55,
+                duration: 300,
+                ease: 'Sine.easeInOut',
+                yoyo: true,
+                repeat: -1,
+                delay: 10
+            });
+        };
     }
     setProfesor(prof, index){
         this.playerData.characterID = index;
@@ -36,8 +47,14 @@ export default class selectCharacter extends Phaser.Scene{
         this.playerData.designPoints = 0;
         this.playerData.managementPoints = 0;
         this.playerData.playerSkillsID = prof.skills;
-        console.log(this.playerData)
-        this.scene.start('MenuScene')
+        console.log(this.playerData);
+        this.scene.start('MenuScene');
+    }
+    update(delta){
+        this.rescale = (this.rescale+delta)%100;
+        this.images.forEach(e => {
+            e.setDisplaySize(e.scale.width, e.scale.width - this.rescale)
+        });
     }
 }
  
