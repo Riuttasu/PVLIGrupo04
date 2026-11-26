@@ -1,6 +1,12 @@
-
+/**
+ * Objeto usado por el minijuego de programacion, cae con una gravedad hasta salirse de la pantalla o ser recogido
+ */
 export default class ProgObject extends Phaser.GameObjects.Text 
 {
+    /**
+     * @param {*} name nombre del objeto (texto que saldra)
+     * @param {*} gravity velocidad de gravedad del objeto
+     */
     constructor(scene,x,y,name = 'objectprog',gravity=100)
     {
         super(scene,x,y,name);
@@ -22,4 +28,5 @@ export default class ProgObject extends Phaser.GameObjects.Text
             this.scene.EndMinigame(false);
         }
     }
+    
 }

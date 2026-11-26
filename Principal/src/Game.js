@@ -6,8 +6,9 @@ import Load from "./scenes/Load.js";
 import programmingMinigame from "./scenes/progMinigame.js";
 import minigameEndScene from "./scenes/minigameEndScene.js";
 import RPGScene from "./scenes/RPGScene.js";
-import StartMenu from "./scenes/startMenu.js";
+import startMenu from "./scenes/startMenu.js";
 import selectCharacter from "./scenes/selectCharacter.js";
+import credits from "./scenes/credits.js";
 let config = {
     parent: 'Juego',
     type: Phaser.AUTO,
@@ -19,7 +20,7 @@ let config = {
     },
     pixelArt: false,
     backgroundColor: '#ff69b4',
-    scene: [Load,MenuScene,ManagementGame,programmingMinigame,minigameEndScene, RPGScene, DesignGame, StartMenu, selectCharacter],
+    scene: [Load,MenuScene,ManagementGame,programmingMinigame,minigameEndScene, RPGScene, DesignGame, startMenu, selectCharacter,credits],
     physics: {
         default: 'arcade', // elegir motor
         arcade: { // propiedades del motor
