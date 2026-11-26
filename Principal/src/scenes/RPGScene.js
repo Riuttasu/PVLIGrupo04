@@ -640,19 +640,19 @@ export default class RPGScene extends Phaser.Scene {
             case "Split Attack":{
                 this.enemy.takeDamage(skill.damage, skill.type)
                 this.pushChat("Split Attack")
-                console.log(targetSlotIndex)
+                //console.log(targetSlotIndex)
                 targetSlotIndex += 3;
                 const enemyLeft = this.activeSlots[(targetSlotIndex + 1) % 3];
                 const enemyRight = this.activeSlots[(targetSlotIndex - 1) % 3];
                 if (enemyLeft) enemyLeft.takeDamage(skill.damage / 2, skill.type);
-                if (enemyLeft) enemyRight.takeDamage(skill.damage / 2, skill.type);
-                if (enemyLeft && enemyLeft.currentHp >= enemyLeft.maxHp)this.statProgress[enemyLeft.type] = Math.min(this.statGoal, this.statProgress[enemyLeft.type] + enemyLeft.maxHp);
-                    if (enemyLeft.isComplete()) {
-                        this.activeSlots[(targetSlotIndex + 1) % 3] = null;
+                if (enemyRight) enemyRight.takeDamage(skill.damage / 2, skill.type);
+                if (enemyLeft && enemyLeft.isComplete()) {
+                    this.activeSlots[(targetSlotIndex + 1) % 3] = null;
+                    this.statProgress[enemyLeft.type] = Math.min(this.statGoal, this.statProgress[enemyLeft.type] + enemyLeft.maxHp);
                 }
-                if (enemyLeft && enemyRight.currentHp >= enemyRight.maxHp)this.statProgress[enemyRight.type] = Math.min(this.statGoal, this.statProgress[enemyRight.type] + enemyRight.maxHp);
-                    if (enemyRight.isComplete()) {
-                        this.activeSlots[(targetSlotIndex - 1) % 3] = null;
+                if (enemyRight && enemyRight.isComplete()) {
+                    this.activeSlots[(targetSlotIndex - 1) % 3] = null;
+                    this.statProgress[enemyRight.type] = Math.min(this.statGoal, this.statProgress[enemyRight.type] + enemyRight.maxHp);
                 }
             }; break;
             case "Restoration":{
@@ -680,11 +680,14 @@ export default class RPGScene extends Phaser.Scene {
             default:console.log("QUE ES ESTO?????"); break;
         }
         // Sumar progreso a la barra superior del tipo correspondiente
-        if (skill.typedamage !== "Restoration" && this.enemy.currentHp >= this.enemy.maxHp){
+        console.log(this.enemy)
+        
+        if (skill.typedamage !== "Restoration" && this.enemy.isComplete()) {
+            
+            this.activeSlots[targetSlotIndex % 3] = null;
+            
             this.statProgress[this.enemy.type] = Math.min(this.statGoal, this.statProgress[this.enemy.type] + this.enemy.maxHp);
-            if (this.enemy.isComplete()) {
-                this.activeSlots[targetSlotIndex] = null;
-            }
+        
         }
         this.turns--;
         this.updateHealthBar();
