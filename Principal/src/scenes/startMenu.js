@@ -7,7 +7,7 @@ export default class startMenu extends Phaser.Scene{
     create()
     {
         // Fondo
-        let fondo = this.add.image(0,0,'mainBackground');
+        let fondo = this.add.image(0,0,'startBackground');
         fondo.setDisplaySize(this.scale.width,this.scale.height);
         // Boton de empezar el juego
         let startButton = this.add.image(900,350,'playButton');

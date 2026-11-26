@@ -33,9 +33,9 @@ export default class panelMinigameEnd extends Phaser.GameObjects.Container
         text.setScale(2,2);
         // Boton para volver
         let button = 
-        new Phaser.GameObjects.Image(this.scene,this.scene.scale.width/2,this.scene.scale.height/3*2,'SceneButton');
+        new Phaser.GameObjects.Image(this.scene,this.scene.scale.width/2,this.scene.scale.height/3*2,'backButton');
         button.setOrigin(0.5,0.5);
-        button.setDisplaySize(128,128);
+        button.setDisplaySize(300,128);
         // Interactividad del boton con funcion
         button.setInteractive();
         button.on('pointerdown', ()=>
