@@ -341,8 +341,10 @@ export default class RPGScene extends Phaser.Scene {
         // Actualizamos el texto de coste de energía, título y descripción de la habilidad seleccionada
         this.energyCostText.setText(`-${currSkill.energyCost}`);
         this.descTitleText.setText(`Descripción (Prog: +${currSkill.damage})`);
-        this.descBodyText.setText(currSkill.description);
+        this.descBodyText.setText(currSkill.descriptionshort);
         this.drawTypeSymbol(this.descTypeIcon, currStyle, 98, -74, 10);
+        console.log(currSkill.descriptionshort)
+        console.log(currSkill)
 
         // Dibujar las 3 barritas de objetivo (1 llena = single, 3 llenas = all). Más adelantes habrá que hacer en caso de 2 cuando se incorporen las habilidades
         const tg = this.targetBarsGfx;
