@@ -50,11 +50,5 @@ export default class selectCharacter extends Phaser.Scene{
         console.log(this.playerData);
         this.scene.start('MenuScene');
     }
-    update(delta){
-        this.rescale = (this.rescale+delta)%100;
-        this.images.forEach(e => {
-            e.setDisplaySize(e.scale.width, e.scale.width - this.rescale)
-        });
-    }
 }
  

@@ -3,21 +3,21 @@
         "name": "Toni",
         "sprite": "Toni",
         "style": "Design",
-        "skills":[0,1,2,3,4],
-        "iniHealth": 100
+        "skills":[0,1,2,3,4,5,6,7,8,9],
+        "iniHealth": 1000
     },
     {
         "name": "Pablo",
         "sprite": "Pablo",
         "style": "Management",
         "skills":[0,1,2,4],
-        "iniHealth": 100
+        "iniHealth": 1000
     },
     {
         "name": "Ruben",
         "sprite": "Ruben",
         "style": "Programming",
         "skills":[0,1,2,3],
-        "iniHealth": 100
+        "iniHealth": 1000
     }
 ]

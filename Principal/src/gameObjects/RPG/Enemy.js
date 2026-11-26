@@ -7,44 +7,46 @@ export default class Enemy {
         this.currentHp = 0;
         this.color = enemyData.color;
         this.sprite = enemyData.sprite || 'GithubBackground';
+        this.freeze = 0;
+        this.critMul = 2;
     }
 
-    takeDamage(a, type) {
+    takeDamage(damage, type) {
         if (type !== this.type) {
             //Si la skill es programacion
             if (type === 'Programming') {
                 //Si el enemigo es de diseño, la skill hace la mitad de daño
                 if (this.type === 'Design') {
-                    a = a / 2;
+                    damage = damage / this.critMul;
                 }
                 //Si el enemigo es de gestion, la skill hace el doble de daño
                 else {
-                    a = a * 2;
+                    damage = damage * this.critMul;
                 }
             }
             else if (type === 'Design') {
                 //Si el enemigo es de gestion, la skill hace la mitad de daño
                 if (this.type === 'Management') {
-                    a = a / 2;
+                    damage = damage / this.critMul;
                 }
                 //Si el enemigo es de programacion, la skill hace el doble de daño
                 else {
-                    a = a * 2;
+                    damage = damage * this.critMul;
                 }
             }
             else {
                 //Si el enemigo es de programacion, la skill hace la mitad de daño
                 if (this.type === 'Programming') {
-                    a = a / 2;
+                    damage = damage / this.critMul;
                 }
                 //Si el enemigo es de diseño, la skill hace el doble de daño
                 else {
-                    a = a * 2;
+                    damage = damage * this.critMul;
                 }
             }
         }
         
-        this.currentHp = Math.min(this.maxHp, this.currentHp + a);
+        this.currentHp = Math.min(this.maxHp, this.currentHp + damage);
     }
 
     isComplete() {

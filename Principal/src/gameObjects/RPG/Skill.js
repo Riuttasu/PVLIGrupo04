@@ -3,9 +3,11 @@ export default class Skill {
         this.id = skillData.id;
         this.name = skillData.name;
         this.type = skillData.type;
+        this.typedamage = skillData.typedamage
         this.damage = skillData.damage;
         this.targetType = skillData.targetType; // "single" o "all"
-        this.description = skillData.description;
+        this.descriptionshort = skillData.descriptionshort;
+        this.descriptionlarge = skillData.descriptionlarge;
         this.energyCost = skillData.energyCost || 0; // Costo de energía, por defecto 0 si no se proporciona
     }
 }

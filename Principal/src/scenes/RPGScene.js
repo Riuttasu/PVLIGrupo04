@@ -22,6 +22,7 @@ export default class RPGScene extends Phaser.Scene {
         this.playerData = this.registry.get('playerData');
         //this.playerData.characterID = 0; //Debug para elegir el profe 
         this.cooldown = 0;
+        this.turns = 1;
     }
 
     create() {
@@ -32,6 +33,7 @@ export default class RPGScene extends Phaser.Scene {
         //Guardamos en variables los jsons
         this.messagesList = this.cache.json.get('chat');
         const skills = this.cache.json.get('skillsData').map(data => new Skill(data));
+        console.log(skills)
         this.skillsList = []; 
         //Asignamos a la lista de habilidades de la batalla las habilidades que tiene el jugador en su json
         for (let i = 0; i < this.playerData.playerSkillsID.length; i++) {
@@ -146,7 +148,7 @@ export default class RPGScene extends Phaser.Scene {
         // Actualizamos el texto de energía
         this.energyText.setText(`Energía: ${this.currentEnergy}/${this.maxEnergy}`);
 
-        /*Actuailizar las 3 barras de progreso con los nuevos valores de statProgress y statGoal. 
+        /*Actualizar las 3 barras de progreso con los nuevos valores de statProgress y statGoal. 
          * Se calcula el progreso y se ajusta la altura del relleno de la barra y el texto que muestra el valor actual*/
             Object.keys(this.statBars).forEach(type => {
             const bar = this.statBars[type];
@@ -590,16 +592,18 @@ export default class RPGScene extends Phaser.Scene {
         if (this.isGameOver) return;
         const currentSkill = this.skillsList[this.selectedSkillIndex];
         //Comprueba si le queda energía al jugador para usar la habilidad, si no le queda energía, no hace nada
-        if (this.currentEnergy < currentSkill.energyCost) {
-            this.speechText.setText('PERO QUÉ HACES?????\n¡NO QUEDA ENERGÍA!');
-            return;
-        }
+        //if (this.currentEnergy < currentSkill.energyCost) {
+        //    this.speechText.setText('PERO QUÉ HACES?????\n¡NO QUEDA ENERGÍA!');
+        //    return;
+        //}
         //si es para seleccionar una habilidad
         if (!this.isSelectingTarget) {
-            if (currentSkill.targetType === 'single') {
+            if (currentSkill.typedamage === 'Restoration') this.executeSkill(currentSkill, 3)
+            else if (currentSkill.targetType === 'single') {
                 this.isSelectingTarget = true;
                 // Busca el primer slot que tenga un enemigo
                 this.selectedTargetSlot = this.activeSlots.findIndex(e => e !== null);
+                
                 if (this.selectedTargetSlot !== -1) {
                     this.updateTargetPointerPosition();
                 } else {
@@ -607,7 +611,9 @@ export default class RPGScene extends Phaser.Scene {
                 }
             } else {
                 // Target 'all'
-                this.executeSkill(currentSkill, null);
+                this.executeSkill(currentSkill, 0);
+                this.executeSkill(currentSkill, 1);
+                this.executeSkill(currentSkill, 2);
             }
         } else {
             // Confirma que la posicion en la que esta la flecha es el target correcto
@@ -624,41 +630,80 @@ export default class RPGScene extends Phaser.Scene {
      * Por último siempre comprueba si ha terminado el juego en esa ronda
      */
     executeSkill(skill, targetSlotIndex) {
-        this.currentEnergy = Math.max(0, this.currentEnergy - skill.energyCost); //actualizamos la energía pro si ha costado algo
-        if (targetSlotIndex !== null) { 
-            // Ataque a un solo objetivo (single target)
-            const enemy = this.activeSlots[targetSlotIndex];
-            if (enemy) {    
-            enemy.takeDamage(skill.damage, skill.type);
-            this.pushChat("VAYA OSTIA")
-            // Sumar progreso a la barra superior del tipo correspondiente
-            if (enemy.currentHp >= enemy.maxHp)this.statProgress[enemy.type] = Math.min(this.statGoal, this.statProgress[enemy.type] + enemy.maxHp);
-                if (enemy.isComplete()) {
-                    this.activeSlots[targetSlotIndex] = null;
+        //this.currentEnergy = Math.max(0, this.currentEnergy - skill.energyCost); //actualizamos la energía pro si ha costado algo
+        if (targetSlotIndex !== 3) this.enemy = this.activeSlots[targetSlotIndex]; //Enemy es el objetivo
+        switch(skill.typedamage){
+            case "basic":{
+                this.enemy.takeDamage(skill.damage, skill.type)
+                this.pushChat("Basic")
+            }; break;
+            case "Split Attack":{
+                this.enemy.takeDamage(skill.damage, skill.type)
+                this.pushChat("Split Attack")
+                console.log(targetSlotIndex)
+                targetSlotIndex += 3;
+                const enemyLeft = this.activeSlots[(targetSlotIndex + 1) % 3];
+                const enemyRight = this.activeSlots[(targetSlotIndex - 1) % 3];
+                if (enemyLeft) enemyLeft.takeDamage(skill.damage / 2, skill.type);
+                if (enemyLeft) enemyRight.takeDamage(skill.damage / 2, skill.type);
+                if (enemyLeft && enemyLeft.currentHp >= enemyLeft.maxHp)this.statProgress[enemyLeft.type] = Math.min(this.statGoal, this.statProgress[enemyLeft.type] + enemyLeft.maxHp);
+                    if (enemyLeft.isComplete()) {
+                        this.activeSlots[(targetSlotIndex + 1) % 3] = null;
                 }
-            }
-        } else {
-            // Ataque en a todos
-            this.pushChat("Vaya máquina, a todos a la vez")
-            this.activeSlots.forEach((enemy, index) => {
-                if (enemy) {
-                    const prevHp = enemy.currentHp;
-                    enemy.takeDamage(skill.damage, skill.type);
-                    const dealt = enemy.currentHp - prevHp;
-                    // Sumar progreso a la barra superior del tipo correspondiente si el enemigo murio
-                    if (enemy.currentHp >= enemy.maxHp)this.statProgress[enemy.type] = Math.min(this.statGoal, this.statProgress[enemy.type] + enemy.maxHp);
-                    if (enemy.isComplete()) {
-                        this.activeSlots[index] = null;
-                    }
+                if (enemyLeft && enemyRight.currentHp >= enemyRight.maxHp)this.statProgress[enemyRight.type] = Math.min(this.statGoal, this.statProgress[enemyRight.type] + enemyRight.maxHp);
+                    if (enemyRight.isComplete()) {
+                        this.activeSlots[(targetSlotIndex - 1) % 3] = null;
                 }
-            });
+            }; break;
+            case "Restoration":{
+                this.currentEnergy += skill.damage;
+                this.pushChat("Restoration")
+            }; break;
+            case "Freeze":{
+                this.enemy.freeze += skill.damage;
+                this.pushChat("Freeze")
+            }; break;
+            case "Double Attack":{
+                this.enemy.takeDamage(skill.damage, skill.type)
+                this.pushChat("Double Attack")
+                this.turns++;
+            }; break;
+            case "Effective":{
+                this.enemy.critMul = 3;
+                this.enemy.takeDamage(skill.damage, skill.type)
+                this.enemy.critMul = 2;
+                this.pushChat("Effective")
+            }; break;
+            case "Double Attack":{
+
+            }; break;
+            default:console.log("QUE ES ESTO?????"); break;
         }
+        // Sumar progreso a la barra superior del tipo correspondiente
+        if (skill.typedamage !== "Restoration" && this.enemy.currentHp >= this.enemy.maxHp){
+            this.statProgress[this.enemy.type] = Math.min(this.statGoal, this.statProgress[this.enemy.type] + this.enemy.maxHp);
+            if (this.enemy.isComplete()) {
+                this.activeSlots[targetSlotIndex] = null;
+            }
+        }
+        this.turns--;
+        this.updateHealthBar();
+        if (this.turns === 0)this.enemyTurn();
         this.updateHealthBar();
         // Reponer slots vacios con la pila de niveles
-        this.fillEmptySlots();// Comprobar si no quedan enemigos en combate ni en la cola
+        this.fillEmptySlots();// Comprobar si no quedan enemigos en combate ni en la cola y poner nuevos
         this.checkVictory();
     }
-
+    
+    enemyTurn(){
+        this.activeSlots.forEach(e => {
+            if (e !== null) {
+                if (e.freeze === 0) this.currentEnergy -= 10;
+                else e.freeze--;
+            }
+                })
+        this.turns++;
+    }
     checkVictory() {
         const isQueueEmpty = this.enemyQueue.length === 0;
         const isSlotsEmpty = this.activeSlots.every(slot => slot === null);

@@ -15,7 +15,7 @@
     "type": "Design",
     "typedamage": "Split Attack",
     "damage": 20,
-    "targetType": "all",
+    "targetType": "single",
     "descriptionshort": "Deals damage to all three enemies. The selected enemy takes increased damage, while the others receive a reduced fraction of the original damage.",
     "descriptionlarge " : "Covers your game with yellow stains so the player doesn't get lost or frustrated."
   },
@@ -35,7 +35,7 @@
     "name": "Duck",
     "type": "Management",
     "typedamage": "Freeze",
-    "damage": 0,
+    "damage": 3,
     "targetType": "single",
     "descriptionshort": "Freezes the selected enemy in its current position, preventing it from attacking you",
     "descriptionlarge ": "You shout at your duck in the cafeteria. Everyone stares, but who cares? You've got a mojito and a duck."
@@ -58,7 +58,7 @@
     "damage": 25,
     "targetType": "single",
     "descriptionshort": "Deals design damage to one active enemies.",
-     "descriptionlarge ": "You play poker with Ismael and Marco Crespo. After sharing ideas and debating, your mind feels more relaxed."
+    "descriptionlarge ": "You play poker with Ismael and Marco Crespo. After sharing ideas and debating, your mind feels more relaxed."
   },
   {
     "id": "7",
@@ -94,6 +94,7 @@
     "id": "10",
     "name": "Arturo",
     "type": "Management",
+    "typedamage": "Effective",
     "damage": 40,
     "targetType": "single",
     "descriptionshort": "Deals super effective management  damage to one active enemies.",
