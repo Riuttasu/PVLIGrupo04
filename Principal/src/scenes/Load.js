@@ -52,6 +52,7 @@ export default class Load extends Phaser.Scene{
         this.load.json('playerData', 'player.json'); // Datos del jugador
         this.load.json('characterData', 'character.json'); // Datos base de los profesores
         this.load.json('chat', 'chat.json'); // Mensajes aleatorios del chat
+        this.load.json('dialogues', 'dialogues.json') //Todos los diálogos del juego
 
         this.load.start(); 
         this.load.on('complete', () => {this.registry.set('playerData', this.cache.json.get('playerData')); this.scene.start('startMenu')}); // Esto mira si la escena termino de cargra preguntar a toni si es asi porque los saque con una busqueda rápida

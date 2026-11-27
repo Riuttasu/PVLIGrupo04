@@ -1,0 +1,66 @@
+[
+    [
+        [
+            {
+                "character" : "Toni",
+                "text" : "hola"
+            },
+            {
+                "character" : "Pablo",
+                "text" : "adios, qué evil es"
+            }
+        ],
+        [
+            {
+                "character" : "Pablo",
+                "text" : "hola"
+            },
+            {
+                "character" : "Ruben",
+                "text" : "adios, qué evil es"
+            }
+        ],
+        [
+            {
+                "character" : "Ruben",
+                "text" : "hola"
+            },
+            {
+                "character" : "Toni",
+                "text" : "adios, qué evil es"
+            }
+        ]
+    ],
+    [
+        [
+            {
+                "character" : "Toni",
+                "text" : "hola"
+            },
+            {
+                "character" : "Pablo",
+                "text" : "adios, qué evil es"
+            }
+        ],
+        [
+            {
+                "character" : "Pablo",
+                "text" : "hola"
+            },
+            {
+                "character" : "Ruben",
+                "text" : "adios, qué evil es"
+            }
+        ],
+        [
+            {
+                "character" : "Ruben",
+                "text" : "hola"
+            },
+            {
+                "character" : "Toni",
+                "text" : "adios, qué evil es"
+            }
+        ]
+    ]
+]
