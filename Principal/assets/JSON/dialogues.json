@@ -7,7 +7,11 @@
             },
             {
                 "character" : "Pablo",
-                "text" : "adios, qué evil es"
+                "text" : "adios, qué evil soy"
+            },
+            {
+                "character" : "Ruben",
+                "text" : "jejej"
             }
         ],
         [
@@ -17,7 +21,11 @@
             },
             {
                 "character" : "Ruben",
-                "text" : "adios, qué evil es"
+                "text" : "adios, qué evil soy"
+            },
+            {
+                "character" : "Toni",
+                "text" : "jejej"
             }
         ],
         [
@@ -27,7 +35,11 @@
             },
             {
                 "character" : "Toni",
-                "text" : "adios, qué evil es"
+                "text" : "adios, qué evil soy"
+            },
+            {
+                "character" : "Pablo",
+                "text" : "jejej"
             }
         ]
     ],

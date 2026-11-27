@@ -67,7 +67,7 @@ export default class selectCharacter extends Phaser.Scene{
         this.playerData.designPoints = 0;
         this.playerData.managementPoints = 0;
         this.playerData.playerSkillsID = prof.skills;
-        this.scene.start('MenuScene');
+        this.scene.start('dialogueScene', {dialogueIndex: 0});
     }
 }
  
