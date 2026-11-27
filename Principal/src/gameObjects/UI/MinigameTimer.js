@@ -12,7 +12,6 @@ export default class Minigametimer extends Phaser.GameObjects.Graphics
         // Constante de margen de bordes de pantalla
         const padding = 20;
         const barheight = 20;
-        console.log(this.x); console.log(this.y); console.log(this.scene.scale.width);
         // Quita la anterior
         this.clear();
         // Fondo
