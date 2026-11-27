@@ -6,17 +6,23 @@ import Ball from '../gameObjects/ManagementGame/Ball.js';
 import InfoBar from '../gameObjects/ManagementGame/InfoBar.js';
 export default class ManagementGame extends Phaser.Scene{
 
-  
+   // Scena del mimjuego de gestión en esta se controla la lógica del juego. En este juego se carcteriaza porque el jugador debe de lanzar
+   // diversas bolas hacia arriba y conseguir juntar 3 del mismo color, al conseguirlo  se eliminarán las bolas y  conseguira puntos, el juego se pasa al llegar al objetivo previsto
 init(datos)
 {
-    this.nombreNivel = datos.nivel;
+    this.nombreNivel = datos.nivel; //  Consigo los datos del nivel
 }
   LeerArchivo()
 {
-    let datos = this.cache.json.get(this.nombreNivel);
-    let nivel = datos.level;
+    let datos = this.cache.json.get(this.nombreNivel); // cambiar
+    let nivel = datos.level; // Consigo el nivel 
+    if (nivel == null)
+    {
+      this.LevelRandom(); 
+      return; 
+    }
 
-    for(let f = 0; f < nivel.length; f++)
+    for(let f = 0; f < nivel.length; f++) // lo relleno
     {
         for(let c = 0; c < nivel[f].length; c++)
         {
@@ -33,7 +39,7 @@ init(datos)
         super({key: 'ManagementGame'});
     }
     
-    CreateBall() // Metodo que crea las bolas y se encarga de que cuando chocquen contra la pared se detengan
+    CreateBall() // Metodo que crea las bolas 
     {
       
         
@@ -60,7 +66,7 @@ init(datos)
           this.info.UpdateColor(this.color);
           
     }
-     Rellena()
+     Rellena() // Metodo de testeo para ver la cuadricula rellena
 {
     for(let f = 0; f < this.filas; f++)
     {
@@ -74,32 +80,32 @@ init(datos)
         }
     }
 }
-    stopball(ball)
+    stopball(ball) // Metodo que para las bolas
     {
       if (ball.Placed)
       {
-
         return; 
       }
       ball.Placed = true;
        let columna = Math.round((ball.x - this.StartX) / ball.displayWidth);
        let fila = Math.round((ball.y - this.StartY) / ball.displayHeight);
 
-       let celda = this.SearchFreeCell(fila,columna);
-    if (celda == null)
+       let celda = this.SearchFreeCell(fila,columna); // busco la celda libre
+    if (celda == null) // sino hay libre elimino
     {
         ball.destroy(); 
         return; 
       
     }
     this.placeball(ball, celda[0], celda[1]);
+    // Paro la bola
     ball.body.setVelocity(0, 0);
     ball.body.setAcceleration(0, 0);
     ball.body.moves = false;
     this.Match(celda[0],celda[1]); 
     }
 
-    SearchFreeCell(fila,columna) // Metodo para buscar la celda mas cercana a la colision  //JAVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    SearchFreeCell(fila,columna) // Metodo para buscar la celda mas cercana a la colision 
     {
          if(fila < 0 || fila >= this.filas || columna < 0 || columna >= this.columnas) 
          {
@@ -166,6 +172,8 @@ init(datos)
         Background.setOrigin(0,0);  //Pongo su origen en el 0
         Background.setDisplaySize(1100,620);
       
+        this.cont = 0; // Contador para el tiempo;
+        this.limit = 1800 // Tiempo expresado en segundos // esto se leria de un archivo mejor
         this.player =  new Player(this,500,400,'player');
 
         this.teclado = this.input.keyboard.createCursorKeys();
@@ -332,5 +340,21 @@ init(datos)
 
       this.player.move();
       
+    }
+
+    LevelRandom()
+    {
+        
+      for(let i = 0; i < 2; i++)
+      {
+        for(let j= 0; j < this.columnas; j++)
+        {
+           let color  = Phaser.Math.Between(0, 2);
+           let ball = new bBall(this,0,0,0,color,0); 
+           this.placeball(ball,i,j); 
+        }
+      }
+
+     
     }
 }

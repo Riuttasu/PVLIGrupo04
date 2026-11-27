@@ -29,7 +29,7 @@ export default class Load extends Phaser.Scene{
         this.load.image('Pablo', 'Prof/Pablo.png');
         this.load.image('Ruben', 'Prof/Ruben.png');
         // Minijuego Gestion 
-        this.load.image('BackgroundManagment', 'MinijuegoManagement/FondoGestion.jpg');
+        this.load.image('BackgroundManagment', 'MinijuegoManagement/Fondo.jpg');
         this.load.image('Player', 'MinijuegoManagement/Player.png');
         this.load.image('Ball', 'MinijuegoManagement/Ball.png'); 
         this.load.image('Arrow', 'MinijuegoManagement/Arrow.png');

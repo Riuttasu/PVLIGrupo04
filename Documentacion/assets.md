@@ -26,3 +26,4 @@ Por este motivo, la mayoría de los placeholders utilizados durante el desarroll
 ### Autoría y procedencia
 
 La mayoría de los recursos gráficos utilizados hasta el momento se han obtenido de Internet, en páginas  que ofrecen recursos de libre uso. Y el savavidas de cualquier estudiantes pinterest
+###  Enlaces a los recursos externos concedidos
