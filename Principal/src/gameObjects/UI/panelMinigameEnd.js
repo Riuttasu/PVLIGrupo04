@@ -23,14 +23,17 @@ export default class panelMinigameEnd extends Phaser.GameObjects.Container
         let background =
         new Phaser.GameObjects.Rectangle(this.scene,this.x,this.y,this.scene.scale.width,this.scene.scale.height,bgColor,0.5);
         background.setOrigin(0,0);
+        // texto de minijuego terminado
+        let headerText = new Phaser.GameObjects.Text(this.scene,this.scene.scale.width/2,this.scene.scale.height/4,"Entrenamiento terminado",
+            { color: '#ffffff', fontSize: '50px', fontFamily: "paperFont"});
+        headerText.setOrigin(0.5,0.5);
         // texto de ganar/perder
         let infoText = "";
-        isWin ? infoText = "Has ganado" : infoText = "Has perdido";
-        // Creacion
+        isWin ? infoText = "Has ganado :)" : infoText = "Has perdido :(";
         let text = 
-        new Phaser.GameObjects.Text(this.scene,this.scene.scale.width/2,this.scene.scale.height/3,infoText,{ fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif'});
+        new Phaser.GameObjects.Text(this.scene,this.scene.scale.width/2,this.scene.scale.height/2,infoText,
+            { fontStyle: 'bold', fontSize: '40px'});
         text.setOrigin(0.5,0.5);
-        text.setScale(2,2);
         // Boton para volver
         let button = 
         new Phaser.GameObjects.Image(this.scene,this.scene.scale.width/2,this.scene.scale.height/3*2,'backButton');
@@ -46,6 +49,7 @@ export default class panelMinigameEnd extends Phaser.GameObjects.Container
         );
         // Añadir todo
         this.add(background);
+        this.add(headerText);
         this.add(text);
         this.add(button); 
     }

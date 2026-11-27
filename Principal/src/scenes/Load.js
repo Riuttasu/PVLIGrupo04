@@ -19,6 +19,9 @@ export default class Load extends Phaser.Scene{
     
         this.lod = this.add.image( 550, 310,'mini');
         this.lod.setDisplaySize(400,400);
+        // Load Fuente
+        this.load.setPath("../Principal/assets/TTF/") // Path
+        this.load.font('paperFont','Paperkind-vm8zO.ttf')
         // Load Imagenes
         this.load.setPath("../Principal/assets/IMG/") // Path
         // UI
@@ -43,7 +46,7 @@ export default class Load extends Phaser.Scene{
         // Minijuego Programacion
         this.load.spritesheet('playerprog','MinijuegoProgramming/playerprog.png',{frameWidth:64,frameHeight:64});
         this.load.image('objectprog', 'MinijuegoProgramming/objectprog.png');
-        this.load.image('BackgroundProgramming', 'MinijuegoProgramming/backgroundprog.png');
+        this.load.image('BackgroundProgramming', 'MinijuegoProgramming/progBackground.png');
         // RPG
         this.load.image('enemyFace1', 'RPG/enemyFace1.png');
         this.load.image('enemyFace2', 'RPG/enemyFace2.png');

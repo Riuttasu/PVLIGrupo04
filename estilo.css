@@ -1,3 +1,8 @@
+/*Fuente custom*/
+@font-face {
+  font-family: comicFont; 
+  src: url(/Principal/assets/TTF/Paperkind-vm8zO.ttf);
+}
 /*HTML*/
 /*Fondo del todo*/
 body {

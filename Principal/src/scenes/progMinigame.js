@@ -13,7 +13,7 @@ export default class programmingMinigame extends Phaser.Scene {
     init(data)
     {
         data.minigameTime ? this.minigameTime = minigameTime : this.minigameTime = 10;
-        data.numObjects ? this.numObjects = minigameObjects : this.numObjects = 10;
+        data.numObjects ? this.numObjects = minigameObjects : this.numObjects = 25;
     }
     create(){    
         // Tiempo transcurrido
@@ -56,7 +56,7 @@ export default class programmingMinigame extends Phaser.Scene {
         
         // Constantes
         const objectXPadding = 20; // Margen que se da entre los bordes de la pantalla para que no toque los extremos
-        const objectXBetWeen = this.scale.width/3; // Margen entre el objeto spawneado y el anterior   
+        const objectXBetWeen = this.scale.width/6; // Margen entre el objeto spawneado y el anterior   
         // Nombre del objeto viene de jeison
         const name = Phaser.Utils.Array.GetRandom(this.cache.json.get('progobjects'));
         // Aumenta el numero de objetos spawneado
