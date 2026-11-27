@@ -15,7 +15,6 @@ export default class selectCharacter extends Phaser.Scene{
         }
         const names = ["Toni", "Pablo", "Ruben"];
         //Creas los botones para cada profe 
-        this.images = [];
         for (let i = 0; i < this.characters.length; i++){
             let button = this.add.rectangle(220 + 330*i,500,220,60, TYPE_STYLES[this.characters[i].style].color)
             button.setInteractive();
@@ -24,11 +23,11 @@ export default class selectCharacter extends Phaser.Scene{
             
             //Les asignamos funciones
             button.on('pointerdown', ()=> {this.setProfesor(this.characters[i], i)})
-
+            
             //Les ponemos las imágenes
-            let image = this.add.image(110 + 330*i,400, names[i]).setDisplaySize(200, 350);
+            let image = this.add.image(220 + 330*i,225, names[i]).setDisplaySize(200, 350);
             image.setOrigin(0,1)
-            let tween = this.tweens.add({
+            this.tweens.add({
                 targets: [ image ],
                 scaleY: 0.55,
                 duration: 300,
@@ -37,6 +36,27 @@ export default class selectCharacter extends Phaser.Scene{
                 repeat: -1,
                 delay: 10
             });
+            image.setOrigin(0.5, 0.5)
+            button.on('pointerover', ()=> {
+                this.tweens.killTweensOf;
+                const backflip = this.tweens.add({
+                    targets: [image],
+                    duration: 300,
+                    y: 125,
+                    scaleY: -0.2,
+                    yoyo: true,
+                    ease: "Linear"
+                })
+                backflip.once('complete', (tween, targets) => {
+                this.tweens.add({
+                    targets: [image],
+                    duration: 100,
+                    y: 225,
+                    ease: "Linear"
+                })
+            })
+            })
+            
         };
     }
     setProfesor(prof, index){

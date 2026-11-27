@@ -647,13 +647,13 @@ export default class RPGScene extends Phaser.Scene {
 
         while (this.newSlot >= 0 && this.newSlot < 3) {
             if (this.activeSlots[this.newSlot] !== null) {
-                this.tweens.add({
-                    targets: this, 
-                    newSlot: this.selectedTargetSlot,
-                    duration: 100,
-                    ease: 'Power2',
-                    onUpdate: () => this.updateTargetPointerPosition()
-                })
+                //this.tweens.add({
+                //    targets: this, 
+                //    newSlot: this.selectedTargetSlot,
+                //    duration: 100,
+                //    ease: 'Power2',
+                //    onUpdate: () => this.updateTargetPointerPosition()
+                //})
                 this.selectedTargetSlot = this.newSlot;
                 this.updateTargetPointerPosition();
                 break;
@@ -664,7 +664,13 @@ export default class RPGScene extends Phaser.Scene {
     /** Actualiza la position de la flecha */
     updateTargetPointerPosition() {
         const targetPos = this.slotCoordinates[this.selectedTargetSlot];
-        this.targetPointer.setPosition(targetPos.x - 12, targetPos.y - 125);
+        this.tweens.add({
+            targets: this.targetPointer, 
+            x: this.slotCoordinates[this.selectedTargetSlot].x - 12,
+            y: this.slotCoordinates[this.selectedTargetSlot].y - 125,
+            duration: 200,
+            ease: 'Power2',
+        })
         this.targetPointer.setVisible(true);
     }
     /** Si no está atacando entre en estado de ataque, si ya lo estaba ejecuta el ataque */
