@@ -17,7 +17,7 @@ const TYPE_STYLES = {
     Management:  { color: 0x2ecc71, hex: '#2ecc71', shape: 'square', label: 'Mang.' }
 };
 const HABILITY_STATUSES = {
-    NotPurchased: { color: 0xff0000, hex: '#ff0000', label: 'Not Purchased' },   // no comprado
+    NotPurchased: { color: 0xff0000, hex: '#ff0000', label: 'NotPurchased' },   // no comprado
     Purchased:    { color: 0x0ff138, hex: '#0ff138', label: 'Purchased' },       // comprado pero no maxeado
     MaxedOut:     { color: 0x8234db, hex: '#8234db', label: 'Maxed Out' }        // maxeado
 };
@@ -28,6 +28,7 @@ export default class StoreScene extends Phaser.Scene {
     }
     init() {
         this.playerData = this.registry.get('playerData');
+        this.skillsData = this.registry.get('skillsData');
     }
     create(){
         // varialbles
@@ -43,11 +44,10 @@ export default class StoreScene extends Phaser.Scene {
         //habilidades existentes en el JSON
         const skills = this.cache.json.get('skillsData').map(data => new Skill(data));
         //lista de habilidades que tiene el jugador
-        this.skillsList = []; 
-        //Asignamos a la lista de habilidades de la batalla las habilidades que tiene el jugador en su json
+        this.skillsList = [];
         for (let i = 0; i < skills.length; i++) {
             this.skillsList.push(skills[i]);
-        }
+        } 
 
         //energia que tiene actualmente el jugador
         this.currentEnergy = this.playerData.maxHealth;
@@ -56,7 +56,6 @@ export default class StoreScene extends Phaser.Scene {
         this.Marcos();
         this.TeacherPanel();
         this.MejorasPanel();
-        this.Description();
 
     }
     //metodo que crea el panel de la tienda
@@ -99,25 +98,84 @@ export default class StoreScene extends Phaser.Scene {
     //tiene los botones de las habilidades (estos tienen que ser botones)
     MejorasPanel(){
         //los botones que apareceran para las habilidades
-        let x = 0;
-        let y = 0;
+        //esto son la posiciones temporales
+        this.buttonSkill =[];
+        let single = 0;
+        let double = 0;
+        let all = 0;
         for (let i = 0; i < this.skillsList.length;++i){
-            let skill = this.add.rectangle(x, y, 200, 50, 0x000000);
-            //skill.setInteractive();
-            this.skillsList.push(skill);
-        }
+            if (this.skillsList[i].targetType == "single"){
+                let skill = this.add.rectangle(50, 250 + (single * 50), 150, 30, 0x00120f).setOrigin(0).
+                setStrokeStyle(2, HABILITY_STATUSES['NotPurchased'].color);
 
+                let skillText = this.add.text(120, 265 + (single * 50), `${this.skillsList[i].name}`, {
+                    font: 'bold 18px Arial',        
+                    color: HABILITY_STATUSES['NotPurchased'].hex
+                }).setOrigin(0.5);
+                skill.setInteractive();
+                skill.on('pointerdown', ()=> {this.Description(this.skillsList[i].description)});
+
+                ++single;
+                this.buttonSkill.push(skill);
+            }
+            else if (this.skillsList[i].targetType == "double"){
+                let skill = this.add.rectangle(290, 250 + (double * 50), 150, 30, 0x00120f).setOrigin(0).
+                setStrokeStyle(2, HABILITY_STATUSES['NotPurchased'].color);
+
+                let skillText = this.add.text(360, 265 + (double * 50), `${this.skillsList[i].name}`, {
+                    font: 'bold 18px Arial',        
+                    color: HABILITY_STATUSES['NotPurchased'].hex
+                }).setOrigin(0.5);
+                skill.setInteractive();
+                skill.on('pointerdown', ()=> {this.Description(this.skillsList[i].description)});
+
+                ++double;
+                this.buttonSkill.push(skill);
+            }
+            else if (this.skillsList[i].targetType == "all"){
+                let skill = this.add.rectangle(530, 250 + (all * 50), 150, 30, 0x00120f).setOrigin(0).
+                setStrokeStyle(2, HABILITY_STATUSES['NotPurchased'].color);
+
+                let skillText = this.add.text(600, 265 + (all * 50), `${this.skillsList[i].name}`, {
+                    font: 'bold 18px Arial',        
+                    color: HABILITY_STATUSES['NotPurchased'].hex
+                }).setOrigin(0.5);
+                skill.setInteractive();
+                skill.on('pointerdown', ()=> {this.Description(this.skillsList[i].description)});
+
+                ++all;
+                this.buttonSkill.push(skill);
+            }
+        }
     }
     //metodo que crea el panel de descripcion de la habilidad
     // esto muestra la descripcion de la habilidad
-    Description(){
-        
+    Description(description){
+        if (this.descriptionTitle) {
+            this.descriptionTitle.destroy();
+        }
+
+        if (this.descriptionText) {
+            this.descriptionText.destroy();
+        }
+        this.descriptionTitle = this.add.text(920, 75, "DESCRIPTION", {
+                    font: 'bold 18px Arial',        
+                    color: '#ffffff',
+                }).setOrigin(0.5);
+
+        this.descriptionText = this.add.text(780, 100, description, {
+                    font: 'bold 18px Arial',        
+                    color: '#ffffff',
+                    wordWrap: {
+                    width: 200
+                    }
+                }).setOrigin(0);
     }
 
     //los marcos que se ven en el fondo de la tienda
     Marcos(){
         this.marcoInfoProfe = this.add.rectangle(0, 0, 310, 210, 0x00120f).setOrigin(0).setStrokeStyle(5, 0xFFFFFF);
-        this.marcoInfoEnergia = this.add.rectangle(310, 0, 430, 210, 0x00120f).setOrigin(0).setStrokeStyle(5, 0xFFFFFF);
+        this.marcoInfoEnergy = this.add.rectangle(310, 0, 430, 210, 0x00120f).setOrigin(0).setStrokeStyle(5, 0xFFFFFF);
         this.marcoMejoras = this.add.rectangle(0, 210, 740, 410, 0x00120f).setOrigin(0).setStrokeStyle(5, 0xFFFFFF);
         this.marcoDescription = this.add.rectangle(740, 0, 360, 620, 0x00120f).setOrigin(0).setStrokeStyle(5, 0xFFFFFF);
     }
