@@ -21,24 +21,26 @@ export default class panelMinigameEnd extends Phaser.GameObjects.Container
         let bgColor = 0x000000;
         isWin ? bgColor=0x00ff00 : bgColor=0xff0000;
         let background =
-        new Phaser.GameObjects.Rectangle(this.scene,this.x,this.y,this.scene.scale.width,this.scene.scale.height,bgColor,0.5);
+        new Phaser.GameObjects.Rectangle(this.scene,this.x,this.y,this.scene.scale.width,this.scene.scale.height,bgColor,0.25);
         background.setOrigin(0,0);
         // texto de minijuego terminado
         let headerText = new Phaser.GameObjects.Text(this.scene,this.scene.scale.width/2,this.scene.scale.height/4,"Entrenamiento terminado",
-            { color: '#ffffff', fontSize: '50px', fontFamily: "paperFont"});
+            { color: '#03d4c6', fontSize: '50px', fontFamily: "paperFont"});
         headerText.setOrigin(0.5,0.5);
+        headerText.setStroke("#000000",16);
         // texto de ganar/perder
-        let infoText = "";
-        isWin ? infoText = "Has ganado :)" : infoText = "Has perdido :(";
+        let infoText = isWin ? "Has ganado :)" : "Has perdido :(";
+        let infoColour = isWin ? "#00ff00" : "#ff0000";
         let text = 
         new Phaser.GameObjects.Text(this.scene,this.scene.scale.width/2,this.scene.scale.height/2,infoText,
-            { fontStyle: 'bold', fontSize: '40px'});
+            { color: infoColour, fontSize: '40px', fontFamily: "paperFont"});
         text.setOrigin(0.5,0.5);
+        text.setStroke("#000000",10);
         // Boton para volver
         let button = 
-        new Phaser.GameObjects.Image(this.scene,this.scene.scale.width/2,this.scene.scale.height/3*2,'backButton');
+        new Phaser.GameObjects.Image(this.scene,this.scene.scale.width/2,4*this.scene.scale.height/5,'backButton');
         button.setOrigin(0.5,0.5);
-        button.setDisplaySize(300,128);
+        button.setDisplaySize(300,100);
         // Interactividad del boton con funcion
         button.setInteractive();
         button.on('pointerdown', ()=>
