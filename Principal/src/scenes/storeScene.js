@@ -100,12 +100,20 @@ export default class StoreScene extends Phaser.Scene {
         //los botones que apareceran para las habilidades
         //esto son la posiciones temporales
         this.buttonSkill =[];
+        // estas variables solo son para que se coloquen uno debajo del otro
         let single = 0;
-        let double = 0;
+        let you = 0;
         let all = 0;
+        /**  recorre el array para colocar cada habilidad en su lugar
+        1. mira que tipo es (gestion, diseño o programacion)
+        2. crea un rectangulo que va a ser el boton interaculable
+        3. escribe el nombre de la habilidad
+        4. hacer que si haces click al método, aparezca la descripcion (mas detalles en el metodo description(description))
+        */
+
         for (let i = 0; i < this.skillsList.length;++i){
-            if (this.skillsList[i].targetType == "single"){
-                let skill = this.add.rectangle(50, 250 + (single * 50), 150, 30, 0x00120f).setOrigin(0).
+            if (this.skillsList[i].type == "Management"){
+                let skill = this.add.rectangle(25, 250 + (single * 50), 200, 30, 0x00120f).setOrigin(0).
                 setStrokeStyle(2, HABILITY_STATUSES['NotPurchased'].color);
 
                 let skillText = this.add.text(120, 265 + (single * 50), `${this.skillsList[i].name}`, {
@@ -113,27 +121,27 @@ export default class StoreScene extends Phaser.Scene {
                     color: HABILITY_STATUSES['NotPurchased'].hex
                 }).setOrigin(0.5);
                 skill.setInteractive();
-                skill.on('pointerdown', ()=> {this.Description(this.skillsList[i].description)});
-
+                skill.on('pointerdown', ()=> {this.Description(this.skillsList[i].descriptionlarge)});
+                
                 ++single;
                 this.buttonSkill.push(skill);
             }
-            else if (this.skillsList[i].targetType == "double"){
-                let skill = this.add.rectangle(290, 250 + (double * 50), 150, 30, 0x00120f).setOrigin(0).
+            else if (this.skillsList[i].type == "Design"){
+                let skill = this.add.rectangle(265, 250 + (you * 50), 200, 30, 0x00120f).setOrigin(0).
                 setStrokeStyle(2, HABILITY_STATUSES['NotPurchased'].color);
 
-                let skillText = this.add.text(360, 265 + (double * 50), `${this.skillsList[i].name}`, {
+                let skillText = this.add.text(360, 265 + (you * 50), `${this.skillsList[i].name}`, {
                     font: 'bold 18px Arial',        
                     color: HABILITY_STATUSES['NotPurchased'].hex
                 }).setOrigin(0.5);
                 skill.setInteractive();
-                skill.on('pointerdown', ()=> {this.Description(this.skillsList[i].description)});
+                skill.on('pointerdown', ()=> {this.Description(this.skillsList[i].descriptionlarge)});
 
-                ++double;
+                ++you;
                 this.buttonSkill.push(skill);
             }
-            else if (this.skillsList[i].targetType == "all"){
-                let skill = this.add.rectangle(530, 250 + (all * 50), 150, 30, 0x00120f).setOrigin(0).
+            else if (this.skillsList[i].type == "Programming"){
+                let skill = this.add.rectangle(505, 250 + (all * 50), 200, 30, 0x00120f).setOrigin(0).
                 setStrokeStyle(2, HABILITY_STATUSES['NotPurchased'].color);
 
                 let skillText = this.add.text(600, 265 + (all * 50), `${this.skillsList[i].name}`, {
@@ -141,35 +149,37 @@ export default class StoreScene extends Phaser.Scene {
                     color: HABILITY_STATUSES['NotPurchased'].hex
                 }).setOrigin(0.5);
                 skill.setInteractive();
-                skill.on('pointerdown', ()=> {this.Description(this.skillsList[i].description)});
+                skill.on('pointerdown', ()=> {this.Description(this.skillsList[i].descriptionlarge)});
 
                 ++all;
-                this.buttonSkill.push(skill);
             }
         }
     }
     //metodo que crea el panel de descripcion de la habilidad
+    // este metodo es usado cuando se hace click a los botones interactuables
     // esto muestra la descripcion de la habilidad
     Description(description){
-        if (this.descriptionTitle) {
+        //primero destruye si ya ha escrito algo
+        if (this.descriptionTitle) { // titulo que solo va a poner "DESCRITION"
             this.descriptionTitle.destroy();
         }
-
-        if (this.descriptionText) {
+        if (this.descriptionText) { // la descripcion de verdad
             this.descriptionText.destroy();
         }
+        // titulo
         this.descriptionTitle = this.add.text(920, 75, "DESCRIPTION", {
-                    font: 'bold 18px Arial',        
-                    color: '#ffffff',
-                }).setOrigin(0.5);
-
+            font: 'bold 18px Arial',        
+            color: '#ffffff',
+        }).setOrigin(0.5);
+        
+        //descripcion 
         this.descriptionText = this.add.text(780, 100, description, {
-                    font: 'bold 18px Arial',        
-                    color: '#ffffff',
-                    wordWrap: {
-                    width: 200
-                    }
-                }).setOrigin(0);
+            font: 'bold 18px Arial',        
+            color: '#ffffff',
+            wordWrap: {
+            width: 200
+            }
+        }).setOrigin(0);
     }
 
     //los marcos que se ven en el fondo de la tienda
