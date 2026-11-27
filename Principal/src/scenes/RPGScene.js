@@ -643,15 +643,22 @@ export default class RPGScene extends Phaser.Scene {
     }
     /** Asigna la flecha en la dirección seleccionado y actualiza el aspecto llamando a updateTargetPointerPosition */
     moveTargetSelection(dir) {
-        let newSlot = this.selectedTargetSlot + dir;
+        this.newSlot = this.selectedTargetSlot + dir;
 
-        while (newSlot >= 0 && newSlot < 3) {
-            if (this.activeSlots[newSlot] !== null) {
-                this.selectedTargetSlot = newSlot;
+        while (this.newSlot >= 0 && this.newSlot < 3) {
+            if (this.activeSlots[this.newSlot] !== null) {
+                this.tweens.add({
+                    targets: this, 
+                    newSlot: this.selectedTargetSlot,
+                    duration: 100,
+                    ease: 'Power2',
+                    onUpdate: () => this.updateTargetPointerPosition()
+                })
+                this.selectedTargetSlot = this.newSlot;
                 this.updateTargetPointerPosition();
                 break;
             }
-            newSlot += dir;
+            this.newSlot += dir;
         }
     }
     /** Actualiza la position de la flecha */
