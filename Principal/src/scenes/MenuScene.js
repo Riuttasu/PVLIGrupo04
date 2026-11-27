@@ -11,12 +11,10 @@ export default class MenuScene extends Phaser.Scene{
    init(data)
    {
       this.lastGameResult = data;
-      console.log("Last Game Result:", this.lastGameResult);
    }
    create()
    {
    this.playerData = this.registry.get('playerData');
-   console.log("Player Data:", this.registry.get('playerData'));
    //crear botones para cambiar de escena
    let BotonManagement = this.add.image(100,100,'SceneButton')
    BotonManagement.setScale(0.2);
@@ -37,7 +35,6 @@ export default class MenuScene extends Phaser.Scene{
    if (this.lastGameResult == 'programmingMinigame') this.playerData.programmingPoints += 10;
    if (this.lastGameResult == 'DesignGame') this.playerData.designPoints += 10;
    if (this.lastGameResult == 'ManagementGame') this.playerData.managementPoints += 10;
-   console.log("Updated Player Data:", this.playerData);
 
    BotonManagement.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
    Boton1.on('pointerdown', ()=>{this.scene.start('programmingMinigame')}) // usamos flechi inportante ehhhh

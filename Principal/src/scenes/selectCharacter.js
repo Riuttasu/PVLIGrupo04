@@ -47,7 +47,6 @@ export default class selectCharacter extends Phaser.Scene{
         this.playerData.designPoints = 0;
         this.playerData.managementPoints = 0;
         this.playerData.playerSkillsID = prof.skills;
-        console.log(this.playerData);
         this.scene.start('MenuScene');
     }
 }

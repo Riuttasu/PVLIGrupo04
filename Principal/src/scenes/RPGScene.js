@@ -21,8 +21,10 @@ export default class RPGScene extends Phaser.Scene {
         //Guardamos el playerData del registro 
         this.playerData = this.registry.get('playerData');
         //this.playerData.characterID = 0; //Debug para elegir el profe 
+        this.playerData.maxHealth = 1000;
         this.cooldown = 0;
         this.turns = 1;
+        this.isEnemyTurn = false;
     }
 
     create() {
@@ -33,7 +35,6 @@ export default class RPGScene extends Phaser.Scene {
         //Guardamos en variables los jsons
         this.messagesList = this.cache.json.get('chat');
         const skills = this.cache.json.get('skillsData').map(data => new Skill(data));
-        console.log(skills)
         this.skillsList = []; 
         //Asignamos a la lista de habilidades de la batalla las habilidades que tiene el jugador en su json
         for (let i = 0; i < this.playerData.playerSkillsID.length; i++) {
@@ -49,12 +50,15 @@ export default class RPGScene extends Phaser.Scene {
         // Estado del combate
         this.maxEnergy = this.playerData.maxHealth; //Energía máxima
         this.currentEnergy = this.maxEnergy; // Energía actual
+        this.displayedEnergy = this.currentEnergy; // Para la animación de la barra
         //##### Cuando los niveles estén diseñados en el levels habrá que asignarlo según la variable del levels #####
         this.statGoal = 1000; // Objetivo temporal de progreso por estadística en el desafío
         this.statProgress = { Programming: 0, Design: 0, Management: 0 }; //Progreso de las barras de objetivos
 
         // Slots de enemigos
-        this.activeSlots = [null, null, null];
+        this.activeSlots = [null, null, null]; 
+        // {damage, type} para las bombas
+        this.slotBomb = [null, null, null];
         this.slotCoordinates = [
             { x: 125, y: 230 },
             { x: 330, y: 230 },
@@ -81,6 +85,7 @@ export default class RPGScene extends Phaser.Scene {
         this.fillEmptySlots(); //Coloca los primeros 3 enemigos
         this.updateHealthBar(); //Coloca los datos en la barra de vida
         this.updateCarouselDisplay(); //Coloca las habilidades correspondientes a la seleccionada por defecto
+        this.updateTurnVisuals(true)
     }
     /** Crea los objetos necesarios para la barra de energía y las tres barras de objetivos. Todo depende del  */
     setupHealthBar() {
@@ -117,14 +122,17 @@ export default class RPGScene extends Phaser.Scene {
             this.statBars[type] = { fill, valText }; // nos llevamos los que vamos a necesitar actualizar
         });
     }
-    /** Pinta la barra de energia y las barras de progreso con los datos concretos*/
-    updateHealthBar() {
+    /**Como la barra de vida está pintada con el graphics para que sea más fácil que tengas las lineas y tal
+     * se llama a este método tanto con la última versión como con la actualizada para poder hacer el tween
+     * He probado con máscaras, separando por piezas con rectágulos, experimentando con el tween y esto es lo que mejor queda, espero no cargarme el rendimiento
+     */
+    drawOnlyHealthBar(){
         // Borramos la energía
         const g = this.energyGraphics;
         g.clear(); 
         // Preparamos una nueva
         const bx = 30, by = 24, bw = 260, bh = 56; //posiciones y tamaño de la barra
-        const pct = Phaser.Math.Clamp(this.currentEnergy / this.maxEnergy, 0, 1); // nos aseguramos que la energía no se desborde
+        const pct = Phaser.Math.Clamp(this.displayedEnergy / this.maxEnergy, 0, 1); // nos aseguramos que la energía no se desborde
 
         // Fondo blanco Relleno naranja
         g.fillStyle(0xffffff, 1);
@@ -147,15 +155,33 @@ export default class RPGScene extends Phaser.Scene {
 
         // Actualizamos el texto de energía
         this.energyText.setText(`Energía: ${this.currentEnergy}/${this.maxEnergy}`);
-
+    }
+    /** Pinta la barra de energia y las barras de progreso con los datos concretos*/
+    updateHealthBar() {
+        //Animacion de barra
+        this.tweens.killTweensOf(this);
+        //(Info de un blog de por ahí) Es un tween que se hace el método del onUpdate tanto con la versión inicial como la actualizada
+        this.tweens.add({
+            targets: this, 
+            displayedEnergy: this.currentEnergy,
+            duration: 400,
+            ease: 'Power2',
+            onUpdate: () => this.drawOnlyHealthBar()
+        });
         /*Actualizar las 3 barras de progreso con los nuevos valores de statProgress y statGoal. 
          * Se calcula el progreso y se ajusta la altura del relleno de la barra y el texto que muestra el valor actual*/
             Object.keys(this.statBars).forEach(type => {
             const bar = this.statBars[type];
             const val = this.statProgress[type];
             const progress = Phaser.Math.Clamp(val / this.statGoal, 0, 1);
-            bar.fill.height = 66 * -progress;
-            bar.valText.setText(`${Math.round(val)}`);
+            this.tweens.killTweensOf(bar.fill);
+            this.tweens.add({
+                targets: bar.fill,
+                height: 66 * -progress,
+                duration: 400,
+                ease: 'Power2'
+        });
+        bar.valText.setText(`${Math.round(val)}`);
         });
     }
     /** Crea los objetos de los enemigos pero sin asignar las variables */
@@ -210,10 +236,22 @@ export default class RPGScene extends Phaser.Scene {
                 slot.cardBorder.clear();
                 slot.cardBorder.lineStyle(4, style.color, 1);
                 slot.cardBorder.strokeRoundedRect(-slot.cardW / 2, -slot.cardH / 2, slot.cardW, slot.cardH, 16);
-
+                
                 // Relleno líquido con el color y altura proporcional a la vida del enemigo
                 slot.liquidFill.setFillStyle(style.color, 0.35);
-                slot.liquidFill.height = (slot.cardH - 12) * -progress;
+                //slot.liquidFill.height = (slot.cardH - 12) * -progress;
+                // Animación del líquido
+                this.tweens.killTweensOf(slot.liquidFill);
+                if (enemy.currentHp === 0) { //Si acaba de aparecer que no se vuelva loco con al animación tampoco
+                    slot.liquidFill.height = 0;
+                } else {
+                    this.tweens.add({
+                        targets: slot.liquidFill,
+                        height: (slot.cardH - 12) * -progress,
+                        duration: 400,
+                        ease: 'Power2'
+                    });
+                }
 
                 // Símbolo geométrico en esquina superior derecha
                 this.drawTypeSymbol(slot.typeIcon, style, slot.cardW / 2 - 22, -slot.cardH / 2 + 22, 10);
@@ -222,6 +260,19 @@ export default class RPGScene extends Phaser.Scene {
                 slot.nameText.setText(enemy.name);
                 slot.hpText.setText(`HP: ${enemy.currentHp}/${enemy.maxHp}`);
                 slot.container.setVisible(true);
+                // Se le añade un tinte si está congelado
+                if (enemy.freeze > 0) {
+                    slot.enemySprite.setTint(0x70d6ff).setAlpha(0.55); // Molaría que fuera un sprite porque casi no se ve
+                } 
+                else {
+                    slot.enemySprite.clearTint().setAlpha(1); //Se devuelve a la normalidad
+                }
+                if (this.slotBomb[i] !== null) {
+                    const bombStyle = TYPE_STYLES[this.slotBomb[i].type];
+                    // Dibujamos un segundo borde interior discontinuo o brillante para indicar el efecto
+                    slot.cardBorder.lineStyle(3, bombStyle.color, 0.6);
+                    slot.cardBorder.strokeRoundedRect(-slot.cardW / 2 + 6, -slot.cardH / 2 + 6, slot.cardW - 12, slot.cardH - 12, 12);
+                }
             } else {
                 slot.container.setVisible(false);
             }
@@ -252,6 +303,7 @@ export default class RPGScene extends Phaser.Scene {
      * El carrusel de habilidades, la descripción y todos los elementos en su interior */
     setupSkillCarouselUI() {
         // Marco grande redondeado del panel de control
+        this.skillsPanelContainer = this.add.container(0, 0); //Lo metemos en el container para oscurecerlo y aclararlo luego
         const panelGfx = this.add.graphics();
         panelGfx.fillStyle(0xffffff, 1);
         panelGfx.fillRoundedRect(30, 360, 600, 240, 24);
@@ -281,7 +333,7 @@ export default class RPGScene extends Phaser.Scene {
             this.mainSkillBox, this.mainSkillText, this.mainSkillIcon,
             this.nextSkillBox, this.nextSkillText, this.nextSkillIcon
         ]);
-
+        this.skillsPanelContainer.add(panelGfx);
         //Subbloque derecho con la descripción de la habilidad
         this.descContainer = this.add.container(475, 480);
         //Bloque de descripcion
@@ -313,6 +365,29 @@ export default class RPGScene extends Phaser.Scene {
             descGfx, this.targetBarsGfx, this.descTypeIcon,
             this.energyCostText, this.descTitleText, this.descBodyText
         ]);
+        this.skillsPanelContainer.add([this.carruselContainer, this.descContainer]);
+    }
+    updateTurnVisuals(isPlayerTurn) {
+        const playerAlpha = isPlayerTurn ? 1 : 0.45;
+        const enemyAlpha = isPlayerTurn ? 0.55 : 1;
+
+        // Resaltar u oscurecer panel de habilidades y del profesor
+        this.tweens.add({
+            targets: [this.skillsPanelContainer, this.profContainer],
+            alpha: playerAlpha,
+            duration: 300,
+            ease: 'Power2'
+        });
+
+        // Resaltar u oscurecer las tarjetas de los enemigos
+        this.slotContainers.forEach(slot => {
+            this.tweens.add({
+                targets: slot.container,
+                alpha: enemyAlpha,
+                duration: 300,
+                ease: 'Power2'
+            });
+        });
     }
     /** Asigna los datos actuales en el carrusel y la descripción actualizando su aspecto */
     updateCarouselDisplay() {
@@ -345,8 +420,6 @@ export default class RPGScene extends Phaser.Scene {
         this.descTitleText.setText(`Descripción (Prog: +${currSkill.damage})`);
         this.descBodyText.setText(currSkill.descriptionshort);
         this.drawTypeSymbol(this.descTypeIcon, currStyle, 98, -74, 10);
-        console.log(currSkill.descriptionshort)
-        console.log(currSkill)
 
         // Dibujar las 3 barritas de objetivo (1 llena = single, 3 llenas = all). Más adelantes habrá que hacer en caso de 2 cuando se incorporen las habilidades
         const tg = this.targetBarsGfx;
@@ -544,27 +617,27 @@ export default class RPGScene extends Phaser.Scene {
     }
     /**Si no esta atacando cambia la habilidad actual por la de arriba*/
     handleUp() {
-        if (this.isGameOver ||this.isSelectingTarget) return;
+        if (this.isGameOver || this.isEnemyTurn || this.isSelectingTarget) return;
 
         this.selectedSkillIndex = (this.selectedSkillIndex - 1 + this.skillsList.length) % this.skillsList.length;
         this.updateCarouselDisplay();
     }
     /**Si no esta atacando cambia la habilidad actual por la de abajo*/
     handleDown() {
-        if (this.isGameOver || this.isSelectingTarget) return;
+        if (this.isGameOver || this.isEnemyTurn || this.isSelectingTarget) return;
 
         this.selectedSkillIndex = (this.selectedSkillIndex + 1) % this.skillsList.length;
         this.updateCarouselDisplay();
     }
     /**Si está atacando mueve la flecha a la izquierda*/
     handleLeft() {
-        if (this.isGameOver || !this.isSelectingTarget) return;
+        if (this.isGameOver || this.isEnemyTurn || !this.isSelectingTarget) return;
 
         this.moveTargetSelection(-1);
     }
     /**Si está atacando mueve la flecha a la derecha*/
     handleRight() {
-        if (this.isGameOver || !this.isSelectingTarget) return;
+        if (this.isGameOver || this.isEnemyTurn || !this.isSelectingTarget) return;
 
         this.moveTargetSelection(1);
     }
@@ -589,7 +662,7 @@ export default class RPGScene extends Phaser.Scene {
     }
     /** Si no está atacando entre en estado de ataque, si ya lo estaba ejecuta el ataque */
     handleConfirm() {
-        if (this.isGameOver) return;
+        if (this.isGameOver || this.isEnemyTurn) return;
         const currentSkill = this.skillsList[this.selectedSkillIndex];
         //Comprueba si le queda energía al jugador para usar la habilidad, si no le queda energía, no hace nada
         //if (this.currentEnergy < currentSkill.energyCost) {
@@ -611,9 +684,7 @@ export default class RPGScene extends Phaser.Scene {
                 }
             } else {
                 // Target 'all'
-                this.executeSkill(currentSkill, 0);
-                this.executeSkill(currentSkill, 1);
-                this.executeSkill(currentSkill, 2);
+                this.executeSkill(currentSkill, -1);
             }
         } else {
             // Confirma que la posicion en la que esta la flecha es el target correcto
@@ -630,37 +701,32 @@ export default class RPGScene extends Phaser.Scene {
      * Por último siempre comprueba si ha terminado el juego en esa ronda
      */
     executeSkill(skill, targetSlotIndex) {
+        const targets = targetSlotIndex === -1 ? [0, 1, 2] : [targetSlotIndex];
         //this.currentEnergy = Math.max(0, this.currentEnergy - skill.energyCost); //actualizamos la energía pro si ha costado algo
         if (targetSlotIndex !== 3) this.enemy = this.activeSlots[targetSlotIndex]; //Enemy es el objetivo
         switch(skill.typedamage){
             case "basic":{
-                this.enemy.takeDamage(skill.damage, skill.type)
+                targets.forEach(idx => this.damageSlot(idx, skill.damage, skill.type));
                 this.pushChat("Basic")
             }; break;
             case "Split Attack":{
-                this.enemy.takeDamage(skill.damage, skill.type)
                 this.pushChat("Split Attack")
-                //console.log(targetSlotIndex)
-                targetSlotIndex += 3;
-                const enemyLeft = this.activeSlots[(targetSlotIndex + 1) % 3];
-                const enemyRight = this.activeSlots[(targetSlotIndex - 1) % 3];
-                if (enemyLeft) enemyLeft.takeDamage(skill.damage / 2, skill.type);
-                if (enemyRight) enemyRight.takeDamage(skill.damage / 2, skill.type);
-                if (enemyLeft && enemyLeft.isComplete()) {
-                    this.activeSlots[(targetSlotIndex + 1) % 3] = null;
-                    this.statProgress[enemyLeft.type] = Math.min(this.statGoal, this.statProgress[enemyLeft.type] + enemyLeft.maxHp);
-                }
-                if (enemyRight && enemyRight.isComplete()) {
-                    this.activeSlots[(targetSlotIndex - 1) % 3] = null;
-                    this.statProgress[enemyRight.type] = Math.min(this.statGoal, this.statProgress[enemyRight.type] + enemyRight.maxHp);
-                }
+                targets.forEach(idx => {
+                this.damageSlot(idx, skill.damage, skill.type);
+                const leftIdx = (idx + 1) % 3;
+                const rightIdx = (idx + 2) % 3; //
+                this.damageSlot(leftIdx, skill.damage / 2, skill.type);
+                this.damageSlot(rightIdx, skill.damage / 2, skill.type);
+            });
             }; break;
             case "Restoration":{
                 this.currentEnergy += skill.damage;
                 this.pushChat("Restoration")
             }; break;
             case "Freeze":{
-                this.enemy.freeze += skill.damage;
+                targets.forEach(idx => {
+                if (this.activeSlots[idx]) this.activeSlots[idx].freeze += skill.damage;
+                });
                 this.pushChat("Freeze")
             }; break;
             case "Double Attack":{
@@ -669,18 +735,18 @@ export default class RPGScene extends Phaser.Scene {
                 this.turns++;
             }; break;
             case "Effective":{
-                this.enemy.critMul = 3;
-                this.enemy.takeDamage(skill.damage, skill.type)
-                this.enemy.critMul = 2;
+                targets.forEach(idx => this.damageSlot(idx, skill.damage, skill.type, 3));
                 this.pushChat("Effective")
             }; break;
-            case "Double Attack":{
-
+            case "Bomb":{
+            targets.forEach(idx => {
+                this.slotBomb[idx] = { damage: skill.damage, type: skill.type };
+            });
+            this.pushChat("BOMBA");
             }; break;
             default:console.log("QUE ES ESTO?????"); break;
         }
         // Sumar progreso a la barra superior del tipo correspondiente
-        console.log(this.enemy)
         
         if (skill.typedamage !== "Restoration" && this.enemy.isComplete()) {
             
@@ -691,21 +757,96 @@ export default class RPGScene extends Phaser.Scene {
         }
         this.turns--;
         this.updateHealthBar();
+        this.refreshSlotsDisplay();
         if (this.turns === 0)this.enemyTurn();
-        this.updateHealthBar();
         // Reponer slots vacios con la pila de niveles
-        this.fillEmptySlots();// Comprobar si no quedan enemigos en combate ni en la cola y poner nuevos
-        this.checkVictory();
+        else {this.fillEmptySlots();// Comprobar si no quedan enemigos en combate ni en la cola y poner nuevos
+        this.checkVictory();}
     }
     
+    damageSlot(slotIndex, damage, type, critMul = 2) {
+        const enemy = this.activeSlots[slotIndex];
+        if (!enemy) return;
+
+        enemy.critMul = critMul;
+        enemy.takeDamage(damage, type);
+        enemy.critMul = 2;
+
+        if (enemy.isComplete()) {
+            this.activeSlots[slotIndex] = null;
+            this.statProgress[enemy.type] = Math.min(
+                this.statGoal,
+                this.statProgress[enemy.type] + enemy.maxHp
+            );
+        }
+    }
+
     enemyTurn(){
-        this.activeSlots.forEach(e => {
-            if (e !== null) {
-                if (e.freeze === 0) this.currentEnergy -= 10;
-                else e.freeze--;
+        this.isEnemyTurn = true;
+        this.updateTurnVisuals(false); // Oscurece profe/habilidades e ilumina a los enemigos
+        
+        // Guardamos los enemigos con slots con enemigos
+        const activeEnemies = this.activeSlots.map((enemy, index) => ({ enemy, index })).filter(item => item.enemy !== null);
+        let delay = 500; // Pausa inicial de 0.5s al cambiar de turno
+
+        activeEnemies.forEach(({ enemy, index }) => {
+            this.time.delayedCall(delay, () => {
+                if (this.isGameOver) return;
+                const slot = this.slotContainers[index];
+                if (enemy.freeze === 0) {
+                    // Saltito :D
+                    this.tweens.add({
+                        targets: slot.container,
+                        y: slot.container.y + 18,
+                        duration: 120,
+                        yoyo: true,
+                        ease: 'Power2'
+                    });
+                    this.currentEnergy = Math.max(0, this.currentEnergy - 10);
+                    this.updateHealthBar(); // El tween de la vida es de 400
+                    this.checkVictory();    // Comprueba si nos han derrotado
+                } else {
+                    // Animación de hace frio o algo así
+                    this.tweens.add({
+                        targets: slot.container,
+                        x: slot.container.x + 6,
+                        duration: 60,
+                        yoyo: true,
+                        repeat: 2
+                    });
+                    enemy.freeze--;
+                    this.refreshSlotsDisplay(); // Si llega a 0, le quita el tinte azulado
+                }
+            });
+
+            delay += 750; // Esperamos 0.75s entre cada enemigo (da tiempo sobrado al tween de 0.4s)
+        });
+
+        // Cuando terminan todos los enemigos, devolvemos el turno al jugador
+        this.time.delayedCall(delay + 200, () => {
+            if (this.isGameOver) return;
+
+            this.turns++;
+            this.fillEmptySlots();
+            let bombTriggered = false;
+            for (let i = 0; i < 3; i++) {
+                const bomb = this.slotBomb[i];
+                if (bomb !== null && this.activeSlots[i] !== null) {
+                    this.damageSlot(i, bomb.damage, bomb.type);
+                    bombTriggered = true;
+                }
             }
-                })
-        this.turns++;
+        
+            if (bombTriggered) {
+                this.refreshSlotsDisplay();
+                this.updateHealthBar();
+                this.fillEmptySlots(); // Por si el daño de casilla mató a alguno, que entre el siguiente
+            }
+            this.checkVictory();
+
+            this.isEnemyTurn = false;
+            this.updateTurnVisuals(true); // Vuelve a iluminar al profe y las habilidades
+        });
     }
     checkVictory() {
         const isQueueEmpty = this.enemyQueue.length === 0;
