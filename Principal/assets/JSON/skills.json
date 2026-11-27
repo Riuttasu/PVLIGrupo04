@@ -101,13 +101,13 @@
     "descriptionlarge": "Overwhelmed by the lack of help, Arturo arrives with his goblins to organize your project. You've never seen such a tidy Product Backlog!"
   },
   {
-    "id": "11",
-    "name": "U n a M I N A",
-    "type": "Management",
-    "typedamage": "Bomb",
-    "damage": 10,
-    "targetType": "single",
-    "descriptionshort": "Mete bomba",
-    "descriptionlarge": "El Youtuber Pazos64 lo dice de una manera muy divertida"
+      "id": "11",
+      "name": "U n a M I N A",
+      "type": "Management",
+      "typedamage": "Bomb",
+      "damage": 10,
+      "targetType": "single",
+      "descriptionshort": "Mete bomba",
+      "descriptionlarge": "El Youtuber Pazos64 lo dice de una manera muy divertida"
   }
 ]

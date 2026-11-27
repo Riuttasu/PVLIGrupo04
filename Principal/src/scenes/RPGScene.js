@@ -21,7 +21,7 @@ export default class RPGScene extends Phaser.Scene {
         //Guardamos el playerData del registro 
         this.playerData = this.registry.get('playerData');
         //this.playerData.characterID = 0; //Debug para elegir el profe 
-        this.playerData.maxHealth = 1000;
+        //this.playerData.maxHealth = 1000;
         this.cooldown = 0;
         this.turns = 1;
         this.isEnemyTurn = false;
@@ -159,9 +159,9 @@ export default class RPGScene extends Phaser.Scene {
     /** Pinta la barra de energia y las barras de progreso con los datos concretos*/
     updateHealthBar() {
         //Animacion de barra
-        this.tweens.killTweensOf(this);
+        this.tweens.killTweensOf(this.aniHealtBar);
         //(Info de un blog de por ahí) Es un tween que se hace el método del onUpdate tanto con la versión inicial como la actualizada
-        this.tweens.add({
+        this.aniHealtBar = this.tweens.add({
             targets: this, 
             displayedEnergy: this.currentEnergy,
             duration: 400,
