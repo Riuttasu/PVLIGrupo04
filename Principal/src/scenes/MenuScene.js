@@ -43,7 +43,7 @@ export default class MenuScene extends Phaser.Scene{
    if (this.lastGameResult == 'ManagementGame') this.playerData.managementPoints += 10;
    console.log("Updated Player Data:", this.playerData);
 
-   BotonManagement.on('pointerdown', ()=>{this.scene.start('ManagementGame')}) // usamos flechi inportante ehhhh
+   BotonManagement.on('pointerdown', ()=>{this.scene.start('ManagementGame', {nivel: 'level1'})}) // usamos flechi inportante ehhhh
    Boton1.on('pointerdown', ()=>{this.scene.start('programmingMinigame')}) // usamos flechi inportante ehhhh
    Boton2.on('pointerdown', ()=>{this.scene.start('DesignGame')}) // usamos flechi inportante ehhhh
    Boton3.on('pointerdown', ()=>{this.scene.start('RPGScene')}) // usamos flechi inportante ehhhh
