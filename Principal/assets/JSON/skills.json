@@ -94,10 +94,20 @@
     "id": "10",
     "name": "Arturo",
     "type": "Management",
+    "typedamage": "Effective",
     "damage": 40,
     "targetType": "single",
     "descriptionshort": "Deals super effective management  damage to one active enemies.",
     "descriptionlarge " : "Overwhelmed by the lack of help, Arturo arrives with his goblins to organize your project. You've never seen such a tidy Product Backlog!"
+  }
+  {
+    "id": "11",
+    "name": "Chocobombs",
+    "type": "Management",
+    "damage": 20,
+    "targetType": "single",
+    "descriptionshort": "Seleciona una casilla para que reciba daño constante durante x turnos",
+    "descriptionlarge " : "Vas a la cafeteria y en la maquina caen DOS PEDAZOS DE BOLSAS CHOCOBOMBS es hora de atacar"
   }
 
 ]
